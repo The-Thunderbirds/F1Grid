@@ -53,8 +53,8 @@ export const Wallets = () => {
         <>
           <h2>Your Wallets:</h2>
             {wallets?.map((currWallet) => (
-              <Col lg="3" md="4" sm="6" key={currWallet.address} className="mr-4">
-                <div className="wallet__item" style={{width:"max-content", borderRadius:"15px",height:"200px"}}>
+              <Col lg="3" md="4" sm="6" key={currWallet.address} className="m-5">
+                <div className="wallet__item" style={{width:"max-content", borderRadius:"15px",height:"220px"}}>
                   <h5>
                     Wallet address - <button
                       className="btn btn-primary"
@@ -76,7 +76,7 @@ export const Wallets = () => {
                 {
                   currWallet?.walletType === WalletType.External && currWallet.address !== flowUser?.addr &&
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-primary mt-2"
                     onClick={() => {
                       fcl.unauthenticate()
                       fcl.logIn()
