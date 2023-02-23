@@ -53,7 +53,7 @@ export const Wallets = () => {
         <>
           <h2>Your Wallets:</h2>
             {wallets?.map((currWallet) => (
-              <Col lg="3" md="4" sm="6" key={currWallet.address} className="mb-4">
+              <Col lg="3" md="4" sm="6" key={currWallet.address} className="mr-4">
                 <div className="wallet__item" style={{width:"max-content", borderRadius:"15px",height:"200px"}}>
                   <h5>
                     Wallet address - <button
