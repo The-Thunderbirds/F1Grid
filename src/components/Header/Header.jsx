@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from "react";
 import { Container } from "reactstrap";
 import Link from "next/link";
 
+import { useAuthContext } from "../../hooks/useAuthContext"
+import { Logout } from "../Logout";
+
 const NAV__LINKS = [
   {
     display: "Home",
@@ -22,6 +25,13 @@ const NAV__LINKS = [
 ];
 
 const Header = () => {
+
+  const { session, signIn, isLoading } = useAuthContext()
+
+  const onConnectWallet = () => {
+    signIn();
+  };
+
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
@@ -79,19 +89,26 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            <button className="btn d-flex gap-2 align-items-center" onClick={connectWalletHandler} style={{color:"white"}}>
-              <span>
-                <i class="ri-wallet-line"></i>
-              </span>
-              Connect Wallet
-            </button>
 
-            <button className="btn d-flex gap-2 align-items-center" onClick={signInHandler} style={{color:"white"}}>
+          {!session && 
+            <button className="btn d-flex gap-2 align-items-center" onClick={onConnectWallet} style={{color:"white"}}>
               <span>
               <i class="ri-google-fill"></i>
               </span>
               Sign In
             </button>
+          }
+          {session && 
+            <>
+            <button className="btn d-flex gap-2 align-items-center" style={{color:"white"}}>
+            <Link href="/wallets">
+              Wallets
+            </Link>
+            </button>
+
+            <Logout/>
+            </>
+          }
 
             <span className="mobile__menu">
               <i class="ri-menu-line" onClick={toggleMenu}></i>
