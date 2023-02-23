@@ -1,0 +1,1 @@
+flow scripts execute ./cadence/scripts/sets/read_all_sets.cdc

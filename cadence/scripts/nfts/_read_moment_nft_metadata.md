@@ -1,0 +1,1 @@
+flow scripts execute ./cadence/scripts/nfts/read_moment_nft_metadata.cdc 0xf8d6e0586b0a20c7 1

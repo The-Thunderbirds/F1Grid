@@ -1,0 +1,1 @@
+flow transactions send ./cadence/transactions/admin/editions/create_edition.cdc 1 1 1 1 10

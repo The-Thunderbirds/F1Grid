@@ -1,0 +1,63 @@
+{
+	"contracts": {
+		"FormulaOne": "./cadence/contracts/FormulaOne.cdc",
+		"FungibleToken": {
+			"source": "./cadence/contracts/utility/FungibleToken.cdc",
+			"aliases": {
+				"emulator": "ee82856bf20e2aa6",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"MetadataViews": {
+			"source": "./cadence/contracts/utility/MetadataViews.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "./cadence/contracts/utility/NonFungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		}
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		},
+		"emulator-account-user": {
+			"address": "e03daebed8ca0615",
+			"key": "b927dad2e147f7167946c913f95773d316284ca54cc5864c5fc18515e9c7dd92"
+		},
+		"testnet-account": {
+			"address": "1cd2a48f68545580",
+			"key": "bdd1294fd2874958c2669fa0fccdaa17468bec77e07f83e0db23d149e018891a"
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": [
+				"FungibleToken",
+				"NonFungibleToken",
+				"MetadataViews",
+				"FormulaOne"
+			]
+		},
+		"testnet": {
+			"testnet-account": [
+				"FungibleToken",
+				"NonFungibleToken",
+				"MetadataViews",
+				"FormulaOne"
+			]
+		}
+	}
+}

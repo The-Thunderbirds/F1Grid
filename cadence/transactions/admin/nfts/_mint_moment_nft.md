@@ -1,0 +1,1 @@
+flow transactions send ./cadence/transactions/admin/nfts/mint_moment_nft.cdc f8d6e0586b0a20c7 1
