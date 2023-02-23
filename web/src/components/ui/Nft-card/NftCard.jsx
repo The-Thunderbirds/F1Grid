@@ -42,18 +42,19 @@ const NftCard = (props) => {
             </div>
 
             <div>
-              <h6>Current Bid</h6>
+              <h6>Price</h6>
               <p>{currentBid} ETH</p>
             </div>
           </div>
         </div>
 
+{!props.nopurchase && (
         <div className=" mt-3 d-flex align-items-center justify-content-between">
           <button
             className="bid__btn d-flex align-items-center gap-1"
             onClick={() => setShowModal(true)}
           >
-            <i class="ri-shopping-bag-line"></i> Place Bid
+            <i class="ri-shopping-bag-line"></i> Purchase
           </button>
 
           {showModal && <Modal setShowModal={setShowModal} />}
@@ -62,6 +63,7 @@ const NftCard = (props) => {
             <Link href="#">View History</Link>
           </span>
         </div>
+)}
       </div>
     </div>
   );

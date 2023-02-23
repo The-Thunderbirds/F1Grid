@@ -35,6 +35,10 @@ const NAV__LINKS = [
   {
     display: "Set",
     url: "/admin/set",
+  },
+  {
+    display: "Play",
+    url: "/admin/play",
   }
 ];
 

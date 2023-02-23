@@ -1,14 +1,18 @@
 import React, {useState} from "react";
 
 import { Container, Row, Col } from "reactstrap";
-import CommonSection from "../components/ui/Common-section/CommonSection";
-import NftCard from "../components/ui/Nft-card/NftCard";
-import img from "../assets/images/img-01.jpg";
-import avatar from "../assets/images/ava-01.png";
+import CommonSection from "@/components/ui/Common-section/CommonSection";
+import NftCard from "@/components/ui/Nft-card/NftCard";
+import img from "@/assets/images/img-01.jpg";
+import avatar from "@/assets/images/ava-01.png";
+import styles from "@/styles/Series.module.css";
+import Image from "next/image";
+import { NFT__DATA } from "@/assets/data/data.js";
 
 
 
-const Create = () => {
+
+const Play = () => {
   let item = {
     id: "01",
     title: "Guard",
@@ -28,9 +32,11 @@ const handleFile = (e) => {
   console.log(item, newItem)  
   setPreview(newItem)
 };
-  return (
+
+
+return (
     <>
-      <CommonSection title="Create Item" />
+      <CommonSection title="Create Play" />
 
       <section>
         <Container>
@@ -50,31 +56,6 @@ const handleFile = (e) => {
                   </div>
 
                   <div className="form__input">
-                    <label htmlFor="">Price</label>
-                    <input
-                      type="number"
-                      placeholder="Enter price for one item (ETH)"
-                    />
-                  </div>
-
-                  <div className="form__input">
-                    <label htmlFor="">Minimum Bid</label>
-                    <input type="number" placeholder="Enter minimum bid" />
-                  </div>
-
-                  <div className=" d-flex align-items-center gap-4">
-                    <div className="form__input w-50">
-                      <label htmlFor="">Starting Date</label>
-                      <input type="date" />
-                    </div>
-
-                    <div className="form__input w-50">
-                      <label htmlFor="">Expiration Date</label>
-                      <input type="date" />
-                    </div>
-                  </div>
-
-                  <div className="form__input">
                     <label htmlFor="">Title</label>
                     <input type="text" placeholder="Enter title" />
                   </div>
@@ -89,9 +70,26 @@ const handleFile = (e) => {
                       className="w-100"
                     ></textarea>
                   </div>
+
+                  <div className="form__input">
+                    <label htmlFor="">Price</label>
+                    <input
+                      type="number"
+                      placeholder="Enter price for one item"
+                    />
+                  </div>
+
                 </form>
               </div>
             </Col>
+          </Row>
+          <Row className="mt-4">
+          <h4 className={styles.label} >List of Created Plays</h4>
+          {NFT__DATA.map((item) => (
+              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
+                <NftCard item={item} nopurchase={true} />
+            </Col>
+          ))}
           </Row>
         </Container>
       </section>
@@ -99,4 +97,4 @@ const handleFile = (e) => {
   );
 };
 
-export default Create;
+export default Play;
