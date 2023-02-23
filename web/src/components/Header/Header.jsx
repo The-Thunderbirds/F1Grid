@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { Logout } from "../Logout";
 
+import * as fcl from "@onflow/fcl"
+import { useFlowUser } from "../../hooks/userFlowUser"
+
 const NAV__LINKS = [
   {
     display: "Home",
@@ -34,9 +37,16 @@ const NAV__LINKS = [
 
 const Header = () => {
 
+  const flowUser = useFlowUser()
   const { session, signIn, isLoading } = useAuthContext()
 
-  const onConnectWallet = () => {
+  const handleConnectWallet = async () => {
+    fcl.unauthenticate()
+    fcl.logIn()
+  }
+
+  const handleSignInWithGoogle = () => {
+    fcl.unauthenticate()
     signIn();
   };
 
@@ -62,10 +72,7 @@ const Header = () => {
   }, []);
 
   const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
-  const signInHandler = () => {
-  }
-  const connectWalletHandler = () => {
-  }
+
   return (
     <header className="header" ref={headerRef}>
       <Container>
@@ -97,27 +104,40 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-
-          {!session && 
-            <button className="btn d-flex gap-2 align-items-center" onClick={onConnectWallet} style={{color:"white"}}>
-              <span>
-              <i class="ri-google-fill"></i>
-              </span>
-              Sign In
-            </button>
-          }
-          {session && 
-            <>
-            <button className="btn d-flex gap-2 align-items-center" style={{color:"white"}}>
-            <Link href="/wallets">
-              Wallets
-            </Link>
-            </button>
-
-            <Logout/>
-            </>
-          }
-
+            {/* Account address */}
+            <h5 className=" d-flex gap-2 align-items-center" style={{color: "white"}}>
+              {flowUser?.addr}
+            </h5>            
+            {/* Connect With Dappr wallet directly */}
+            {
+              !session && !flowUser?.addr &&
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleConnectWallet} style={{color:"white"}}>
+                Connect Wallet
+              </button>
+            }
+            {/* Sign In with Google using Niftory */}
+            {
+              !session && !flowUser?.addr &&
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleSignInWithGoogle} style={{color:"white"}}>
+                <span>
+                <i class="ri-google-fill"></i>
+                </span>
+                Sign In
+              </button>
+            }
+            {/* Multiple Wallets when Signed In using Niftory */}
+            {
+              session &&
+              <button className="btn d-flex gap-2 align-items-center" style={{color:"white"}}>
+              <Link href="/wallets">
+                Wallets
+              </Link>
+              </button>
+            }
+            {/* Logout either if Signed In by Google or Niftory */}
+            {
+              (session || flowUser?.addr) && <Logout/>
+            }
             <span className="mobile__menu">
               <i class="ri-menu-line" onClick={toggleMenu}></i>
             </span>
