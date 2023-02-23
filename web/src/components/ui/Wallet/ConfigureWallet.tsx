@@ -27,7 +27,7 @@ export function ConfigureWallet({ wallet, onReady }: Props) {
   return (
     <>
       <button
-        className="bg-[#212e48] mx-2 py-2 px-2 rounded-xl text-white hover:bg-[#00a3ff]"
+        className="btn btn-primary w-25"
         onClick={configure}
       >
         Configure wallet

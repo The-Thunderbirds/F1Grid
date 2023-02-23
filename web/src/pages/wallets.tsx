@@ -13,7 +13,8 @@ import { ConfigureWallet } from "../components/ui/Wallet/ConfigureWallet"
 
 import * as fcl from "@onflow/fcl"
 import { useFlowUser } from "../hooks/userFlowUser"
-
+import CommonSection from "../components/ui/Common-section/CommonSection";
+import { Container, Row, Col } from "reactstrap";
 export const Wallets = () => {
 
   const flowUser = useFlowUser()
@@ -43,24 +44,20 @@ export const Wallets = () => {
 
   return (
     <>
+      <CommonSection title="Connect Wallet" />
+      <section>
+        <Container>
+          <Row className="mb-5">
       {
         wallet &&
         <>
-          <div className="flex flex-col">
-            <span className="text-white text-3xl font-bold">
-              Wallet email id -
-              {wallet?.appUser?.email}
-            </span>
-          </div>
-          <h1 className="text-4xl text-white">List of Wallets</h1>
-          <ul>
+          <h2>Your Wallets:</h2>
             {wallets?.map((currWallet) => (
-              <li key={currWallet.address}>
-                <div className="flex flex-col">
-                  <span className="text-white text-3xl font-bold">
-                    Wallet address -
-                    <button
-                      className="bg-[#212e48] mx-2 py-2 px-2 rounded-xl text-white hover:bg-[#00a3ff]"
+              <Col lg="3" md="4" sm="6" key={currWallet.address} className="mb-4">
+                <div className="wallet__item" style={{width:"max-content", borderRadius:"15px",height:"200px"}}>
+                  <h5>
+                    Wallet address - <button
+                      className="btn btn-primary"
                       onClick={() => {
                         const url = `${process.env.NEXT_PUBLIC_FLOW_SCAN_URL}/account/${currWallet?.address}`
                         window.open(url)
@@ -68,24 +65,18 @@ export const Wallets = () => {
                     >
                       {currWallet?.address}
                     </button>
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-white text-3xl font-bold">
+                  </h5>
+                  <h5>
                     Wallet status -
-                    {currWallet?.state?.toString()}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-white text-3xl font-bold">
-                    Wallet type -
-                    {currWallet?.walletType}
-                  </span>
-                </div>
+                    {" " + currWallet?.state?.toString()}
+                  </h5>
+                  <h5  className="text-white text-3xl font-bold">
+                    Wallet type - {" " + currWallet?.walletType}
+                  </h5>
                 {
                   currWallet?.walletType === WalletType.External && currWallet.address !== flowUser?.addr &&
                   <button
-                    className="bg-[#212e48] mx-2 py-2 px-2 rounded-xl text-white hover:bg-[#00a3ff]"
+                    className="btn btn-primary"
                     onClick={() => {
                       fcl.unauthenticate()
                       fcl.logIn()
@@ -107,13 +98,17 @@ export const Wallets = () => {
                     }
                   </>
                 }
-                <hr />
-              </li>
+                </div>
+          </Col>
             ))}
-          </ul>
-          <RegisterWallet onRegister={() => reExecuteQuery({ requestPolicy: "network-only" })} />
+
         </>
       }
+          </Row>
+          <RegisterWallet onRegister={() => reExecuteQuery({ requestPolicy: "network-only" })} />
+        </Container>  
+      </section>
+
     </>
   );
 }
