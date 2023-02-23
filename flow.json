@@ -38,8 +38,8 @@
 			"key": "b927dad2e147f7167946c913f95773d316284ca54cc5864c5fc18515e9c7dd92"
 		},
 		"testnet-account": {
-			"address": "1cd2a48f68545580",
-			"key": "bdd1294fd2874958c2669fa0fccdaa17468bec77e07f83e0db23d149e018891a"
+			"address": "0x0337ac00e069d20a",
+			"key": "386bba24d7debe36aa0a83cdead6bc732fb9c569e54880b8a5994d37f2838135"
 		}
 	},
 	"deployments": {
