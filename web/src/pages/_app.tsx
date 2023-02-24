@@ -1,7 +1,9 @@
 import { AppProps as NextAppProps } from "next/app"
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import '@/styles/globals.css'
+import '../styles/globals.css'
+import "bootstrap/dist/css/bootstrap.css";
+import "remixicon/fonts/remixicon.css";
 
 import { SessionProvider } from "next-auth/react"
 import { ComponentWithAuth } from "../components/ComponentWithAuth"
