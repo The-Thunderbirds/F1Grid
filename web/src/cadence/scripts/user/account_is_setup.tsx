@@ -1,4 +1,4 @@
-import {NonFungibleToken, FormulaOne} from "src/constants";
+import {NonFungibleToken, FormulaOne} from "@/constants";
 
 export const accountIsSetup = 
 `

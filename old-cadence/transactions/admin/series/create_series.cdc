@@ -1,4 +1,4 @@
-import FormulaOne from 0xf8d6e0586b0a20c7
+import FormulaOne from 0x0337ac00e069d20a
 
 transaction(name: String) {
     let admin: &FormulaOne.Admin
