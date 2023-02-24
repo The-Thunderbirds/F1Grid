@@ -7,6 +7,7 @@ import { getSetData } from "@/cadence/scripts/admin/set/get_set_data";
 import { getNextPlayID } from "@/cadence/scripts/admin/plays/get_nextPlayID";
 import { getPlayMetadata } from "@/cadence/scripts/admin/plays/get_play_metadata";
 
+// IS ACCOUNT SETUP
 export const isAccountSetup = async (addr) => {
     try {
         const result = await fcl.query({
@@ -21,6 +22,7 @@ export const isAccountSetup = async (addr) => {
     }
 }
 
+// GET ALL SETS
 export const getAllSets = async () => {
     try {        
         const num = await fcl.query({
@@ -47,13 +49,24 @@ export const getAllSets = async () => {
 
 }
 
-export const getAllPlays = async () => {
+// GET NEXT PLAY ID
+export const getNextPlayId = async () => {
     try {        
         const num = await fcl.query({
             cadence: `${getNextPlayID}`
         })
-        console.log(num)
 
+        return num;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+// GET ALL PLAYS
+export const getAllPlays = async () => {
+    try {        
+        const num = await getNextPlayId();
         const playMetadataList = []
 
         for(let i = 1; i < num; i++) {

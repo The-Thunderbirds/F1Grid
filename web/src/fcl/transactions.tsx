@@ -3,6 +3,7 @@ import * as types from "@onflow/types";
 
 import { setupAccount } from "@/cadence/transactions/user/setup_account";
 import { createSet } from "@/cadence/transactions/admin/set/create_set"
+import { addPlayToSetTX } from "@/cadence/transactions/admin/set/add_play_to_set"
 import { createPlay } from "@/cadence/transactions/admin/plays/create_play"
 
 // CREATE COLLECTION
@@ -62,5 +63,28 @@ export const createNewPlay = async (metadata) => {
     } catch (error) {
       console.log(error);
       alert("Error creating play, please check the console for error details!")
+    }
+}
+
+
+// ADD PLAY TO SET
+export const addPlayToSet = async (setID, playID) => {
+  try {
+    console.log(setID, playID)
+      const transactionId = await fcl.mutate({
+        cadence: `${addPlayToSetTX}`,
+        args: (arg, t) => [
+          arg(setID, types.UInt32),
+          arg(playID, types.UInt32)
+        ],  
+      })
+      console.log("Play added to set now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      alert("Play has been added to set successfully!")
+    } catch (error) {
+      console.log(error);
+      alert("Error adding play to set, please check the console for error details!")
     }
 }
