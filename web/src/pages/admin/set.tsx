@@ -36,7 +36,6 @@ const Set = () => {
     })
   }, [])
 
-
   const handleSubmit = async () => {
     await createNewSet(name);
   }
@@ -90,7 +89,7 @@ const Set = () => {
           )}
           <Row className="mt-4">
             <h4 className={styles.label}>List of Created Sets</h4>
-            {allSets.map((item, index) => (
+            {allSets && allSets.map((item, index) => (
               <div className={styles.pricingContainer} key={index}>
                 {/* {console.log(item)} */}
                 {/* Pricing information */}
