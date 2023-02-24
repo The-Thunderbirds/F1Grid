@@ -1,0 +1,76 @@
+{
+	"contracts": {
+		"FormulaOne": "./cadence/contracts/FormulaOne.cdc",
+		"FormulaOneAdmin": "./cadence/contracts/FormulaOneAdmin.cdc",
+		"FormulaOneMarket": "./cadence/contracts/FormulaOneMarket.cdc",
+		"FungibleToken": {
+			"source": "./cadence/contracts/utility/FungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"MetadataViews": {
+			"source": "./cadence/contracts/utility/MetadataViews.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "./cadence/contracts/utility/NonFungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		}
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		},
+		"emulator-account-user": {
+			"address": "01cf0e2f2f715450",
+			"key": "40381d974fef074f6681cea025680d0e85943d5c0fb8ace6c144cdb1d1c3e631"
+		},
+		"testnet-account": {
+			"address": "0337ac00e069d20a",
+			"key": "386bba24d7debe36aa0a83cdead6bc732fb9c569e54880b8a5994d37f2838135"
+		},
+		"lilico-account": {
+			"address": "7fbabf1333de99f5",
+			"key":{
+				"type": "hex",
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA2_256",
+				"privateKey": "54cb0a007d5805e58f9edcc656458540f73acde95bffdb2bc1b0a9d545862a79"
+			}
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": [
+				"FungibleToken",
+				"NonFungibleToken",
+				"MetadataViews",
+				"FormulaOne",
+				"FormulaOneAdmin",
+				"FormulaOneMarket"
+			]
+		},
+		"testnet": {
+			"lilico-account": [
+				"FormulaOne",
+				"FormulaOneAdmin",
+				"FormulaOneMarket"
+			]
+		}
+	}
+}
