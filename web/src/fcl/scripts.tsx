@@ -6,6 +6,8 @@ import { getNextSetID } from "@/cadence/scripts/admin/set/get_nextSetID";
 import { getSetData } from "@/cadence/scripts/admin/set/get_set_data";
 import { getNextPlayID } from "@/cadence/scripts/admin/plays/get_nextPlayID";
 import { getPlayMetadata } from "@/cadence/scripts/admin/plays/get_play_metadata";
+import { getCollectionIDs } from "@/cadence/scripts/admin/moments/get_collection_ids";
+import { getMomentMetadata } from "@/cadence/scripts/admin/moments/get_metadata";
 
 // IS ACCOUNT SETUP
 export const isAccountSetup = async (addr) => {
@@ -28,7 +30,6 @@ export const getAllSets = async () => {
         const num = await fcl.query({
             cadence: `${getNextSetID}`
         })
-        console.log(num)
 
         const setDataList = []
 
@@ -83,5 +84,45 @@ export const getAllPlays = async () => {
     } catch (error) {
         console.log(error);
     }
+}
 
+
+// GET ALL COLLECTION IDs
+export const getAllCollectionIDs = async (addr) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getCollectionIDs}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET ALL COLLECTIONS
+export const getAllCollections = async (addr) => {
+    try {        
+        const moments = await getAllCollectionIDs(addr);
+        const len = moments.length;
+        const momentMetadataList = []
+
+        for(let i = 0; i < len; i++) {
+            const result = await fcl.query({
+                cadence: `${getMomentMetadata}`,
+                args: (arg, t) => [
+                    arg(addr, types.Address),
+                    arg(moments[i], types.UInt64),
+                ],    
+            })
+            momentMetadataList.push(result);
+        }
+
+        return momentMetadataList;
+    } catch (error) {
+        console.log(error);
+    }
 }
