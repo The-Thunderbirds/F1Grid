@@ -41,8 +41,8 @@ const NAV__LINKS = [
     url: "/admin/play",
   },
   {
-    display: "Edition",
-    url: "/admin/edition",
+    display: "Mint",
+    url: "/admin/mint",
   }
 ];
 

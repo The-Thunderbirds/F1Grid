@@ -5,6 +5,7 @@ import { setupAccount } from "@/cadence/transactions/user/setup_account";
 import { createSet } from "@/cadence/transactions/admin/set/create_set"
 import { addPlayToSetTX } from "@/cadence/transactions/admin/set/add_play_to_set"
 import { createPlay } from "@/cadence/transactions/admin/plays/create_play"
+import { mintMomentTX } from "@/cadence/transactions/admin/moment/mint_moment"
 
 // CREATE COLLECTION
 export const createCollection = async () => {
@@ -86,5 +87,27 @@ export const addPlayToSet = async (setID, playID) => {
     } catch (error) {
       console.log(error);
       alert("Error adding play to set, please check the console for error details!")
+    }
+}
+
+// MINT MOMENT
+export const mintMoment = async (setID, playID, addr) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${mintMomentTX}`,
+        args: (arg, t) => [
+          arg(setID, types.UInt32),
+          arg(playID, types.UInt32),
+          arg(addr, types.Address),
+        ],  
+      })
+      console.log("Moment created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      alert("Moment has been created successfully!")
+    } catch (error) {
+      console.log(error);
+      alert("Error creating moment, please check the console for error details!")
     }
 }
