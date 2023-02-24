@@ -1,15 +1,13 @@
 import * as fcl from "@onflow/fcl"
 import * as types from "@onflow/types";
 
-import {setupFormulaOneAccount} from "@/cadence/transactions/user/setup_formulaone_account";
-import {createSeries} from "@/cadence/transactions/admin/series/create_series"
+import { setupAccount } from "@/cadence/transactions/user/setup_account";
+import { createSet } from "@/cadence/transactions/admin/set/create_set"
 
 export const createCollection = async () => {
     try {
         const transactionId = await fcl.mutate({
-          cadence: `${setupFormulaOneAccount}`,
-          args: (arg, t) => [
-          ],
+          cadence: `${setupAccount}`
         })
         console.log("Collection created now with transaction ID", transactionId);
         const transaction = await fcl.tx(transactionId).onceSealed();
@@ -23,22 +21,21 @@ export const createCollection = async () => {
 }
 
 
-export const createNewSeries = async (name) => {
+export const createNewSet = async (name) => {
   try {
-    console.log(name)
       const transactionId = await fcl.mutate({
-        cadence: `${createSeries}`,
+        cadence: `${createSet}`,
         args: (arg, t) => [
           arg(name, types.String)
         ],
       })
-      console.log("Series created now with transaction ID", transactionId);
+      console.log("Set created now with transaction ID", transactionId);
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Series has been created successfully!")
+      alert("Set has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating series, please check the console for error details!")
+      alert("Error creating set, please check the console for error details!")
     }
 }

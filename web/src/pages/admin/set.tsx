@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
 import NftCard from "@/components/ui/Nft-card/NftCard";
+
+import { createNewSet } from "@/fcl/transactions";
+import { getAllSets } from "@/fcl/scripts";
+
 //create an array of set
 const set = [
   {
@@ -20,6 +24,24 @@ const set = [
 const Set = () => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
+
+  const [name, setName] = useState('')
+
+  const [allSets, setAllSets] = useState([]);
+
+  useEffect(() => {
+    getAllSets().then((res) => {
+      console.log(res)
+      setAllSets(() => res);
+    })
+  }, [])
+
+
+  const handleSubmit = async () => {
+    await createNewSet(name);
+  }
+
+
   return (
     <>
       <CommonSection title="Create Set" />
@@ -41,7 +63,7 @@ const Set = () => {
                 }}
               >
                 <span className="close__modal">
-                  <i class="ri-close-line" onClick={() => setModal(false)}></i>
+                  <i className="ri-close-line" onClick={() => setModal(false)}></i>
                 </span>
                 <Row className="mb-5">
                   <Col>
@@ -49,10 +71,15 @@ const Set = () => {
                       <form>
                         <div className="form__input">
                           <label htmlFor="">Name</label>
-                          <input type="text" placeholder="Enter name" />
+                          <input type="text" placeholder="Enter set name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          />
                         </div>
                       </form>
-                      <button className="btn btn-primary w-100 mt-3">
+                      <button className="btn btn-primary w-100 mt-3"
+                      onClick={handleSubmit}
+                      >
                         Create Item
                       </button>
                     </div>
@@ -63,14 +90,20 @@ const Set = () => {
           )}
           <Row className="mt-4">
             <h4 className={styles.label}>List of Created Sets</h4>
-            {set.map((item, index) => (
+            {allSets.map((item, index) => (
               <div className={styles.pricingContainer} key={index}>
+                {/* {console.log(item)} */}
                 {/* Pricing information */}
                 <div className={styles.pricingInfo} style={{ display: "flex" }}>
-                  <div className={styles.pricingValue}>{item.title}</div>
+                  <div className={styles.pricingValue}>
+                    Set Id - {item.setID}
+                    Set Name -{item.name}
+                    Series Id - {item.series}  
+                  </div>
                   <button className="btn btn-primary">Add Play</button>
                 </div>
                 <Row>
+                  {/* item.plays will come here */}
                   {NFT__DATA.sort(() => 0.5 - Math.random())
                     .slice(0, Math.floor(1 + Math.random() * 3))
                     .map((item) => (

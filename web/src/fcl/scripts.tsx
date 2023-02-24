@@ -2,7 +2,8 @@ import * as fcl from "@onflow/fcl"
 import * as types from "@onflow/types";
 
 import { accountIsSetup } from "@/cadence/scripts/user/account_is_setup";
-import { readAllSeries } from "@/cadence/scripts/admin/series/read_all_series";
+import { getNextSetID } from "@/cadence/scripts/admin/set/get_nextSetID";
+import { getSetData } from "@/cadence/scripts/admin/set/get_set_data";
 
 export const isAccountSetup = async (addr) => {
     try {
@@ -18,12 +19,26 @@ export const isAccountSetup = async (addr) => {
     }
 }
 
-export const getAllSeries = async () => {
-    try {
-        const result = await fcl.query({
-            cadence: `${readAllSeries}`
+export const getAllSets = async () => {
+    try {        
+        const num = await fcl.query({
+            cadence: `${getNextSetID}`
         })
-        return result;
+        console.log(num)
+
+        const setDataList = []
+
+        for(let i = 1; i < num; i++) {
+            const result = await fcl.query({
+                cadence: `${getSetData}`,
+                args: (arg, t) => [
+                    arg(i, types.UInt32),
+                ],    
+            })
+            setDataList.push(result);
+        }
+
+        return setDataList;
     } catch (error) {
         console.log(error);
     }
