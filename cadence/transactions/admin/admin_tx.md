@@ -4,7 +4,8 @@ flow transactions send ./cadence/transactions/admin/create_set.cdc "Set 1"
 
 ## Create a new Play
 
-flow transactions send ./cadence/transactions/admin/create_play.cdc '{"playerFirstName": "Divyam", "playerLastName": "Agrawal", "playType": "Gold", "description": "Best race", "metadata": "ipfs://cid"}'
+flow transactions send ./cadence/transactions/admin/create_play.cdc 
+'{"name": "Divyam Agrawal", "description": "Best race", "thumbnail": "ipfs://cid"}'
 
 ## Add Play to Set
 
