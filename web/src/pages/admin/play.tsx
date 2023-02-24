@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Container, Row, Col, Button } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
@@ -8,6 +8,9 @@ import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
 import Image from "next/image";
 import { NFT__DATA } from "@/assets/data/data.js";
+
+import { createNewPlay } from "@/fcl/transactions";
+import { getAllPlays } from "@/fcl/scripts";
 
 const Play = () => {
   let item = {
@@ -36,6 +39,27 @@ const Play = () => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState(""); 
+
+  const [allPlays, setAllPlays] = useState([]);
+
+  useEffect(() => {
+    getAllPlays().then((res) => {
+      console.log(res)
+      setAllPlays(() => res);
+    })
+  }, [])
+
+  const handleSubmit = async () => {
+    let metadata = [
+      {key: "name", value: name},
+      {key: "description", value: desc},
+      {key: "thumbnail", value: "ipfs:://"},
+    ]
+    await createNewPlay(metadata);
+  }
+
   return (
     <>
       <CommonSection title="Create Play" />
@@ -49,13 +73,15 @@ const Play = () => {
               style={{ width: "1200px", height: "600px" }}
             >
               <span className="close__modal">
-                <i class="ri-close-line" onClick={() => setModal(false)}></i>
+                <i className="ri-close-line" onClick={() => setModal(false)}></i>
               </span>
               <Row>
                 <Col lg="3" md="4" sm="6">
                   <h5 className="mb-4 text-light">Preview Item</h5>
                   <NftCard item={preview} nopurchase={true} />
-                  <button className="btn btn-primary w-100 mt-3">
+                  <button className="btn btn-primary w-100 mt-3"
+                    onClick={handleSubmit}
+                  >
                     Create Item
                   </button>
                 </Col>
@@ -74,7 +100,10 @@ const Play = () => {
 
                       <div className="form__input">
                         <label htmlFor="">Title</label>
-                        <input type="text" placeholder="Enter title" />
+                        <input type="text" placeholder="Enter Name" 
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
                       </div>
 
                       <div className="form__input">
@@ -82,19 +111,21 @@ const Play = () => {
                         <textarea
                           name=""
                           id=""
-                          rows="7"
+                          rows={10}
                           placeholder="Enter description"
                           className="w-100"
-                        ></textarea>
+                          value={desc}
+                          onChange={(e) => setDesc(e.target.value)}
+                      ></textarea>
                       </div>
 
-                      <div className="form__input">
+                      {/* <div className="form__input">
                         <label htmlFor="">Price</label>
                         <input
                           type="number"
                           placeholder="Enter price for one item"
                         />
-                      </div>
+                      </div> */}
                     </form>
                   </div>
                 </Col>
@@ -104,9 +135,12 @@ const Play = () => {
           )}
           <Row className="mt-4">
             <h4 className={styles.label}>List of Created Plays</h4>
-            {NFT__DATA.map((item) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
-                <NftCard item={item} nopurchase={true} />
+            {allPlays && allPlays.map((item, index) => (
+              <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
+                <h1>{item.name}</h1>
+                <h1>{item.description}</h1>
+                <h1>{item.thumbnail}</h1>
+                {/* <NftCard item={item} nopurchase={true} /> */}
               </Col>
             ))}
           </Row>
