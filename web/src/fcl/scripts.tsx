@@ -40,6 +40,16 @@ export const getAllSets = async () => {
                     arg(i, types.UInt32),
                 ],    
             })
+
+            const playLen = result.plays.length;
+
+            result["playMetadata"] = []
+
+            for(let j = 0; j < playLen; j++) {
+                const play = await getPlayMetadataById(result.plays[j]);
+                result.playMetadata.push(play)
+            }
+
             setDataList.push(result);
         }
 
@@ -64,6 +74,21 @@ export const getNextPlayId = async () => {
 
 }
 
+// GET PLAY METADATA BY ID
+export const getPlayMetadataById = async (id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getPlayMetadata}`,
+            args: (arg, t) => [
+                arg(id, types.UInt32),
+            ],    
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // GET ALL PLAYS
 export const getAllPlays = async () => {
     try {        
@@ -71,12 +96,7 @@ export const getAllPlays = async () => {
         const playMetadataList = []
 
         for(let i = 1; i < num; i++) {
-            const result = await fcl.query({
-                cadence: `${getPlayMetadata}`,
-                args: (arg, t) => [
-                    arg(i, types.UInt32),
-                ],    
-            })
+            const result = await getPlayMetadataById(i);
             playMetadataList.push(result);
         }
 
@@ -85,7 +105,6 @@ export const getAllPlays = async () => {
         console.log(error);
     }
 }
-
 
 // GET ALL COLLECTION IDs
 export const getAllCollectionIDs = async (addr) => {
