@@ -20,18 +20,18 @@ const NAV__LINKS = [
     display: "Market",
     url: "/market",
   },
-  {
-    display: "Create",
-    url: "/create",
-  },
-  {
-    display: "Contact",
-    url: "/contact",
-  },
-  {
-    display: "Series",
-    url: "/admin/series",
-  },
+  // {
+  //   display: "Create",
+  //   url: "/create",
+  // },
+  // {
+  //   display: "Contact",
+  //   url: "/contact",
+  // },
+  // {
+  //   display: "Series",
+  //   url: "/admin/series",
+  // },
   {
     display: "Set",
     url: "/admin/set",

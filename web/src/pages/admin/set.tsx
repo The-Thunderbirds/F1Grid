@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Container, Row, Col, Card, CardHeader, ListGroup, ListGroupItem } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
-
-//create an array of set 
+import { NFT__DATA } from "@/assets/data/data.js";
+import NftCard from "@/components/ui/Nft-card/NftCard";
+//create an array of set
 const set = [
   {
     title: "Set 1",
-   },
+  },
   {
     title: "Set 2",
   },
@@ -17,43 +18,69 @@ const set = [
   },
 ];
 const Set = () => {
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
   return (
-    <>  
+    <>
       <CommonSection title="Create Set" />
 
       <section>
         <Container>
-          <Row className="mb-5">
-            <Col>
-              <div className="create__item">
-                <form>
-                  <div className="form__input">
-                    <label htmlFor="">Set Name</label>
-                    <input type="text" placeholder="Enter set name" />
-                  </div>
-                </form>
-              </div>
-              <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={() => {}}
-          >
-             Create Set
+          <button className="btn btn-primary" onClick={toggleModal} style={{position:"relative", left:"50%", top:"50%"}}>
+            Create Set
           </button>
 
-            </Col>
-          </Row>
-          <Row>
-          <h4 className={styles.label} >List of Created Sets</h4>
-          {set.map((item, index) => (
-          <div className={styles.pricingContainer} key={index} >
-          {/* Pricing information */}
-          <div className={styles.pricingInfo}>
-            <div className={styles.pricingValue}>
-                  {item.title}
+          {modal && (
+            <div className="modal__wrapper">
+              <div
+                className="single__modal"
+                style={{
+                  width: "400px",
+                  height: "250px",
+                  borderRadius: "15px",
+                }}
+              >
+                <span className="close__modal">
+                  <i class="ri-close-line" onClick={() => setModal(false)}></i>
+                </span>
+                <Row className="mb-5">
+                  <Col>
+                    <div className="create__item">
+                      <form>
+                        <div className="form__input">
+                          <label htmlFor="">Name</label>
+                          <input type="text" placeholder="Enter name" />
+                        </div>
+                      </form>
+                      <button className="btn btn-primary w-100 mt-3">
+                        Create Item
+                      </button>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
             </div>
-            </div>  
-            </div>
-          ))}
+          )}
+          <Row className="mt-4">
+            <h4 className={styles.label}>List of Created Sets</h4>
+            {set.map((item, index) => (
+              <div className={styles.pricingContainer} key={index}>
+                {/* Pricing information */}
+                <div className={styles.pricingInfo} style={{ display: "flex" }}>
+                  <div className={styles.pricingValue}>{item.title}</div>
+                  <button className="btn btn-primary">Add Play</button>
+                </div>
+                <Row>
+                  {NFT__DATA.sort(() => 0.5 - Math.random())
+                    .slice(0, Math.floor(1 + Math.random() * 3))
+                    .map((item) => (
+                      <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
+                        <NftCard item={item} nopurchase={true} />
+                      </Col>
+                    ))}
+                </Row>
+              </div>
+            ))}
           </Row>
         </Container>
       </section>
