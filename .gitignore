@@ -26,3 +26,5 @@ yarn-error.log*
 node_modules
 
 account.admin
+
+flow.json
