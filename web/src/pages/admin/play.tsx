@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+import { NFTStorage } from 'nft.storage'
+
 import { Container, Row, Col, Button } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import NftCard from "@/components/ui/Nft-card/NftCard";
 import img from "@/assets/images/img-01.jpg";
 import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
-import Image from "next/image";
-import { NFT__DATA } from "@/assets/data/data.js";
 
 import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
+import { getImageFromTokenId } from "@/utility";
 
 const Play = () => {
   let item = {
@@ -23,18 +24,63 @@ const Play = () => {
     currentBid: 7.89,
   };
 
-  // write code to take in photo and preview it in the NFT card
   const [preview, setPreview] = useState(item);
-  //write code to take in photo and pass it in the NFT card
+
+  const dataURItoBlob = (dataURI) => {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    var bb = new Blob([ab], {type:'image/*'});
+    return bb;
+  }
+
+  const fileToDataUri = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result)
+      };
+      reader.readAsDataURL(file);
+  })
+
+  const [dataUri, setDataUri] = useState('')
+
   const handleFile = (e) => {
     const file = e.target.files[0];
     const newItem = {
       ...item,
       imgUrl: { src: URL.createObjectURL(file), width: 4000, height: 4000 },
     };
-    console.log(item, newItem);
     setPreview(newItem);
+
+    fileToDataUri(file)
+      .then((uri : any) => {
+        setDataUri(uri)
+      })
   };
+
+  const uploadOnIPFS = async () => {
+    try{      
+      var image = dataURItoBlob(dataUri);
+      const client = new NFTStorage({ token: process.env.NEXT_PUBLIC_NFT_STORAGE })
+      const nft = { name, description: desc, image: image };
+      const metadata = await client.store(nft);
+      window.alert("Successfully stored on IPFS");
+
+      var storageUrl = metadata.url;      
+      const ipfslink = await getImageFromTokenId(storageUrl);
+
+      // const ipfslink = "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob";
+      return ipfslink;
+    }
+    catch (err) {
+      console.log(err);
+      window.alert('an error has occured, try again!');
+    }
+
+  }
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -52,14 +98,17 @@ const Play = () => {
   }, [])
 
   const handleSubmit = async () => {
+
+    const ipfs = await uploadOnIPFS();
+
     let metadata = [
       {key: "name", value: name},
       {key: "description", value: desc},
-      {key: "thumbnail", value: "ipfs:://"},
+      {key: "thumbnail", value: ipfs},
     ]
     await createNewPlay(metadata);
   }
-
+  
   return (
     <>
       <CommonSection title="Create Play" />
