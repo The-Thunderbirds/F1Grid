@@ -111,9 +111,7 @@ const Header = () => {
                 <li className="nav__item" key={index}>
                   <Link
                     href={item.url}
-                    className={(navClass) =>
-                      navClass.isActive ? "active" : ""
-                    }
+                    className=""
                   >
                     {item.display}
                   </Link>
@@ -137,7 +135,7 @@ const Header = () => {
               !session && !flowUser?.addr &&
               <button className="btn d-flex gap-2 align-items-center" onClick={handleSignInWithGoogle} style={{color:"white"}}>
                 <span>
-                <i class="ri-google-fill"></i>
+                <i className="ri-google-fill"></i>
                 </span>
                 Sign In
               </button>
@@ -160,15 +158,15 @@ const Header = () => {
             }
             {
               flowUser?.addr && hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={_createSaleCollection} style={{color:"white"}}>
-                Sale Collection
+              <button className="btn d-flex gap-2 align-items-center" onClick={() => {_createSaleCollection()}} style={{color:"white"}}>
+                Create Sale Collection
               </button>
             }
             {
                   hasCollection &&
                   <button className="btn d-flex gap-2 align-items-center"style={{color:"white"}}>
                   <span>
-                    <i class="ri-wallet-fill"></i>
+                    <i className="ri-wallet-fill"></i>
                   </span>
                   {flowUser?.addr}
                 </button>
@@ -178,7 +176,7 @@ const Header = () => {
               (session || flowUser?.addr) && <Logout/>
             }            
             <span className="mobile__menu">
-              <i class="ri-menu-line" onClick={toggleMenu}></i>
+              <i className="ri-menu-line" onClick={toggleMenu}></i>
             </span>
             
           </div>
