@@ -9,13 +9,12 @@ import * as fcl from "@onflow/fcl"
 import { useFlowUser } from "../../hooks/userFlowUser"
 
 import { createCollection, _createSaleCollection, _startSale, _purchaseMoment } from "src/fcl/transactions";
-import { isAccountSetup } from "src/fcl/scripts";
+import {isAccountSetup} from "src/fcl/scripts";
+import f1logo from "@/assets/images/F1.svg";
+import Image from "next/image";
 
 const NAV__LINKS = [
-  {
-    display: "Home",
-    url: "/",
-  },
+
   {
     display: "Market",
     url: "/market",
@@ -100,10 +99,9 @@ const Header = () => {
         <div className="navigation">
           <div className="logo">
             <h2 className=" d-flex gap-2 align-items-center ">
-              <span>
-                <i class="ri-fire-fill"></i>
-              </span>
-              NFTs
+              <Link href="\">
+                <Image src={f1logo} width="64px" />
+              </Link>
             </h2>
           </div>
 
@@ -126,9 +124,7 @@ const Header = () => {
 
           <div className="nav__right d-flex align-items-center gap-5 ">
             {/* Account address */}
-            <h5 className=" d-flex gap-2 align-items-center" style={{color: "white"}}>
-              {flowUser?.addr}
-            </h5>            
+          
             {/* Connect With Dappr wallet directly */}
             {
               !session && !flowUser?.addr &&
@@ -163,10 +159,19 @@ const Header = () => {
               </button>
             }
             {
-              flowUser?.addr &&
+              flowUser?.addr && hasCollection &&
               <button className="btn d-flex gap-2 align-items-center" onClick={_createSaleCollection} style={{color:"white"}}>
                 Sale Collection
               </button>
+            }
+            {
+                  hasCollection &&
+                  <button className="btn d-flex gap-2 align-items-center"style={{color:"white"}}>
+                  <span>
+                    <i class="ri-wallet-fill"></i>
+                  </span>
+                  {flowUser?.addr}
+                </button>
             }
             {/* Logout either if Signed In by Google or Niftory */}
             {

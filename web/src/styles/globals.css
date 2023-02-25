@@ -9,6 +9,10 @@
 body {
   background: #14141f !important;
   font-family: "Roboto", sans-serif;
+  background-color: #14141f;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23ff0000' fill-opacity='0.02'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E") !important;
+  /* background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff0f00' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E") !important; */
+  z-index: -999999;
 }
 
 h1,
@@ -134,7 +138,7 @@ footer {
 
 .header__shrink {
   background: #14141f;
-  box-shadow: 2px 2px 4px -2px #e250e5;
+  box-shadow: 2px 2px 4px -2px #df2f41;
 }
 
 .navigation {
@@ -239,7 +243,7 @@ footer {
 }
 
 .common__section {
-  background: url("../assets/images/bg.jpg");
+  background: url("../assets/images/ferrari2.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -247,7 +251,7 @@ footer {
 }
 
 .common__section h2 {
-  color: #fff;
+  color: #fff0;
 }
 
 .single__nft__card {
@@ -546,7 +550,8 @@ footer {
 }
 
 .hero__content h2 span {
-  background: linear-gradient(-45deg, #e250e5, #4b50e6, #e250e5, #4b50e6);
+  background: linear-gradient(-45deg, #e55050, #ff0000, #e55050, #ff0000);
+  
   background-size: 100% 100%;
   background-clip: text;
   -webkit-text-stroke: 3px transparent;

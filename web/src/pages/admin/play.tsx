@@ -12,7 +12,7 @@ import styles from "@/styles/Series.module.css";
 import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
-
+import { NFT__DATA } from "@/assets/data/data";
 const Play = () => {
   let item = {
     id: "01",
@@ -114,7 +114,9 @@ const Play = () => {
       <CommonSection title="Create Play" />
       <section>
         <Container>
-          <button className="btn btn-primary" onClick={toggleModal} style={{position:"relative", left:"50%", top:"50%"}}>Create Play</button>
+        <button className="btn btn-primary btn-lg" onClick={toggleModal} style={{marginLeft:"47%"}}>
+            Create Play
+          </button>
           {modal && (
           <div className="modal__wrapper">
             <div
@@ -186,10 +188,10 @@ const Play = () => {
             <h4 className={styles.label}>List of Created Plays</h4>
             {allPlays && allPlays.map((item, index) => (
               <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
-                <h1>{item.name}</h1>
+                {/* <h1>{item.name}</h1>
                 <h1>{item.description}</h1>
-                <h1>{item.thumbnail}</h1>
-                {/* <NftCard item={item} nopurchase={true} /> */}
+                <h1>{item.thumbnail}</h1> */}
+                <NftCard item={{...NFT__DATA[0], title:item.name, desc:item.description, imgUrl:{ src: !item.thumbnail? img.src: "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob", width: 4000, height: 4000 }}} nopurchase={true} />
               </Col>
             ))}
           </Row>

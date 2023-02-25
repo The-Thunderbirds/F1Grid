@@ -65,7 +65,8 @@ const Set = () => {
 
       <section>
         <Container>
-          <button className="btn btn-primary" onClick={toggleModal} style={{position:"relative", left:"50%", top:"50%"}}>
+          
+          <button className="btn btn-primary btn-lg" onClick={toggleModal} style={{marginLeft:"47%"}}>
             Create Set
           </button>
 
@@ -173,9 +174,7 @@ const Set = () => {
                 {/* Pricing information */}
                 <div className={styles.pricingInfo} style={{ display: "flex" }}>
                   <div className={styles.pricingValue}>
-                    Set Id - {item.setID}
-                    Set Name -{item.name}
-                    Series Id - {item.series}  
+                  {item.name} (Set {item.setID}, Series {item.series})  
                   </div>
                   <button className="btn btn-primary" onClick={() => toggleAddPlayModal(item.setID)}> 
                     Add Play
@@ -184,9 +183,11 @@ const Set = () => {
                 <Row>
                 {item.playMetadata.map((play, playIdx) => (
                   <Col lg="3" md="4" sm="6" className="mb-4" key={playIdx}>
-                    <h1>{play.name}</h1>
+                    {/* <h1>{play.name}</h1>
                     <h1>{play.description}</h1>
-                    <h1>{play.thumbnail}</h1>
+                    <h1>{play.thumbnail}</h1> */}
+                  <NftCard item={{...NFT__DATA[0], title:play.name, desc:play.description, imgUrl:{ src: !play.thumbnail? NFT__DATA[0].imgUrl.src: "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob", width: 4000, height: 4000 }}} nopurchase={true} />
+
                   </Col>
                 ))}
                   {/* {NFT__DATA.sort(() => 0.5 - Math.random())

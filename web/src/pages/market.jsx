@@ -49,6 +49,9 @@ const Market = () => {
 
       <section>
         <Container>
+        <h2 style={{textAlign:"center"}}>
+                Marketplace
+          </h2>
           <Row>
             <Col lg="12" className="mb-5">
               <div className="market__product__filter d-flex align-items-center justify-content-between">
