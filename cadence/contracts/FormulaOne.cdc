@@ -49,6 +49,7 @@
 import NonFungibleToken from "./utility/NonFungibleToken.cdc"
 import FungibleToken from "./utility/FungibleToken.cdc"
 import MetadataViews from "./utility/MetadataViews.cdc"
+import PRNG from "./utility/PRNG.cdc"
 
 pub contract FormulaOne: NonFungibleToken {
     // -----------------------------------------------------------------------
@@ -119,6 +120,9 @@ pub contract FormulaOne: NonFungibleToken {
     // Variable size dictionary of SetData structs
     access(self) var setDatas: {UInt32: SetData}
 
+    // Variable size dictionary of Pack structs
+    access(self) var packDatas: {UInt64: Pack}
+
     // Variable size dictionary of Set resources
     access(self) var sets: @{UInt32: Set}
 
@@ -126,6 +130,11 @@ pub contract FormulaOne: NonFungibleToken {
     // Every time a Play is created, playID is assigned 
     // to the new Play's ID and then is incremented by 1.
     pub var nextPlayID: UInt32
+
+    // The ID that is used to create Packs 
+    // Every time a Pack is created, packID is assigned 
+    // to the new Pack's ID and then is incremented by 1.
+    pub var nextPackID: UInt64
 
     // The ID that is used to create Sets. Every time a Set is created
     // setID is assigned to the new set's ID and then is incremented by 1.
@@ -927,6 +936,84 @@ pub contract FormulaOne: NonFungibleToken {
         }
     }
 
+    pub struct Pack {
+
+        // The unique ID for the Pack
+        pub let packID: UInt64
+
+        // Stores all the potential moment ids
+        pub var moments: [UInt64]
+        // Number of items to return while unpacking
+        pub let numItems: UInt64
+
+        access(self) let seedBlock: UInt64
+
+        init(moments: [UInt64], numItems: UInt64) {
+            self.packID = FormulaOne.nextPackID
+            self.moments = moments
+            self.numItems = numItems
+            self.seedBlock = getCurrentBlock().height + 1
+        }
+
+        pub fun unpack(): [UInt64] {
+
+            let randomMoments: [UInt64] = []
+            var i: UInt64 = 0
+            while i < self.numItems {
+
+                let length = UInt64(self.moments.length)
+
+                let weights: [UInt256] = []
+                var j: UInt64 = 0
+                while j < length {
+                    weights.append(1)
+                    j = j + UInt64(1)
+                }
+
+                let rng <- PRNG.createFrom(blockHeight: self.seedBlock, uuid: self.packID)
+                let r = (rng.pickWeighted(
+                            self.moments,
+                            weights
+                ) as! UInt64)
+
+                randomMoments.append(r)
+
+                i = i + UInt64(1)
+
+                destroy rng
+            }
+
+            return randomMoments
+        }
+    }
+
+    pub fun createPack(moments: [UInt64], numItems: UInt64): UInt64 {
+        var newPack = Pack(moments: moments, numItems: numItems)
+        let newID = newPack.packID
+
+        FormulaOne.nextPackID = FormulaOne.nextPackID + UInt64(1)
+
+        // Store it in the contract storage
+        FormulaOne.packDatas[newID] = newPack
+
+        return newID
+    }
+
+    pub fun getPackMoments(packID: UInt64): [UInt64]? {
+        return self.packDatas[packID]?.moments
+    }
+
+    pub fun getPackNumItem(packID: UInt64): UInt64? {
+        return self.packDatas[packID]?.numItems
+    }
+
+    // getAllPacks returns all the packs in FormulaOne
+    //
+    // Returns: An array of all the packs that have been created
+    pub fun getAllPacks(): [FormulaOne.Pack] {
+        return FormulaOne.packDatas.values
+    }
+
     // Admin is a special authorization resource that 
     // allows the owner to perform important functions to modify the 
     // various aspects of the Plays, Sets, and Moments
@@ -1615,9 +1702,11 @@ pub contract FormulaOne: NonFungibleToken {
         self.currentSeries = 0
         self.playDatas = {}
         self.setDatas = {}
+        self.packDatas = {}
         self.sets <- {}
         self.nextPlayID = 1
         self.nextSetID = 1
+        self.nextPackID = 1
         self.totalSupply = 0
 
         // Put a new Collection in storage

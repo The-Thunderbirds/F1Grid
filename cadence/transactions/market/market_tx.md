@@ -1,6 +1,6 @@
 ## Create Sale Collection
 
-flow transactions send ./cadence/transactions/market/create_sale.cdc "/public/tokenReceiver" f8d6e0586b0a20c7 0.15
+flow transactions send ./cadence/transactions/market/create_sale.cdc "/public/flowTokenReceiver" f8d6e0586b0a20c7 0.15
 
 ## Create Dapper Utility Coin Vault for User
 

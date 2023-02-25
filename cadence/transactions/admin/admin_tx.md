@@ -14,3 +14,6 @@ flow transactions send ./cadence/transactions/admin/add_play_to_set.cdc 1 1
 
 flow transactions send ./cadence/transactions/admin/mint_moment.cdc 1 1 f8d6e0586b0a20c7
 
+
+## Create a new Pack
+flow transactions send ./cadence/transactions/admin/create_pack.cdc "[1, 2, 3, 4]" 2
