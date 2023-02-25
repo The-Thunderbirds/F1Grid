@@ -158,8 +158,8 @@ const Header = () => {
             }
             {
               flowUser?.addr && hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={_createSaleCollection} style={{color:"white"}}>
-                Sale Collection
+              <button className="btn d-flex gap-2 align-items-center" onClick={() => {_createSaleCollection()}} style={{color:"white"}}>
+                Create Sale Collection
               </button>
             }
             {

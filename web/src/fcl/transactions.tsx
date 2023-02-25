@@ -121,12 +121,18 @@ export const mintMoment = async (setID, playID, addr) => {
 }
 
 // CREATE SALE COLLECTION
-export const _createSaleCollection = async (tokenReceiverPath="/public/dapperUtilityCoinReceiver", beneficiaryAccount=AdminAccountAddress, cutPercentage=0.15) => {
+export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddress, cutPercentage=0.15) => {
   try {
+      const tokenReceiverPath = 
+      {
+        domain: "public",  // public | private | storage
+        identifier: "/public/dapperUtilityCoinReceiver"
+      }
+
       const transactionId = await fcl.mutate({
         cadence: `${createSaleCollection}`,
         args: (arg, t) => [
-          arg(tokenReceiverPath, types.PublicPath),
+          arg(tokenReceiverPath, types.Path),
           arg(beneficiaryAccount, types.Address),
           arg(cutPercentage, types.UFix64),
         ],
