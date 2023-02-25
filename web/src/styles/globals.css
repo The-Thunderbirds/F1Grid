@@ -556,9 +556,14 @@ footer {
   background-clip: text;
   -webkit-text-stroke: 3px transparent;
   -webkit-text-fill-color: #14141f;
-  margin-left: 7px !important;
   display: inline-block;
 }
+
+.hero__content p {
+  text-align: justify;
+  padding-right: 10px;
+}
+
 
 .hero__btns {
   margin-top: 40px;
