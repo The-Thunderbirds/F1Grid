@@ -136,17 +136,9 @@ const Mint = () => {
             <h4 className={styles.label} >List of Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
-                <h1>{item.name}</h1>
-                <h1>{item.description}</h1>
-                <h1>{item.thumbnail}</h1>
-                {/* <NftCard item={item} nopurchase={true} /> */}
+                <NftCard item={{...NFT__DATA[0], title:item.name, desc:item.description, imgUrl:{ src: !item.thumbnail? NFT__DATA[0].imgUrl.src: "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob", width: 4000, height: 4000 }}} nopurchase={true} />
               </Col>
             ))}
-            {/* {NFT__DATA.map((item) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
-                <NftCard item={item} nopurchase={true} />
-              </Col>
-            ))} */}
           </Row>
         </Container>
       </section>
