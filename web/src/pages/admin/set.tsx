@@ -182,14 +182,20 @@ const Set = () => {
                   </button>
                 </div>
                 <Row>
-                  {/* item.plays will come here */}
-                  {NFT__DATA.sort(() => 0.5 - Math.random())
+                {item.playMetadata.map((play, playIdx) => (
+                  <Col lg="3" md="4" sm="6" className="mb-4" key={playIdx}>
+                    <h1>{play.name}</h1>
+                    <h1>{play.description}</h1>
+                    <h1>{play.thumbnail}</h1>
+                  </Col>
+                ))}
+                  {/* {NFT__DATA.sort(() => 0.5 - Math.random())
                     .slice(0, Math.floor(1 + Math.random() * 3))
                     .map((item) => (
                       <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                         <NftCard item={item} nopurchase={true} />
                       </Col>
-                    ))}
+                    ))} */}
                 </Row>
               </div>
             ))}

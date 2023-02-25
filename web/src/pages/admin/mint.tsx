@@ -7,7 +7,7 @@ import { NFT__DATA } from "@/assets/data/data.js";
 import NftCard from "@/components/ui/Nft-card/NftCard";
 
 import { mintMoment } from "@/fcl/transactions";
-import { getAllSets, getAllPlays } from "@/fcl/scripts";
+import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
 
@@ -57,6 +57,16 @@ const Mint = () => {
       setAllPlays(() => res);
     })
   }, [])
+
+  const [allCollections, setAllCollections] = useState([]);
+
+  useEffect(() => {
+    if(flowUser?.addr) {
+      getAllCollections(flowUser.addr).then((res) => {
+        setAllCollections(() => res);
+      })
+    }
+  }, [flowUser])
 
   const handleMint = async () => {
     await mintMoment(selectSetId, selectPlayId, flowUser?.addr)
@@ -124,11 +134,19 @@ const Mint = () => {
           </Row>
           <Row className="mt-4">
             <h4 className={styles.label} >List of Minted Moments</h4>
-            {NFT__DATA.map((item) => (
+            {allCollections && allCollections.map((item, index) => (
+              <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
+                <h1>{item.name}</h1>
+                <h1>{item.description}</h1>
+                <h1>{item.thumbnail}</h1>
+                {/* <NftCard item={item} nopurchase={true} /> */}
+              </Col>
+            ))}
+            {/* {NFT__DATA.map((item) => (
               <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
                 <NftCard item={item} nopurchase={true} />
               </Col>
-            ))}
+            ))} */}
           </Row>
         </Container>
       </section>
