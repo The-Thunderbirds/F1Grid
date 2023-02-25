@@ -1,7 +1,11 @@
-import FungibleToken from 0xf8d6e0586b0a20c7
-import DapperUtilityCoin from 0xf8d6e0586b0a20c7
-import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import { FungibleToken, DapperUtilityCoin, FormulaOne, FormulaOneMarket } from "src/constants";
+
+export const purchaseMoment = 
+`
+import FungibleToken from ${FungibleToken}
+import DapperUtilityCoin from ${DapperUtilityCoin}
+import FormulaOne from ${FormulaOne}
+import Market from ${FormulaOneMarket}
 
 // This transaction is for a user to purchase a moment that another user
 // has for sale in their sale collection
@@ -12,7 +16,7 @@ import Market from 0xf8d6e0586b0a20c7
 // tokenID: the ID of the moment being purchased
 // purchaseAmount: the amount for which the user is paying for the moment; must not be less than the moment's price
 
-transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
+transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UInt64) {
 
     // Local variables for the FormulaOne collection object and token provider
     let collectionRef: &FormulaOne.Collection
@@ -31,7 +35,7 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
     execute {
 
         // withdraw tokens from the signer's vault
-        let tokens <- self.providerRef.withdraw(amount: purchaseAmount) as! @DapperUtilityCoin.Vault
+        let tokens <- self.providerRef.withdraw(amount: UFix64(purchaseAmount)) as! @DapperUtilityCoin.Vault
 
         // get the seller's public account object
         let seller = getAccount(sellerAddress)
@@ -48,3 +52,4 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
         self.collectionRef.deposit(token: <-purchasedToken)
     }
 }
+`

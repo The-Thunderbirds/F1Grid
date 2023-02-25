@@ -8,8 +8,8 @@ import { Logout } from "../Logout";
 import * as fcl from "@onflow/fcl"
 import { useFlowUser } from "../../hooks/userFlowUser"
 
-import {createCollection} from "src/fcl/transactions";
-import {isAccountSetup} from "src/fcl/scripts";
+import { createCollection, _createSaleCollection, _startSale, _purchaseMoment } from "src/fcl/transactions";
+import { isAccountSetup } from "src/fcl/scripts";
 
 const NAV__LINKS = [
   {
@@ -160,6 +160,12 @@ const Header = () => {
               flowUser?.addr && !hasCollection &&
               <button className="btn d-flex gap-2 align-items-center" onClick={createCollection} style={{color:"white"}}>
                 Create Collection
+              </button>
+            }
+            {
+              flowUser?.addr &&
+              <button className="btn d-flex gap-2 align-items-center" onClick={_createSaleCollection} style={{color:"white"}}>
+                Sale Collection
               </button>
             }
             {/* Logout either if Signed In by Google or Niftory */}

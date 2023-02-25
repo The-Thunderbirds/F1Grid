@@ -1,5 +1,5 @@
 import FungibleToken from 0xf8d6e0586b0a20c7
-import DapperUtilityCoin from 0xDUCADDRESS
+import DapperUtilityCoin from 0xf8d6e0586b0a20c7
 import FormulaOne from 0xf8d6e0586b0a20c7
 import Market from 0xf8d6e0586b0a20c7
 

@@ -33,6 +33,7 @@
 
 import NonFungibleToken from "./utility/NonFungibleToken.cdc"
 import FungibleToken from "./utility/FungibleToken.cdc"
+import DapperUtilityCoin from "./utility/DapperUtilityCoin.cdc"
 import FormulaOne from "./FormulaOne.cdc"
 
 pub contract Market {
@@ -58,7 +59,7 @@ pub contract Market {
     // to allow others to access their sale
     pub resource interface SalePublic {
         pub var cutPercentage: UFix64
-        pub fun purchase(tokenID: UInt64, buyTokens: @FungibleToken.Vault): @FormulaOne.NFT {
+        pub fun purchase(tokenID: UInt64, buyTokens: @DapperUtilityCoin.Vault): @FormulaOne.NFT {
             post {
                 result.id == tokenID: "The ID of the withdrawn token must be the same as the requested ID"
             }
@@ -177,7 +178,7 @@ pub contract Market {
         //             butTokens: the fungible tokens that are used to buy the NFT
         //
         // Returns: @FormulaOne.NFT: the purchased NFT
-        pub fun purchase(tokenID: UInt64, buyTokens: @FungibleToken.Vault): @FormulaOne.NFT {
+        pub fun purchase(tokenID: UInt64, buyTokens: @DapperUtilityCoin.Vault): @FormulaOne.NFT {
             pre {
                 self.forSale.ownedNFTs[tokenID] != nil && self.prices[tokenID] != nil:
                     "No token matching this ID for sale!"           
@@ -252,7 +253,7 @@ pub contract Market {
         //
         pub fun changeBeneficiaryReceiver(_ newBeneficiaryCapability: Capability) {
             pre {
-                newBeneficiaryCapability.borrow<&{FungibleToken.Receiver}>() != nil: 
+                newBeneficiaryCapability.borrow<&DapperUtilityCoin.Vault{FungibleToken.Receiver}>() != nil: 
                     "Beneficiary's Receiver Capability is invalid!" 
             }
             self.beneficiaryCapability = newBeneficiaryCapability
