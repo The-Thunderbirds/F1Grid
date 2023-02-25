@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { NFTStorage } from "nft.storage";
 
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import NftCard from "@/components/ui/Nft-card/NftCard";
 import img from "@/assets/images/cars/ferrari.png";
@@ -13,6 +13,7 @@ import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
 import { NFT__DATA } from "@/assets/data/data";
+import { SP } from "next/dist/shared/lib/utils";
 const Play = () => {
   let item = {
     id: "01",
@@ -60,8 +61,10 @@ const Play = () => {
       setDataUri(uri);
     });
   };
+  const [loading, setLoading] = useState(false);
 
   const uploadOnIPFS = async () => {
+    setLoading(true);
     try {
       var image = dataURItoBlob(dataUri);
       const client = new NFTStorage({
@@ -69,16 +72,18 @@ const Play = () => {
       });
       const nft = { name, description: desc, image: image };
       const metadata = await client.store(nft);
-      window.alert("Successfully stored on IPFS");
 
       var storageUrl = metadata.url;
       const ipfslink = await getImageFromTokenId(storageUrl);
-
+      setLoading(false);
+      window.alert("Successfully stored on IPFS");
       // const ipfslink = "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob";
       return ipfslink;
     } catch (err) {
       console.log(err);
+      setLoading(false);
       window.alert("an error has occured, try again!");
+
     }
   };
 
@@ -98,6 +103,7 @@ const Play = () => {
   }, []);
 
   const handleSubmit = async () => {
+    
     const ipfs = await uploadOnIPFS();
 
     let metadata = [
@@ -105,7 +111,16 @@ const Play = () => {
       { key: "description", value: desc },
       { key: "thumbnail", value: ipfs },
     ];
-    await createNewPlay(metadata);
+    setLoading(true);
+    const res = await createNewPlay(metadata);
+    setLoading(false);
+    if (res) {
+      window.alert("Successfully created");
+      setModal(false);
+      window.location.reload();
+    } else {
+      window.alert("an error has occured, try again!");
+    }
   };
 
   return (
@@ -142,7 +157,9 @@ const Play = () => {
                       onClick={handleSubmit}
                       style={{ marginLeft: "20%" }}
                     >
-                      Create Play
+                      {!loading && <span>
+                       Create Play</span>}
+                      <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
                     </button>
                   </Col>
 
@@ -195,11 +212,11 @@ const Play = () => {
               </div>
             </div>
           )}
-          <Row className="mt-4">
             <h4 className={styles.label}>List of Created Plays</h4>
+          <Row className="mt-4" style={{justifyContent:"space-around"}}>
             {allPlays &&
               allPlays.map((item, index) => (
-                <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
+                <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                   {/* <h1>{item.name}</h1>
                 <h1>{item.description}</h1>
                 <h1>{item.thumbnail}</h1> */}
@@ -211,7 +228,7 @@ const Play = () => {
                       imgUrl: {
                         src: !item.thumbnail
                           ? img.src
-                          : "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob",
+                          : item.thumbnail,
                         width: 500,
                         height: 150,
                       },

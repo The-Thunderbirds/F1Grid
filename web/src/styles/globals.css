@@ -58,7 +58,7 @@ footer {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 2em;
-  background: linear-gradient(-45deg, #e250e5, #4b50e6, #e250e5, #4b50e6);
+  background: linear-gradient(-45deg, #ac1717, #552020, #d91616, #380b0b);
 }
 
 
@@ -157,11 +157,18 @@ footer {
 
 .nav__item a {
   text-decoration: none;
-  color: #fff;
+  color: #ffffff;
+  font-size: 1rem;
+  border: 1px solid red;
+  padding: 7px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
 }
 
 .nav__item a:hover {
   color: #fff;
+  background-color: red;
 }
 
 .active {
@@ -195,8 +202,12 @@ footer {
 
 .nav__right .btn a:hover {
   color: #fff;
+  background-color: red;
 }
-
+.nav__right .btn:hover {
+  color: #fff;
+  background-color: red;
+}
 .mobile__menu {
   color: #fff;
   font-size: 1.3rem;
@@ -264,6 +275,7 @@ footer {
   width: 500px !important;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .nft__img img {
@@ -278,7 +290,6 @@ footer {
 .nft__title {
   margin-bottom: 15px;
   color: white;
-  cursor: pointer;
 
 }
 
@@ -664,7 +675,7 @@ footer {
   background: transparent;
   border: 1px solid rgba(221, 221, 221, 0.171);
   outline: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Form, FormGroup, Label, Input } from "reactstrap";
+import { Container, Row, Col, Form, FormGroup, Label, Input, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
@@ -10,30 +10,6 @@ import { mintMoment } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
-
-//create an array of series 
-const series = [
-  {
-    title: "Series 1",
-  },
-  {
-    title: "Series 2",
-  },
-  {
-    title: "Series 3",
-  },
-];
-const set = [
-  {
-    title: "Set 1",
-  },
-  {
-    title: "Set 2",
-  },
-  {
-    title: "Set 3",
-  },
-];
 
 const Mint = () => {
 
@@ -68,8 +44,21 @@ const Mint = () => {
     }
   }, [flowUser])
 
+  const [loading, setLoading] = useState(false);
+
   const handleMint = async () => {
-    await mintMoment(selectSetId, selectPlayId, flowUser?.addr)
+    setLoading(true)
+    const result = await mintMoment(selectSetId, selectPlayId, flowUser?.addr)
+    if(result){
+      alert("Set created successfully")
+    setLoading(false)
+    window.location.reload();
+  }
+    else{
+      alert("Something went wrong")
+    setLoading(false)
+
+    }
   }
 
   return (
@@ -124,19 +113,28 @@ const Mint = () => {
 
               </Form>
               <button
-                className="bid__btn d-flex align-items-center gap-1"
+                className="bid__btn w-25 mt-3"
                 onClick={handleMint}
               >
-                Create Edition
+                     {!loading && <span> Create Edition </span>}
+                 <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+
               </button>
 
             </Col>
           </Row>
-          <Row className="mt-4">
+          <Row className="mt-4" style={{justifyContent:"space-between"}}>
             <h4 className={styles.label} >List of Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
-                <NftCard item={{...NFT__DATA[0], title:item.name, desc:item.description, imgUrl:{ src: !item.thumbnail? NFT__DATA[0].imgUrl.src: "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob", width: 4000, height: 4000 }}} nopurchase={true} />
+              <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
+                <NftCard item={{...NFT__DATA[0], title:item.name, desc:item.description, imgUrl:{ src: !item.thumbnail? NFT__DATA[0].imgUrl.src: item.thumbnail, width: 500, height: 150 }}} nopurchase={true} />
+                <button
+                className="bid__btn d-flex align-items-center gap-1"
+                onClick={()=>{alert("Added to Sale")}}
+                style = {{marginLeft: "40%", marginTop: "5px"}}
+              >
+                Add to Sale
+              </button>
               </Col>
             ))}
           </Row>

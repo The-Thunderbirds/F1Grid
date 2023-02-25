@@ -233,6 +233,7 @@
     width: 100%;
     margin: 0px;
     margin-bottom: 12px;
+    justify-content: space-between;
   }
   
   .pricingValue {
@@ -242,7 +243,6 @@
     color: rgba(255, 255, 255, 0.9);
     margin: 0px;
     border-radius: 8px;
-    margin-right: 72%;
   }
   
   .buyButton:hover {

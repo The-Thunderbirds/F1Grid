@@ -26,10 +26,12 @@ export const createCollection = async () => {
         const transaction = await fcl.tx(transactionId).onceSealed();
         console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
         console.log(transaction);
-        alert("Collection has been created successfully!")
+        return transaction;
+        // alert("Collection has been created successfully!")
       } catch (error) {
         console.log(error);
-        alert("Error creating collection, please check the console for error details!")
+        return false
+        // alert("Error creating collection, please check the console for error details!")
       }
 }
 
@@ -46,10 +48,12 @@ export const createNewSet = async (name) => {
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Set has been created successfully!")
+      return transaction;
+      // alert("Set has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating set, please check the console for error details!")
+      return false
+      // alert("Error creating set, please check the console for error details!")
     }
 }
 
@@ -68,10 +72,12 @@ export const createNewPlay = async (metadata) => {
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Play has been created successfully!")
+      return transaction;
+      // alert("Play has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating play, please check the console for error details!")
+      return false
+      // alert("Error creating play, please check the console for error details!")
     }
 }
 
@@ -91,10 +97,12 @@ export const addPlayToSet = async (setID, playID) => {
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Play has been added to set successfully!")
+      return transaction;
+      // alert("Play has been added to set successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error adding play to set, please check the console for error details!")
+      return false
+      // alert("Error adding play to set, please check the console for error details!")
     }
 }
 
@@ -113,10 +121,12 @@ export const mintMoment = async (setID, playID, addr) => {
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Moment has been created successfully!")
+      return transaction;
+      // alert("Moment has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating moment, please check the console for error details!")
+      return false
+      // alert("Error creating moment, please check the console for error details!")
     }
 }
 
@@ -141,10 +151,12 @@ export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddre
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Sale Collection has been created successfully!")
+      return transaction;
+      // alert("Sale Collection has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating sale collection, please check the console for error details!")
+      return false
+      // alert("Error creating sale collection, please check the console for error details!")
     }
 }
 
@@ -162,10 +174,12 @@ export const _startSale = async (momentID, price) => {
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Sale has been created successfully!")
+      return transaction;
+      // alert("Sale has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating sale, please check the console for error details!")
+      return false
+      // alert("Error creating sale, please check the console for error details!")
     }
 }
 
@@ -184,10 +198,12 @@ export const _purchaseMoment = async (sellerAddress, tokenID, purchaseAmount) =>
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Purchase transaction has been created successfully!")
+      return transaction;
+      // alert("Purchase transaction has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating purchase transaction, please check the console for error details!")
+      return false
+      // alert("Error creating purchase transaction, please check the console for error details!")
     }
 }
  

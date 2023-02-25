@@ -13,19 +13,19 @@ const NftCard = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="single__nft__card">
+    <div className="single__nft__card"               onClick={() => {
+      router.push({
+        pathname: '/token/[tokenId]',
+        query: { tokenId: id },
+      }) 
+    }}>
       <div className="nft__img">
         <Image src={imgUrl} alt=""  className="w-100" />
       </div>
 
       <div className="nft__content">
         <h5 className="nft__title" 
-              onClick={() => {
-                router.push({
-                  pathname: '/token/[tokenId]',
-                  query: { tokenId: id },
-                }) 
-              }}
+
         >
           {title}
         </h5>

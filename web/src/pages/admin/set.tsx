@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
+import { Container, Row, Col, FormGroup, Label, Input, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
@@ -9,18 +9,6 @@ import NftCard from "@/components/ui/Nft-card/NftCard";
 import { createNewSet, addPlayToSet } from "@/fcl/transactions";
 import { getAllSets, getAllPlays } from "@/fcl/scripts";
 
-//create an array of set
-const set = [
-  {
-    title: "Set 1",
-  },
-  {
-    title: "Set 2",
-  },
-  {
-    title: "Set 3",
-  },
-];
 const Set = () => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -51,12 +39,38 @@ const Set = () => {
     })
   }, [])
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async () => {
-    await createNewSet(name);
+    setLoading(true)
+    const result = await createNewSet(name); 
+    if(result){
+      alert("Set created successfully")
+    setLoading(false)
+    setModal(false)
+    window.location.reload();
+  }
+    else{
+      alert("Something went wrong")
+    setLoading(false)
+
+    }
+
   }
 
   const handleAddPlaySubmit = async (setId, playId) => {
-    await addPlayToSet(setId, playId)
+    setLoading(true)
+    const res =  await addPlayToSet(setId, playId)
+    if(res){
+      alert("Play added successfully")
+    setLoading(false)
+    setAddPlayModal(false)
+    window.location.reload();
+    }
+    else{
+      alert("Something went wrong")
+    setLoading(false)
+    }
   }
 
   return (
@@ -76,6 +90,7 @@ const Set = () => {
 
           {modal && (
             <div className="modal__wrapper">
+         
               <div
                 className="single__modal"
                 style={{
@@ -84,6 +99,7 @@ const Set = () => {
                   borderRadius: "15px",
                 }}
               >
+
                 <span className="close__modal">
                   <i className="ri-close-line" onClick={() => setModal(false)}></i>
                 </span>
@@ -103,8 +119,11 @@ const Set = () => {
                       className="bid__btn w-100 mt-3"
                       onClick={handleSubmit}
                     >
-                      Create Set
+                     {!loading && <span> Create Set </span>}
+                 <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+
                     </button>
+
                     </div>
                   </Col>
                 </Row>
@@ -162,7 +181,8 @@ const Set = () => {
                       className="bid__btn w-100 mt-3"
                       onClick={() => {handleAddPlaySubmit(addPlayModalSetId, addPlayModalPlayId)}}
                     >
-                      Add Play
+                      {!loading && <span>Add Play</span>}
+                      <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
                     </button>
                     </div>
                   </Col>
@@ -189,13 +209,13 @@ const Set = () => {
                       Add Play
                     </button>
                 </div>
-                <Row>
+                <Row style={{justifyContent:"space-around"}}>
                 {item.playMetadata.map((play, playIdx) => (
-                  <Col lg="3" md="4" sm="6" className="mb-4" key={playIdx}>
+                  <Col lg="5" md="5" sm="6" className="mb-4" key={playIdx}>
                     {/* <h1>{play.name}</h1>
                     <h1>{play.description}</h1>
                     <h1>{play.thumbnail}</h1> */}
-                  <NftCard item={{...NFT__DATA[0], title:play.name, desc:play.description, imgUrl:{ src: !play.thumbnail? NFT__DATA[0].imgUrl.src: "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob", width: 4000, height: 4000 }}} nopurchase={true} />
+                  <NftCard item={{...NFT__DATA[0], title:play.name, desc:play.description, imgUrl:{ src: !play.thumbnail? NFT__DATA[0].imgUrl.src: play.thumbnail, width: 500, height: 150 }}} nopurchase={true} />
 
                   </Col>
                 ))}
