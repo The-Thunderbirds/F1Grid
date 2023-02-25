@@ -66,7 +66,11 @@ const Set = () => {
       <section>
         <Container>
           
-          <button className="btn btn-primary btn-lg" onClick={toggleModal} style={{marginLeft:"47%"}}>
+          <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+            style={{ marginLeft: "47%" }}
+          >
             Create Set
           </button>
 
@@ -95,11 +99,12 @@ const Set = () => {
                           />
                         </div>
                       </form>
-                      <button className="btn btn-primary w-100 mt-3"
+                      <button
+                      className="bid__btn w-100 mt-3"
                       onClick={handleSubmit}
-                      >
-                        Create Item
-                      </button>
+                    >
+                      Create Set
+                    </button>
                     </div>
                   </Col>
                 </Row>
@@ -153,11 +158,12 @@ const Set = () => {
                         </FormGroup>
                         </div>
                       </form>
-                      <button className="btn btn-primary w-100 mt-3"
+                      <button
+                      className="bid__btn w-100 mt-3"
                       onClick={() => {handleAddPlaySubmit(addPlayModalSetId, addPlayModalPlayId)}}
-                      >
-                        Add Play
-                      </button>
+                    >
+                      Add Play
+                    </button>
                     </div>
                   </Col>
                 </Row>
@@ -176,9 +182,12 @@ const Set = () => {
                   <div className={styles.pricingValue}>
                   {item.name} (Set {item.setID}, Series {item.series})  
                   </div>
-                  <button className="btn btn-primary" onClick={() => toggleAddPlayModal(item.setID)}> 
-                    Add Play
-                  </button>
+                  <button
+                      className="bid__btn"
+                      onClick={() => toggleAddPlayModal(item.setID)}
+                    >
+                      Add Play
+                    </button>
                 </div>
                 <Row>
                 {item.playMetadata.map((play, playIdx) => (

@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { Container, Row, Col } from "reactstrap";
 import CommonSection from "../components/ui/Common-section/CommonSection";
 import NftCard from "../components/ui/Nft-card/NftCard";
-import img from "../assets/images/img-01.jpg";
+import img from "../assets/images/cars/ferrari.png";
 import avatar from "../assets/images/ava-01.png";
 
 

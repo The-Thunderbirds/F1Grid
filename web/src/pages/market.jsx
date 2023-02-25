@@ -52,7 +52,7 @@ const Market = () => {
         <h2 style={{textAlign:"center"}}>
                 Marketplace
           </h2>
-          <Row>
+          <Row style={{justifyContent:"space-around"}}>
             <Col lg="12" className="mb-5">
               <div className="market__product__filter d-flex align-items-center justify-content-between">
                 <div className="filter__left d-flex align-items-center gap-5">
@@ -88,7 +88,7 @@ const Market = () => {
             </Col>
 
             {data?.map((item) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
+              <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
                 <NftCard item={item} />
               </Col>
             ))}

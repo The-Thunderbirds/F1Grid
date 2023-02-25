@@ -76,7 +76,6 @@ const NftDetails = () => {
         </Container>
       </section>
 
-      <LiveAuction />
     </>
   );
 };

@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <LiveAuction />
-      <SellerSection />
-      <Trending />
+      {/* <LiveAuction /> */}
+      {/* <Trending />
+      <SellerSection /> */}
       <StepSection />
     </>
   )

@@ -22,7 +22,7 @@ export default function ({ Component, pageProps: { session, auth, ...pageProps }
           <GraphQLClientProvider>
             <Header/>
             <Component {...pageProps} />
-            <Footer/>
+            {/* <Footer/> */}
           </GraphQLClientProvider>
         </AuthProvider>
       </SessionProvider>
