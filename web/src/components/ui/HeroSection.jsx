@@ -22,7 +22,7 @@ const HeroSection = () => {
 
               <div className="hero__btns d-flex align-items-center gap-4">
                 <button className=" explore__btn d-flex align-items-center gap-2">
-                  <i class="ri-rocket-line"></i>{" "}
+                  <i className="ri-rocket-line"></i>{" "}
                   <Link href="/market">Explore</Link>
                 </button>
               </div>
