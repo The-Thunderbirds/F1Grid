@@ -126,7 +126,7 @@ export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddre
       const tokenReceiverPath = 
       {
         domain: "public",  // public | private | storage
-        identifier: "/public/dapperUtilityCoinReceiver"
+        identifier: "/public/flowTokenReceiver"
       }
 
       const transactionId = await fcl.mutate({

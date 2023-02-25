@@ -8,6 +8,22 @@ import { getNextPlayID } from "@/cadence/scripts/admin/plays/get_nextPlayID";
 import { getPlayMetadata } from "@/cadence/scripts/admin/plays/get_play_metadata";
 import { getCollectionIDs } from "@/cadence/scripts/admin/moments/get_collection_ids";
 import { getMomentMetadata } from "@/cadence/scripts/admin/moments/get_metadata";
+import { getFlowBalance } from "@/cadence/scripts/user/get_flow_balance";
+// IS ACCOUNT SETUP
+export const flow_balance = async (addr="0x38bdb9427cc9f78b") => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getFlowBalance}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+            ],
+        })
+        console.log(`Balance is : ${result}`);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // IS ACCOUNT SETUP
 export const isAccountSetup = async (addr) => {
