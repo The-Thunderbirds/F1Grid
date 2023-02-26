@@ -6,9 +6,10 @@ import NftCard from "../components/ui/Nft-card/NftCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Spinner } from "reactstrap";
 
 import { getSaleItemsByAddr } from "@/fcl/scripts";
+import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 
 const Market = () => {
@@ -21,6 +22,22 @@ const Market = () => {
         setAllSaleItems(() => res);
       })
   }, [])
+
+  const [loading, setLoading] = useState(false);
+
+  const handlePurchase = async (momentId, price) => {
+    setLoading(true)
+    const result = await _purchaseMoment(AdminAccountAddress, momentId, price)
+    if (result) {
+      alert("Sale Collection created successfully")
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+    }
+  }
 
   const handleCategory = () => {};
 
@@ -55,7 +72,6 @@ const Market = () => {
 
   return (
     <>
-    {console.log(allSaleItems)}
       <CommonSection title={"MarketPlace"} />
 
       <section>
@@ -108,6 +124,13 @@ const Market = () => {
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
                   nopurchase={true} 
                 />
+                <button className="btn d-flex gap-2 align-items-center"  style={{ color: "white" }} 
+                onClick={() => handlePurchase(item.id, item.price)}
+                >
+                  {!loading && <span> Purchase </span>}
+                  <Spinner color="primary" style={{ display: loading ? "block" : "none"}} />
+                </button>
+
                 {/* <NftCard item={item} /> */}
               </Col>
             ))}

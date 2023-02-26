@@ -185,14 +185,14 @@ export const _startSale = async (momentID=1, price=10.0) => {
 }
 
 // PURCHASE MOMENT
-export const _purchaseMoment = async (sellerAddress=AdminAccountAddress, tokenID=1, purchaseAmount=10.0) => {
+export const _purchaseMoment = async (sellerAddress=AdminAccountAddress, tokenID=1, purchaseAmount) => {
   try {
       const transactionId = await fcl.mutate({
         cadence: `${purchaseMoment}`,
         args: (arg, t) => [
           arg(sellerAddress, types.Address),
           arg(tokenID, types.UInt64),
-          arg(purchaseAmount.toFixed(2), types.UFix64),
+          arg(parseFloat(purchaseAmount).toFixed(2), types.UFix64),
         ], 
       })
       console.log("Purchase transaction created now with transaction ID", transactionId);

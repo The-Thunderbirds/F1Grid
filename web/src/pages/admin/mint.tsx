@@ -143,7 +143,6 @@ const Mint = () => {
             <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                <h1>{item.id}</h1>
                 <NftCard item={{ ...NFT__DATA[0], title: item.name, desc: item.description, imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} nopurchase={true} />
                 <button
                   className="bid__btn d-flex align-items-center gap-1"
