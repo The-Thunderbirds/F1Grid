@@ -182,7 +182,7 @@ const Header = () => {
               </button>
             }
             {
-              flowUser?.addr && hasCollection &&
+              flowUser?.addr &&
               <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}>
                 <span>
                   <i className="ri-wallet-fill"></i>
