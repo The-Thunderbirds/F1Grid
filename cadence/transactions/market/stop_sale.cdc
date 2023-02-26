@@ -1,5 +1,5 @@
 import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction is for a user to stop a moment sale in their account
 // by withdrawing that moment from their sale collection and depositing
@@ -12,7 +12,7 @@ import Market from 0xf8d6e0586b0a20c7
 transaction(tokenID: UInt64) {
 
     let collectionRef: &FormulaOne.Collection
-    let saleCollectionRef: &Market.SaleCollection
+    let saleCollectionRef: &FormulaOneMarket.SaleCollection
 
     prepare(acct: AuthAccount) {
 
@@ -21,7 +21,7 @@ transaction(tokenID: UInt64) {
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the owner's sale collection
-        self.saleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.saleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

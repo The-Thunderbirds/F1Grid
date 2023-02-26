@@ -1,8 +1,8 @@
 import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction is for a user to put a new moment up for sale
-// They must have FormulaOne Collection and a Market Sale Collection
+// They must have FormulaOne Collection and a FormulaOneMarket Sale Collection
 // stored in their account
 
 // Parameters
@@ -13,7 +13,7 @@ import Market from 0xf8d6e0586b0a20c7
 transaction(momentID: UInt64, price: UFix64) {
 
     let collectionRef: &FormulaOne.Collection
-    let saleCollectionRef: &Market.SaleCollection
+    let saleCollectionRef: &FormulaOneMarket.SaleCollection
 
     prepare(acct: AuthAccount) {
 
@@ -22,7 +22,7 @@ transaction(momentID: UInt64, price: UFix64) {
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the FormulaOne Sale Collection
-        self.saleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.saleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

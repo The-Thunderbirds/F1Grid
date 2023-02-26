@@ -1,4 +1,4 @@
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction changes the percentage cut of a moment's sale given to beneficiary
 
@@ -9,12 +9,12 @@ import Market from 0xf8d6e0586b0a20c7
 transaction(newPercentage: UFix64) {
 
     // Local variable for the account's FormulaOne sale collection
-    let FormulaOneSaleCollectionRef: &Market.SaleCollection
+    let FormulaOneSaleCollectionRef: &FormulaOneMarket.SaleCollection
 
     prepare(acct: AuthAccount) {
 
         // borrow a reference to the owner's sale collection
-        self.FormulaOneSaleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.FormulaOneSaleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

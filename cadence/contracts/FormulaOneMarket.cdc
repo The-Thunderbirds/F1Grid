@@ -35,7 +35,7 @@ import FungibleToken from "./utility/FungibleToken.cdc"
 import NonFungibleToken from "./utility/NonFungibleToken.cdc"
 import FormulaOne from "./FormulaOne.cdc"
 
-pub contract Market {
+pub contract FormulaOneMarket {
 
     // -----------------------------------------------------------------------
     // FormulaOne Market contract Event definitions

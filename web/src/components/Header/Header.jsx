@@ -156,12 +156,12 @@ const Header = () => {
                 Create Collection
               </button>
             }
-            {/* {
+            {
               flowUser?.addr && hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={() => {_createSaleCollection()}} style={{color:"white"}}>
+              <button className="btn d-flex gap-2 align-items-center" onClick={() => {_purchaseMoment()}} style={{color:"white"}}>
                 Create Sale Collection
               </button>
-            } */}
+            }
             {
                   hasCollection &&
                   <button className="btn d-flex gap-2 align-items-center"style={{color:"white"}}>

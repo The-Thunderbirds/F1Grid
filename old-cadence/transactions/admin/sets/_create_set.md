@@ -1,1 +1,0 @@
-flow transactions send ./cadence/transactions/admin/sets/create_set.cdc "Set 1"

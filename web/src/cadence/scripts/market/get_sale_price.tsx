@@ -1,4 +1,8 @@
-import FormulaOneMarket from 0xf8d6e0586b0a20c7
+import {FungibleToken, AdminAccountAddress, FlowCoin, FormulaOneMarket} from "@/constants";
+
+export const getSalePrice = 
+`
+import FormulaOneMarket from ${FormulaOneMarket}
 
 // This script gets the price of a moment in an account's sale collection
 // by looking up its unique ID.
@@ -20,3 +24,4 @@ pub fun main(sellerAddress: Address, momentID: UInt64): UFix64 {
     
     return collectionRef.getPrice(tokenID: UInt64(momentID))!
 }
+`

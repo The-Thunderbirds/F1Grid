@@ -10,6 +10,13 @@
 				"testnet": "9a0766d93b6608b7"
 			}
 		},
+		"FlowToken": {
+			"source": "./cadence/contracts/utility/FlowToken.cdc",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"testnet": "7e60df042a9c0868"
+			}
+		},
 		"MetadataViews": {
 			"source": "./cadence/contracts/utility/MetadataViews.cdc",
 			"aliases": {

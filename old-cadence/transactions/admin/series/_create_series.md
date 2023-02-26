@@ -1,1 +1,0 @@
-flow transactions send ./cadence/transactions/admin/series/create_series.cdc "Series 1"

@@ -1,11 +1,11 @@
-import {FungibleToken} from "@/constants";
+import {FungibleToken, AdminAccountAddress, FlowCoin} from "@/constants";
 
 export const getFlowBalance = 
 `
 // This script reads the balance field of an account's FlowToken Balance
 
 import FungibleToken from ${FungibleToken}
-import FlowToken from 0x38bdb9427cc9f78b
+import FlowToken from ${FlowCoin}
 
 pub fun main(account: Address): UFix64 {
 

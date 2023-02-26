@@ -1,4 +1,4 @@
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction changes the path which receives tokens for purchases of an account
 
@@ -9,12 +9,12 @@ import Market from 0xf8d6e0586b0a20c7
 transaction(receiverPath: PublicPath) {
 
     // Local variables for the sale collection object and receiver
-    let saleCollectionRef: &Market.SaleCollection
+    let saleCollectionRef: &FormulaOneMarket.SaleCollection
     let receiverPathRef: Capability
 
     prepare(acct: AuthAccount) {
 
-        self.saleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.saleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
 
         self.receiverPathRef = acct.getCapability(receiverPath)

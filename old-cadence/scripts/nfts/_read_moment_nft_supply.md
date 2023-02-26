@@ -1,1 +1,0 @@
-flow scripts execute ./cadence/scripts/nfts/read_moment_nft_supply.cdc

@@ -9,8 +9,26 @@ import { getPlayMetadata } from "@/cadence/scripts/admin/plays/get_play_metadata
 import { getCollectionIDs } from "@/cadence/scripts/admin/moments/get_collection_ids";
 import { getMomentMetadata } from "@/cadence/scripts/admin/moments/get_metadata";
 import { getFlowBalance } from "@/cadence/scripts/user/get_flow_balance";
-// IS ACCOUNT SETUP
-export const flow_balance = async (addr="0x38bdb9427cc9f78b") => {
+import { getSalePrice } from "@/cadence/scripts/market/get_sale_price";
+
+export const sale_price = async (sellerAddress="0x4e616c1e361b69d2", momentID=1) => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getSalePrice}`,
+            args: (arg, t) => [
+                arg(sellerAddress, types.Address),
+                arg(momentID, types.UInt64)
+            ],
+        })
+        console.log(`Sale price is : ${result}`);
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// Flow Balance
+export const flow_balance = async (addr="0x4e616c1e361b69d2") => {
     try {
         const result = await fcl.query({
             cadence: `${getFlowBalance}`,

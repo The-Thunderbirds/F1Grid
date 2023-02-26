@@ -1,5 +1,5 @@
 import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction changes the price of a moment that a user has for sale
 
@@ -11,12 +11,12 @@ import Market from 0xf8d6e0586b0a20c7
 transaction(tokenID: UInt64, newPrice: UFix64) {
 
     // Local variable for the account's FormulaOne sale collection
-    let FormulaOneSaleCollectionRef: &Market.SaleCollection
+    let FormulaOneSaleCollectionRef: &FormulaOneMarket.SaleCollection
 
     prepare(acct: AuthAccount) {
 
         // borrow a reference to the owner's sale collection
-        self.FormulaOneSaleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.FormulaOneSaleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

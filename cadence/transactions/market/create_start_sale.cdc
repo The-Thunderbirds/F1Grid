@@ -1,5 +1,5 @@
 import FungibleToken from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 import FormulaOne from 0xf8d6e0586b0a20c7
 
 // This transaction puts a moment owned by the user up for sale
@@ -14,14 +14,14 @@ import FormulaOne from 0xf8d6e0586b0a20c7
 
 transaction(tokenReceiverPath: PublicPath, beneficiaryAccount: Address, cutPercentage: UFix64, momentID: UInt64, price: UFix64) {
 
-    // Local variables for the FormulaOne collection and market sale collection objects
+    // Local variables for the FormulaOne collection and FormulaOneMarket sale collection objects
     let collectionRef: &FormulaOne.Collection
-    let marketSaleCollectionRef: &Market.SaleCollection
+    let marketSaleCollectionRef: &FormulaOneMarket.SaleCollection
     
     prepare(acct: AuthAccount) {
 
         // check to see if a sale collection already exists
-        if acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection) == nil {
+        if acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection) == nil {
 
             // get the fungible token capabilities for the owner and beneficiary
 
@@ -30,13 +30,13 @@ transaction(tokenReceiverPath: PublicPath, beneficiaryAccount: Address, cutPerce
             let beneficiaryCapability = getAccount(beneficiaryAccount).getCapability(tokenReceiverPath)
 
             // create a new sale collection
-            let FormulaOneSaleCollection <- Market.createSaleCollection(ownerCapability: ownerCapability, beneficiaryCapability: beneficiaryCapability, cutPercentage: cutPercentage)
+            let FormulaOneSaleCollection <- FormulaOneMarket.createSaleCollection(ownerCapability: ownerCapability, beneficiaryCapability: beneficiaryCapability, cutPercentage: cutPercentage)
             
             // save it to storage
             acct.save(<-FormulaOneSaleCollection, to: /storage/FormulaOneSaleCollection)
         
             // create a public link to the sale collection
-            acct.link<&Market.SaleCollection{Market.SalePublic}>(/public/FormulaOneSaleCollection, target: /storage/FormulaOneSaleCollection)
+            acct.link<&FormulaOneMarket.SaleCollection{FormulaOneMarket.SalePublic}>(/public/FormulaOneSaleCollection, target: /storage/FormulaOneSaleCollection)
         }
         
         // borrow a reference to the seller's moment collection
@@ -44,7 +44,7 @@ transaction(tokenReceiverPath: PublicPath, beneficiaryAccount: Address, cutPerce
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the sale
-        self.marketSaleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.marketSaleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

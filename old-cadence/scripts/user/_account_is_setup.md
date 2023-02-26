@@ -1,1 +1,0 @@
-flow scripts execute ./cadence/scripts/user/account_is_setup.cdc f8d6e0586b0a20c7

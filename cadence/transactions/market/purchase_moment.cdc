@@ -1,7 +1,8 @@
-import FungibleToken from 0xf8d6e0586b0a20c7
-import DapperUtilityCoin from 0xe03daebed8ca0615
+import FungibleToken from 0xee82856bf20e2aa6
+import FlowToken from 0x0ae53cb6e3f42a79
 import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
+
 
 // This transaction is for a user to purchase a moment that another user
 // has for sale in their sale collection
@@ -16,7 +17,7 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
 
     // Local variables for the FormulaOne collection object and token provider
     let collectionRef: &FormulaOne.Collection
-    let providerRef: &DapperUtilityCoin.Vault{FungibleToken.Provider}
+    let providerRef: &FlowToken.Vault{FungibleToken.Provider}
     
     prepare(acct: AuthAccount) {
 
@@ -25,20 +26,20 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
             ?? panic("Could not borrow reference to the Moment Collection")
 
         // borrow a reference to the signer's fungible token Vault
-        self.providerRef = acct.borrow<&DapperUtilityCoin.Vault{FungibleToken.Provider}>(from: /storage/dapperUtilityCoinVault)!   
+        self.providerRef = acct.borrow<&FlowToken.Vault{FungibleToken.Provider}>(from: /storage/flowTokenVault)!   
     }
 
     execute {
 
         // withdraw tokens from the signer's vault
-        let tokens <- self.providerRef.withdraw(amount: purchaseAmount) as! @DapperUtilityCoin.Vault
+        let tokens <- self.providerRef.withdraw(amount: purchaseAmount) as! @FlowToken.Vault
 
         // get the seller's public account object
         let seller = getAccount(sellerAddress)
 
         // borrow a public reference to the seller's sale collection
         let FormulaOneSaleCollection = seller.getCapability(/public/FormulaOneSaleCollection)
-            .borrow<&{Market.SalePublic}>()
+            .borrow<&{FormulaOneMarket.SalePublic}>()
             ?? panic("Could not borrow public sale reference")
     
         // purchase the moment
@@ -48,4 +49,3 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
         self.collectionRef.deposit(token: <-purchasedToken)
     }
 }
- 

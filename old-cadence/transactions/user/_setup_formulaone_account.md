@@ -1,1 +1,0 @@
-flow transactions send ./cadence/transactions/user/setup_formulaone_account.cdc --signer "emulator-account"

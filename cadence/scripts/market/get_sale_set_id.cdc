@@ -1,4 +1,4 @@
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This script gets the setID of a moment in an account's sale collection
 // by looking up its unique ID
@@ -14,7 +14,7 @@ import Market from 0xf8d6e0586b0a20c7
 pub fun main(sellerAddress: Address, momentID: UInt64): UInt32 {
 
     let saleRef = getAccount(sellerAddress).getCapability(/public/FormulaOneSaleCollection)
-        .borrow<&{Market.SalePublic}>()
+        .borrow<&{FormulaOneMarket.SalePublic}>()
         ?? panic("Could not get public sale reference")
 
     let token = saleRef.borrowMoment(id: momentID)

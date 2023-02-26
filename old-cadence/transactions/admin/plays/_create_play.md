@@ -1,1 +1,0 @@
-flow transactions send ./cadence/transactions/admin/plays/create_play.cdc "FormulaOne 1st Race" '{"playerFirstName": "Sri Harsha", "playerLastName": "G", "playType": "Gold", "description": "Best race", "metadata": "ipfs://cid"}'

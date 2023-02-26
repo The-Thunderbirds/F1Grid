@@ -3,10 +3,10 @@ import { FormulaOne, FormulaOneMarket } from "src/constants";
 export const startSale = 
 `
 import FormulaOne from ${FormulaOne}
-import Market from ${FormulaOneMarket}
+import FormulaOneMarket from ${FormulaOneMarket}
 
 // This transaction is for a user to put a new moment up for sale
-// They must have FormulaOne Collection and a Market Sale Collection
+// They must have FormulaOne Collection and a FormulaOneMarket Sale Collection
 // stored in their account
 
 // Parameters
@@ -15,9 +15,9 @@ import Market from ${FormulaOneMarket}
 // price: the sell price of the moment
 
 transaction(momentID: UInt64, price: UFix64) {
-
+ 
     let collectionRef: &FormulaOne.Collection
-    let saleCollectionRef: &Market.SaleCollection
+    let saleCollectionRef: &FormulaOneMarket.SaleCollection
 
     prepare(acct: AuthAccount) {
 
@@ -26,7 +26,7 @@ transaction(momentID: UInt64, price: UFix64) {
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the FormulaOne Sale Collection
-        self.saleCollectionRef = acct.borrow<&Market.SaleCollection>(from: /storage/FormulaOneSaleCollection)
+        self.saleCollectionRef = acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection)
             ?? panic("Could not borrow from sale in storage")
     }
 

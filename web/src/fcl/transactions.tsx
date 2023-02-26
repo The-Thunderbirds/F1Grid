@@ -14,6 +14,7 @@ import { mintMomentTX } from "@/cadence/transactions/admin/moment/mint_moment"
 import { createSaleCollection } from "@/cadence/transactions/market/create_sale_collection"
 import { startSale } from "@/cadence/transactions/market/start_sale"
 import { purchaseMoment } from "@/cadence/transactions/market/purchase_moment"
+import { setupFlowTokenAccount } from "@/cadence/transactions/market/setup_flow_account"
 
 
 // CREATE COLLECTION
@@ -133,16 +134,16 @@ export const mintMoment = async (setID, playID, addr) => {
 // CREATE SALE COLLECTION
 export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddress, cutPercentage=0.15) => {
   try {
-      const tokenReceiverPath = 
-      {
-        domain: "public",  // public | private | storage
-        identifier: "/public/flowTokenReceiver"
-      }
+      // const tokenReceiverPath = 
+      // {
+      //   domain: "public",  // public | private | storage
+      //   identifier: "/public/flowTokenReceiver"
+      // }
 
       const transactionId = await fcl.mutate({
         cadence: `${createSaleCollection}`,
         args: (arg, t) => [
-          arg(tokenReceiverPath, types.Path),
+          // arg(tokenReceiverPath, types.Path),
           arg(beneficiaryAccount, types.Address),
           arg(cutPercentage, types.UFix64),
         ],
@@ -151,23 +152,23 @@ export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddre
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
+      alert("Sale Collection has been created successfully!")
       return transaction;
-      // alert("Sale Collection has been created successfully!")
     } catch (error) {
       console.log(error);
+      alert("Error creating sale collection, please check the console for error details!")
       return false
-      // alert("Error creating sale collection, please check the console for error details!")
     }
 }
 
 // START SALE
-export const _startSale = async (momentID, price) => {
+export const _startSale = async (momentID=1, price=10.0) => {
   try {
       const transactionId = await fcl.mutate({
         cadence: `${startSale}`,
         args: (arg, t) => [
           arg(momentID, types.UInt64),
-          arg(price, types.UFix64)
+          arg(price.toFixed(2), types.UFix64)
         ], 
       })
       console.log("Sale created now with transaction ID", transactionId);
@@ -184,14 +185,14 @@ export const _startSale = async (momentID, price) => {
 }
 
 // PURCHASE MOMENT
-export const _purchaseMoment = async (sellerAddress, tokenID, purchaseAmount) => {
+export const _purchaseMoment = async (sellerAddress=AdminAccountAddress, tokenID=1, purchaseAmount=10.0) => {
   try {
       const transactionId = await fcl.mutate({
         cadence: `${purchaseMoment}`,
         args: (arg, t) => [
           arg(sellerAddress, types.Address),
           arg(tokenID, types.UInt64),
-          arg(purchaseAmount, types.UFix64),
+          arg(purchaseAmount.toFixed(2), types.UFix64),
         ], 
       })
       console.log("Purchase transaction created now with transaction ID", transactionId);
@@ -207,3 +208,21 @@ export const _purchaseMoment = async (sellerAddress, tokenID, purchaseAmount) =>
     }
 }
  
+
+
+// SETUP FLOW ACCOUNT --- IGNORE
+export const createVault = async () => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${setupFlowTokenAccount}`
+      })
+      console.log("Collection created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      alert("Collection has been created successfully!")
+    } catch (error) {
+      console.log(error);
+      alert("Error creating collection, please check the console for error details!")
+    }
+}

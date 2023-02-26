@@ -1,1 +1,0 @@
-flow transactions send ./cadence/transactions/user/transfer_moment_nft.cdc e03daebed8ca0615 1 --signer "emulator-account"

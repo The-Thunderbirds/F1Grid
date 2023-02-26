@@ -1,7 +1,7 @@
 import FungibleToken from 0xf8d6e0586b0a20c7
 import DapperUtilityCoin from 0xf8d6e0586b0a20c7
 import FormulaOne from 0xf8d6e0586b0a20c7
-import Market from 0xf8d6e0586b0a20c7
+import FormulaOneMarket from 0xf8d6e0586b0a20c7
 
 // This transaction mints DapperUtilityCoin (a Fungible Token) to self,
 // then purchases a moment for sale from a seller
@@ -37,7 +37,7 @@ transaction(sellerAddress: Address, recipient: Address, tokenID: UInt64, purchas
         let seller = getAccount(sellerAddress)
         
         let FormulaOneSaleCollection = seller.getCapability(/public/FormulaOneSaleCollection)
-            .borrow<&{Market.SalePublic}>()
+            .borrow<&{FormulaOneMarket.SalePublic}>()
             ?? panic("Could not borrow public sale reference")
 
         let boughtToken <- FormulaOneSaleCollection.purchase(tokenID: tokenID, buyTokens: <-mintedVault)

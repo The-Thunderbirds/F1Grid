@@ -1,1 +1,0 @@
-flow scripts execute ./cadence/scripts/series/read_all_series.cdc
