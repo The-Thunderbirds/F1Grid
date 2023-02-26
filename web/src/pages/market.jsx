@@ -55,6 +55,7 @@ const Market = () => {
 
   return (
     <>
+    {console.log(allSaleItems)}
       <CommonSection title={"MarketPlace"} />
 
       <section>
@@ -100,6 +101,7 @@ const Market = () => {
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
                 <NftCard item={{ ...NFT__DATA[0], 
+                  // id: item.id, 
                   title: item.name, 
                   desc: item.description, 
                   currentBid: item.price,

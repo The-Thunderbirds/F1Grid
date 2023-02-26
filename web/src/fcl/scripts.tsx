@@ -157,6 +157,7 @@ export const getAllCollections = async (addr) => {
                     arg(moments[i], types.UInt64),
                 ],    
             })
+            result["id"] = moments[i]
             momentMetadataList.push(result);
         }
 
@@ -193,6 +194,7 @@ export const getSaleItemsByAddr = async (addr) => {
 
             const price = await getSalePriceById(addr, momentIds[i]);
             result["price"] = price
+            result["id"] = momentIds[i]
 
             momentMetadataList.push(result);
         }
