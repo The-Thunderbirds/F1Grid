@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Container } from "reactstrap";
+import { Container, Spinner } from "reactstrap";
 import Link from "next/link";
 
 import { useAuthContext } from "../../hooks/useAuthContext"
@@ -9,7 +9,7 @@ import * as fcl from "@onflow/fcl"
 import { useFlowUser } from "../../hooks/userFlowUser"
 
 import { createCollection, _createSaleCollection, _startSale, _purchaseMoment } from "src/fcl/transactions";
-import {isAccountSetup} from "src/fcl/scripts";
+import { isAccountSetup } from "src/fcl/scripts";
 import f1logo from "@/assets/images/F1.svg";
 import Image from "next/image";
 
@@ -53,7 +53,7 @@ const Header = () => {
   const [hasCollection, setHasCollection] = useState(false);
 
   useEffect(() => {
-    if(flowUser?.addr) {
+    if (flowUser?.addr) {
       isAccountSetup(flowUser?.addr).then((res) => {
         setHasCollection(res);
       })
@@ -69,6 +69,23 @@ const Header = () => {
     fcl.unauthenticate()
     signIn();
   };
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSaleCollectionCreation = async () => {
+    setLoading(true)
+    const result = await _createSaleCollection()
+    if (result) {
+      alert("Sale Collection created successfully")
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+    }
+  }
+
 
   const headerRef = useRef(null);
 
@@ -87,7 +104,7 @@ const Header = () => {
     });
 
     return () => {
-      window.removeEventListener("scroll", () => {});
+      window.removeEventListener("scroll", () => { });
     };
   }, []);
 
@@ -122,20 +139,20 @@ const Header = () => {
 
           <div className="nav__right d-flex align-items-center gap-5 ">
             {/* Account address */}
-          
+
             {/* Connect With Dappr wallet directly */}
             {
               !session && !flowUser?.addr &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={handleConnectWallet} style={{color:"white"}}>
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleConnectWallet} style={{ color: "white" }}>
                 Connect Wallet
               </button>
             }
             {/* Sign In with Google using Niftory */}
             {
               !session && !flowUser?.addr &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={handleSignInWithGoogle} style={{color:"white"}}>
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleSignInWithGoogle} style={{ color: "white" }}>
                 <span>
-                <i className="ri-google-fill"></i>
+                  <i className="ri-google-fill"></i>
                 </span>
                 Sign In
               </button>
@@ -143,42 +160,44 @@ const Header = () => {
             {/* Multiple Wallets when Signed In using Niftory */}
             {
               session &&
-              <button className="btn d-flex gap-2 align-items-center" style={{color:"white"}}>
-              <Link href="/wallets">
-                Wallets
-              </Link>
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}>
+                <Link href="/wallets">
+                  Wallets
+                </Link>
               </button>
             }
             {/* Each users needs to create Collection to keep NFTs */}
             {
               flowUser?.addr && !hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={createCollection} style={{color:"white"}}>
+              <button className="btn d-flex gap-2 align-items-center" onClick={createCollection} style={{ color: "white" }}>
                 Create Collection
               </button>
             }
+            {/* Create Sale collection to sell Moments in Marketplace from User Moments */}
             {
               flowUser?.addr && hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={() => {_purchaseMoment()}} style={{color:"white"}}>
-                Create Sale Collection
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleSaleCollectionCreation} style={{ color: "white" }}>                
+                {!loading && <span> Create Sale Collection </span>}
+                 <Spinner color="primary" style={{ display: loading ? "block" : "none"}} />
               </button>
             }
             {
-                  hasCollection &&
-                  <button className="btn d-flex gap-2 align-items-center"style={{color:"white"}}>
-                  <span>
-                    <i className="ri-wallet-fill"></i>
-                  </span>
-                  {flowUser?.addr}
-                </button>
+              hasCollection &&
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}>
+                <span>
+                  <i className="ri-wallet-fill"></i>
+                </span>
+                {flowUser?.addr}
+              </button>
             }
             {/* Logout either if Signed In by Google or Niftory */}
             {
-              (session || flowUser?.addr) && <Logout/>
-            }            
+              (session || flowUser?.addr) && <Logout />
+            }
             <span className="mobile__menu">
               <i className="ri-menu-line" onClick={toggleMenu}></i>
             </span>
-            
+
           </div>
         </div>
       </Container>

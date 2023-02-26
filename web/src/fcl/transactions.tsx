@@ -152,12 +152,12 @@ export const _createSaleCollection = async (beneficiaryAccount=AdminAccountAddre
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
-      alert("Sale Collection has been created successfully!")
       return transaction;
+      // alert("Sale Collection has been created successfully!")
     } catch (error) {
       console.log(error);
-      alert("Error creating sale collection, please check the console for error details!")
       return false
+      // alert("Error creating sale collection, please check the console for error details!")
     }
 }
 
