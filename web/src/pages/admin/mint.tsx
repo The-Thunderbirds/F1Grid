@@ -6,7 +6,7 @@ import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
 import NftCard from "@/components/ui/Nft-card/NftCard";
 
-import { mintMoment } from "@/fcl/transactions";
+import { mintMoment, _startSale } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
@@ -37,7 +37,7 @@ const Mint = () => {
   const [allCollections, setAllCollections] = useState([]);
 
   useEffect(() => {
-    if(flowUser?.addr) {
+    if (flowUser?.addr) {
       getAllCollections(flowUser.addr).then((res) => {
         setAllCollections(() => res);
       })
@@ -49,15 +49,31 @@ const Mint = () => {
   const handleMint = async () => {
     setLoading(true)
     const result = await mintMoment(selectSetId, selectPlayId, flowUser?.addr)
-    if(result){
+    if (result) {
       alert("Set created successfully")
-    setLoading(false)
-    window.location.reload();
-  }
-    else{
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
       alert("Something went wrong")
-    setLoading(false)
+      setLoading(false)
 
+    }
+  }
+
+  const [addSaleloading, setAddSaleloading] = useState(false);
+
+  const handleAddToSale = async (momentId, price) => {
+    setAddSaleloading(true)
+    const result = await _startSale(momentId, price)
+    if (result) {
+      alert("Moment Added to Marketplace successfully")
+      setAddSaleloading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setAddSaleloading(false)
     }
   }
 
@@ -116,25 +132,27 @@ const Mint = () => {
                 className="bid__btn w-25 mt-3"
                 onClick={handleMint}
               >
-                     {!loading && <span> Create Edition </span>}
-                 <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+                {!loading && <span> Mint Moment </span>}
+                <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft: "42%" }} />
 
               </button>
 
             </Col>
           </Row>
-          <Row className="mt-4" style={{justifyContent:"space-between"}}>
-            <h4 className={styles.label} >List of Minted Moments</h4>
+          <Row className="mt-4" style={{ justifyContent: "space-between" }}>
+            <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                <NftCard item={{...NFT__DATA[0], title:item.name, desc:item.description, imgUrl:{ src: !item.thumbnail? NFT__DATA[0].imgUrl.src: item.thumbnail, width: 500, height: 150 }}} nopurchase={true} />
+                <h1>{item.id}</h1>
+                <NftCard item={{ ...NFT__DATA[0], title: item.name, desc: item.description, imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} nopurchase={true} />
                 <button
-                className="bid__btn d-flex align-items-center gap-1"
-                onClick={()=>{alert("Added to Sale")}}
-                style = {{marginLeft: "40%", marginTop: "5px"}}
-              >
-                Add to Sale
-              </button>
+                  className="bid__btn d-flex align-items-center gap-1"
+                  onClick={() => {handleAddToSale(item.id, 10)}}
+                  style={{ marginLeft: "40%", marginTop: "5px" }}
+                >
+                  {!addSaleloading && <span> Add to Sale </span>}
+                  <Spinner color="primary" style={{ display: addSaleloading  ? "block" : "none" }} />                                    
+                </button>
               </Col>
             ))}
           </Row>
