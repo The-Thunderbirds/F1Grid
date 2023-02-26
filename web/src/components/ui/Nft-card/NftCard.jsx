@@ -43,7 +43,7 @@ const NftCard = (props) => {
 
             <div>
               <h6>Price</h6>
-              <p>{currentBid} ETH</p>
+              <p>{parseFloat(currentBid).toFixed(2)} FLOW</p>
             </div>
           </div>
         </div>

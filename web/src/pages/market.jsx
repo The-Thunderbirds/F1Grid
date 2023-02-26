@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
@@ -8,9 +8,19 @@ import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col } from "reactstrap";
 
+import { getSaleItemsByAddr } from "@/fcl/scripts";
+import { AdminAccountAddress } from "@/constants"
 
 const Market = () => {
   const [data, setData] = useState(NFT__DATA);
+
+  const [allSaleItems, setAllSaleItems] = useState([]);
+
+  useEffect(() => {
+      getSaleItemsByAddr(AdminAccountAddress).then((res) => {
+        setAllSaleItems(() => res);
+      })
+  }, [])
 
   const handleCategory = () => {};
 
@@ -87,9 +97,16 @@ const Market = () => {
               </div>
             </Col>
 
-            {data?.map((item) => (
+            {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <NftCard item={item} />
+                <NftCard item={{ ...NFT__DATA[0], 
+                  title: item.name, 
+                  desc: item.description, 
+                  currentBid: item.price,
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
+                  nopurchase={true} 
+                />
+                {/* <NftCard item={item} /> */}
               </Col>
             ))}
           </Row>
