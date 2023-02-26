@@ -42,7 +42,7 @@ const HeroSection = () => {
             <div className="hero__img">
               {hasWindow &&
               <ReactPlayer
-                url="https://streamable.com/ad0kul"
+                url="https://streamable.com/xjpc9x"
                 loop={true}
                 muted={true}
                 playing={true}
