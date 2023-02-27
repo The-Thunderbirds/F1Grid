@@ -1,4 +1,4 @@
-import {FungibleToken, AdminAccountAddress, FlowCoin, FormulaOneMarket} from "@/constants";
+import {FormulaOneMarket} from "@/constants";
 
 export const getSalePrice = 
 `

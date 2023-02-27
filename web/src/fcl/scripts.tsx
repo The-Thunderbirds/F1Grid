@@ -14,6 +14,8 @@ import { getMomentSetID } from "@/cadence/scripts/admin/moments/get_moment_setID
 import { getFlowBalance } from "@/cadence/scripts/user/get_flow_balance";
 import { getSalePrice } from "@/cadence/scripts/market/get_sale_price";
 import { getSaleMomentIds } from "@/cadence/scripts/market/get_sale_moment_ids";
+import { getSaleMomentSetID } from "@/cadence/scripts/market/get_sale_moment_set_id";
+import { getSaleMomentSNo } from "@/cadence/scripts/market/get_sale_moment_serialNum";
 import { getSaleMomentIdMetadata } from "@/cadence/scripts/market/get_sale_moment_id_metadata";
 
 // Flow Balance
@@ -169,10 +171,10 @@ export const getAllCollectionIDs = async (addr) => {
 }
 
 // GET MOMENT SET ID BY ID AND ADDRESS
-export const getMomentSetIDByAddrID = async (addr, id) => {
+export const getMomentSetIDByAddrID = async (addr, id, code = getMomentSetID) => {
     try {        
         const result = await fcl.query({
-            cadence: `${getMomentSetID}`,
+            cadence: `${code}`,
             args: (arg, t) => [
                 arg(addr, types.Address),
                 arg(id, types.UInt64),
@@ -186,10 +188,10 @@ export const getMomentSetIDByAddrID = async (addr, id) => {
 
 
 // GET MOMENT SERIAL NUM BY ID AND ADDRESS
-export const getMomentSNumByAddrID = async (addr, id) => {
+export const getMomentSNumByAddrID = async (addr, id, code=getMomentSerialNum) => {
     try {        
         const result = await fcl.query({
-            cadence: `${getMomentSerialNum}`,
+            cadence: `${code}`,
             args: (arg, t) => [
                 arg(addr, types.Address),
                 arg(id, types.UInt64),
@@ -259,6 +261,14 @@ export const getSaleItemByAddrID = async (addr, id) => {
 
         const price = await getSalePriceById(addr, id);
         result["price"] = price
+
+        const sno = await getMomentSNumByAddrID(addr, id, getSaleMomentSNo)
+        result["sno"] = sno
+
+        const setid = await getMomentSetIDByAddrID(addr, id, getSaleMomentSetID)
+        const set = await getSetDataByID(setid)
+        result["set"] = set
+
         result["id"] = id
         result["address"] = addr
 
