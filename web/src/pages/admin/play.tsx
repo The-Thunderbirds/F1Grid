@@ -5,6 +5,7 @@ import { NFTStorage } from "nft.storage";
 import { Container, Row, Col, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import NftCard from "@/components/ui/Nft-card/NftCard";
+import PlayCard from "@/components/ui/Nft-card/PlayCard";
 import img from "@/assets/images/cars/ferrari.png";
 import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
@@ -13,7 +14,7 @@ import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
 import { NFT__DATA } from "@/assets/data/data";
-import { SP } from "next/dist/shared/lib/utils";
+
 const Play = () => {
   let item = {
     id: "01",
@@ -217,12 +218,10 @@ const Play = () => {
             {allPlays &&
               allPlays.map((item, index) => (
                 <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                  {/* <h1>{item.name}</h1>
-                <h1>{item.description}</h1>
-                <h1>{item.thumbnail}</h1> */}
-                  <NftCard
+                  <PlayCard
                     item={{
                       ...NFT__DATA[0],
+                      id: index+1,
                       title: item.name,
                       desc: item.description,
                       imgUrl: {

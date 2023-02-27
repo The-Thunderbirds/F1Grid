@@ -3,14 +3,10 @@ import Link from "next/link";
 import Image from "next/image"
 import { useRouter } from 'next/router'
 
-import Modal from "../Modal/Modal";
-
 const NftCard = (props) => {
   const router = useRouter();
 
   const { title, id, currentBid, creatorImg, imgUrl, creator } = props.item;
-
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="single__nft__card"               

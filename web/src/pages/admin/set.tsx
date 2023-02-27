@@ -4,7 +4,7 @@ import { Container, Row, Col, FormGroup, Label, Input, Spinner } from "reactstra
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
-import NftCard from "@/components/ui/Nft-card/NftCard";
+import PlayCard from "@/components/ui/Nft-card/PlayCard";
 
 import { createNewSet, addPlayToSet } from "@/fcl/transactions";
 import { getAllSets, getAllPlays } from "@/fcl/scripts";
@@ -43,16 +43,16 @@ const Set = () => {
 
   const handleSubmit = async () => {
     setLoading(true)
-    const result = await createNewSet(name); 
-    if(result){
+    const result = await createNewSet(name);
+    if (result) {
       alert("Set created successfully")
-    setLoading(false)
-    setModal(false)
-    window.location.reload();
-  }
-    else{
+      setLoading(false)
+      setModal(false)
+      window.location.reload();
+    }
+    else {
       alert("Something went wrong")
-    setLoading(false)
+      setLoading(false)
 
     }
 
@@ -60,16 +60,16 @@ const Set = () => {
 
   const handleAddPlaySubmit = async (setId, playId) => {
     setLoading(true)
-    const res =  await addPlayToSet(setId, playId)
-    if(res){
+    const res = await addPlayToSet(setId, playId)
+    if (res) {
       alert("Play added successfully")
-    setLoading(false)
-    setAddPlayModal(false)
-    window.location.reload();
+      setLoading(false)
+      setAddPlayModal(false)
+      window.location.reload();
     }
-    else{
+    else {
       alert("Something went wrong")
-    setLoading(false)
+      setLoading(false)
     }
   }
 
@@ -79,7 +79,7 @@ const Set = () => {
 
       <section>
         <Container>
-          
+
           <button
             className="bid__btn d-flex align-items-center gap-1"
             onClick={toggleModal}
@@ -90,7 +90,7 @@ const Set = () => {
 
           {modal && (
             <div className="modal__wrapper">
-         
+
               <div
                 className="single__modal"
                 style={{
@@ -116,13 +116,13 @@ const Set = () => {
                         </div>
                       </form>
                       <button
-                      className="bid__btn w-100 mt-3"
-                      onClick={handleSubmit}
-                    >
-                     {!loading && <span> Create Set </span>}
-                 <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+                        className="bid__btn w-100 mt-3"
+                        onClick={handleSubmit}
+                      >
+                        {!loading && <span> Create Set </span>}
+                        <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft: "42%" }} />
 
-                    </button>
+                      </button>
 
                     </div>
                   </Col>
@@ -155,35 +155,35 @@ const Set = () => {
                             className="bg-dark"
                             onChange={(e) => setAddPlayModalSetId(e.target.value)}
                           />
-                        <FormGroup>
-                          <Label for="exampleSelect" style={{color: "white"}}>
-                            Select Play
-                          </Label>
-                          <Input
-                            id="exampleSelect"
-                            name="select"
-                            type="select"
-                            className="bg-dark"
-                            style={{color: "white", border: "none"}}
-                            onChange={(e) => setAddPlayModalPlayId(e.target.value)}
-                          >
-                            {allPlays.map((item, index) => (
-                              <option value={index + 1}> 
-                                {item.name} 
-                              </option>
-                              )    
-                            )}
-                          </Input>
-                        </FormGroup>
+                          <FormGroup>
+                            <Label for="exampleSelect" style={{ color: "white" }}>
+                              Select Play
+                            </Label>
+                            <Input
+                              id="exampleSelect"
+                              name="select"
+                              type="select"
+                              className="bg-dark"
+                              style={{ color: "white", border: "none" }}
+                              onChange={(e) => setAddPlayModalPlayId(e.target.value)}
+                            >
+                              {allPlays.map((item, index) => (
+                                <option value={index + 1}>
+                                  {item.name}
+                                </option>
+                              )
+                              )}
+                            </Input>
+                          </FormGroup>
                         </div>
                       </form>
                       <button
-                      className="bid__btn w-100 mt-3"
-                      onClick={() => {handleAddPlaySubmit(addPlayModalSetId, addPlayModalPlayId)}}
-                    >
-                      {!loading && <span>Add Play</span>}
-                      <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
-                    </button>
+                        className="bid__btn w-100 mt-3"
+                        onClick={() => { handleAddPlaySubmit(addPlayModalSetId, addPlayModalPlayId) }}
+                      >
+                        {!loading && <span>Add Play</span>}
+                        <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft: "42%" }} />
+                      </button>
                     </div>
                   </Col>
                 </Row>
@@ -200,32 +200,37 @@ const Set = () => {
                 {/* Pricing information */}
                 <div className={styles.pricingInfo} style={{ display: "flex" }}>
                   <div className={styles.pricingValue}>
-                  {item.name} (Set {item.setID}, Series {item.series})  
+                    {item.name} (Set {item.setID}, Series {item.series})
                   </div>
                   <button
-                      className="bid__btn"
-                      onClick={() => toggleAddPlayModal(item.setID)}
-                    >
-                      Add Play
-                    </button>
+                    className="bid__btn"
+                    onClick={() => toggleAddPlayModal(item.setID)}
+                  >
+                    Add Play
+                  </button>
                 </div>
-                <Row style={{justifyContent:"space-around"}}>
-                {item.playMetadata.map((play, playIdx) => (
-                  <Col lg="5" md="5" sm="6" className="mb-4" key={playIdx}>
-                    {/* <h1>{play.name}</h1>
-                    <h1>{play.description}</h1>
-                    <h1>{play.thumbnail}</h1> */}
-                  <NftCard item={{...NFT__DATA[0], title:play.name, desc:play.description, imgUrl:{ src: !play.thumbnail? NFT__DATA[0].imgUrl.src: play.thumbnail, width: 500, height: 150 }}} nopurchase={true} />
+                <Row style={{ justifyContent: "space-around" }}>
+                  {item.playMetadata.map((play, playIdx) => (
+                    <Col lg="5" md="5" sm="6" className="mb-4" key={playIdx}>
+                      <PlayCard
+                        item={{
+                          ...NFT__DATA[0],
+                          id: playIdx + 1, // TODO
+                          title: play.name,
+                          desc: play.description,
+                          imgUrl: {
+                            src: !play.thumbnail
+                              ? NFT__DATA[0].imgUrl.src
+                              : play.thumbnail,
+                            width: 500,
+                            height: 150,
+                          },
+                        }}
+                        nopurchase={true}
+                      />
 
-                  </Col>
-                ))}
-                  {/* {NFT__DATA.sort(() => 0.5 - Math.random())
-                    .slice(0, Math.floor(1 + Math.random() * 3))
-                    .map((item) => (
-                      <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
-                        <NftCard item={item} nopurchase={true} />
-                      </Col>
-                    ))} */}
+                    </Col>
+                  ))}
                 </Row>
               </div>
             ))}
