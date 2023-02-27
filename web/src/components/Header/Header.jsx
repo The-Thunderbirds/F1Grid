@@ -20,6 +20,14 @@ const NAV__LINKS = [
     display: "Market",
     url: "/market",
   },
+  {
+    display: "Packs",
+    url: "/packs"
+  },
+  {
+    display: "Collection",
+    url: "/collection"
+  }
 
 ];
 
@@ -200,7 +208,7 @@ const Header = () => {
             }
             {
               flowUser?.addr &&
-              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}>
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }} onClick={() => {router.push("/collection")}}>
                 <span>
                   <i className="ri-wallet-fill"></i>
                 </span>
