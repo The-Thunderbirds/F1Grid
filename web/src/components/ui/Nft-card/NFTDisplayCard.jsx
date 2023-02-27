@@ -42,7 +42,12 @@ const NFTDisplayCard = (props) => {
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
-              <h6>Current Owner</h6>
+              {
+                currentBid != 0 ?
+                  <h6>Seller</h6>
+                  :
+                  <h6>Current Owner</h6>
+              }
               <p>{creator}</p>
             </div>
 
