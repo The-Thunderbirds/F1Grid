@@ -173,7 +173,7 @@ const Mint = () => {
                       <form>
                         <div className="form__input">
                           <label htmlFor="">Price</label>
-                          <input type="number" placeholder="Enter set name"
+                          <input type="number" placeholder="Enter price"
                             value={salePrice}
                             onChange={(e) => setSalePrice(parseInt(e.target.value))}
                           />
