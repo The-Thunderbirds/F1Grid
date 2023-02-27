@@ -12,7 +12,7 @@ import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 import { useFlowUser } from "@/hooks/userFlowUser"
 import { useRouter } from "next/router";
 
-const Mint = () => {
+const Collection = () => {
 
   const flowUser = useFlowUser()
   const router = useRouter();
@@ -83,11 +83,13 @@ const Mint = () => {
     <>
       <CommonSection title="Mint Moment" />
 
-      <section>
+      <section className="p-3">
         <Container>
 
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
-            <h4 className={styles.label} >List of Your Minted Moments</h4>
+            <h2 className="pb-4" style={{textAlign:"center"}}>
+                  Your Moments
+            </h2>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <NftCard item={{ ...NFT__DATA[0], title: item.name, desc: item.description, imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} nopurchase={true} />
@@ -100,4 +102,4 @@ const Mint = () => {
   );
 };
 
-export default Mint;
+export default Collection;

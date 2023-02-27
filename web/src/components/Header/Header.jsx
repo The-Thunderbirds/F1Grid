@@ -14,6 +14,8 @@ import f1logo from "@/assets/images/F1.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
+import { AdminAccountAddress } from "@/constants"
+
 const NAV__LINKS = [
 
   {
@@ -24,10 +26,10 @@ const NAV__LINKS = [
     display: "My Packs",
     url: "/packs"
   },
-  {
-    display: "Sale Collection",
-    url: "/sale-collection"
-  }
+  // {
+  //   display: "Sale Collection",
+  //   url: "/sale-collection"
+  // }
 
 ];
 
@@ -128,7 +130,7 @@ const Header = () => {
           <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
             <ul className="nav__list" >
               {NAV__LINKS.map((item, index) => (
-                <li className="nav__item" key={index} style={{marginTop:"5px"}}>
+                <li className="nav__item" key={index} style={{ marginTop: "5px" }}>
                   <Link
                     href={item.url}
                     className=""
@@ -137,29 +139,33 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
-              <li className="nav__item" key={5}>
-              <UncontrolledDropdown>
-          <DropdownToggle caret style={{background:"none", color:"white", border:"1px solid red", borderRadius:"10px"}} className="dropdown__toggle">
-            Admin
-          </DropdownToggle>
-      <DropdownMenu className="dropdown-menu">
-        
-                        {ADMIN__LINKS.map((item, index) => (
-                            <DropdownItem
-                              className="dropdown-item"
-                              onClick={() => {
-                                router.push(item.url);
-                              }}
-                            >
-                              {item.display}
-                            </DropdownItem>
-                        ))}
-      </DropdownMenu>
-    </UncontrolledDropdown>
-              </li>
+              {flowUser?.addr == AdminAccountAddress ?
+                <li className="nav__item" key={5}>
+                  <UncontrolledDropdown>
+                    <DropdownToggle caret style={{ background: "none", color: "white", border: "1px solid red", borderRadius: "10px" }} className="dropdown__toggle">
+                      Admin
+                    </DropdownToggle>
+                    <DropdownMenu className="dropdown-menu">
+
+                      {ADMIN__LINKS.map((item, index) => (
+                        <DropdownItem
+                          className="dropdown-item"
+                          onClick={() => {
+                            router.push(item.url);
+                          }}
+                        >
+                          {item.display}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                </li>
+                :
+                <></>
+              }
             </ul>
-                              
-           
+
+
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
@@ -201,14 +207,14 @@ const Header = () => {
             {/* Create Sale collection to sell Moments in Marketplace from User Moments */}
             {
               flowUser?.addr && hasCollection && !hasSaleCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={handleSaleCollectionCreation} style={{ color: "white" }}>                
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleSaleCollectionCreation} style={{ color: "white" }}>
                 {!loading && <span> Create Sale Collection </span>}
-                 <Spinner color="primary" style={{ display: loading ? "block" : "none"}} />
+                <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
               </button>
             }
             {
               flowUser?.addr &&
-              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }} onClick={() => {router.push("/collection")}}>
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }} onClick={() => { router.push("/collection") }}>
                 <span>
                   <i className="ri-wallet-fill"></i>
                 </span>
