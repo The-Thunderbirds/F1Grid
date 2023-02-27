@@ -7,7 +7,7 @@ import FormulaOne from 0xf8d6e0586b0a20c7
 // from their account to another account
 // The recipient must have a FormulaOne Collection object stored
 // and a public MomentCollectionPublic capability stored at
-// `/public/MomentCollection`
+// `/public/FormulaOneMomentCollection`
 
 // Parameters:
 //
@@ -22,7 +22,7 @@ transaction(recipient: Address, withdrawID: UInt64) {
     prepare(acct: AuthAccount) {
 
         // borrow a reference to the owner's collection
-        let collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)
+        let collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)
             ?? panic("Could not borrow a reference to the stored Moment collection")
         
         // withdraw the NFT
@@ -35,7 +35,7 @@ transaction(recipient: Address, withdrawID: UInt64) {
         let recipient = getAccount(recipient)
 
         // get the Collection reference for the receiver
-        let receiverRef = recipient.getCapability(/public/MomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()!
+        let receiverRef = recipient.getCapability(/public/FormulaOneMomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()!
 
         // deposit the NFT in the receivers collection
         receiverRef.deposit(token: <-self.transferToken)

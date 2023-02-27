@@ -18,7 +18,7 @@ pub fun main(account: Address, nftID: UInt64 ): Bool {
 
     let acct = getAccount(account)
 
-    let collectionRef = acct.getCapability(/public/MomentCollection)
+    let collectionRef = acct.getCapability(/public/FormulaOneMomentCollection)
                             .borrow<&{NonFungibleToken.CollectionPublic}>()!
 
     let optionalNFT = collectionRef.borrowNFTSafe(id: nftID)

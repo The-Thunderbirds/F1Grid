@@ -18,7 +18,7 @@ transaction(momentID: UInt64, price: UFix64) {
     prepare(acct: AuthAccount) {
 
         // borrow a reference to the Formula One Collection
-        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)
+        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the FormulaOne Sale Collection

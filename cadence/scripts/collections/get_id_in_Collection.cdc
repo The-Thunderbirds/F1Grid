@@ -13,7 +13,7 @@ import FormulaOne from 0xf8d6e0586b0a20c7
 
 pub fun main(account: Address, id: UInt64): Bool {
 
-    let collectionRef = getAccount(account).getCapability(/public/MomentCollection)
+    let collectionRef = getAccount(account).getCapability(/public/FormulaOneMomentCollection)
         .borrow<&{FormulaOne.MomentCollectionPublic}>()
         ?? panic("Could not get public moment collection reference")
 

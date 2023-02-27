@@ -1,4 +1,4 @@
-import FungibleToken from 0xf8d6e0586b0a20c7
+import FungibleToken from 0xee82856bf20e2aa6
 import DapperUtilityCoin from 0xf8d6e0586b0a20c7
 import FormulaOne from 0xf8d6e0586b0a20c7
 import FormulaOneMarket from 0xf8d6e0586b0a20c7
@@ -44,7 +44,7 @@ transaction(sellerAddress: Address, recipient: Address, tokenID: UInt64, purchas
 
         // get the recipient's public account object and borrow a reference to their moment receiver
         let recipient = getAccount(recipient)
-            .getCapability(/public/MomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
+            .getCapability(/public/FormulaOneMomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
             ?? panic("Could not borrow a reference to the moment collection")
 
         // deposit the NFT in the receivers collection

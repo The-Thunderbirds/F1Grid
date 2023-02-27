@@ -14,7 +14,7 @@ transaction(recipientAddress: Address, momentIDs: [UInt64]) {
     
     prepare(acct: AuthAccount) {
 
-        self.transferTokens <- acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)!.batchWithdraw(ids: momentIDs)
+        self.transferTokens <- acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)!.batchWithdraw(ids: momentIDs)
     }
 
     execute {
@@ -23,7 +23,7 @@ transaction(recipientAddress: Address, momentIDs: [UInt64]) {
         let recipient = getAccount(recipientAddress)
 
         // get the Collection reference for the receiver
-        let receiverRef = recipient.getCapability(/public/MomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
+        let receiverRef = recipient.getCapability(/public/FormulaOneMomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
             ?? panic("Could not borrow a reference to the recipients moment receiver")
 
         // deposit the NFT in the receivers collection

@@ -20,7 +20,7 @@ pub fun main(account: Address, setIDs: [UInt32], playIDs: [UInt32]): Bool {
         message: "set and play ID arrays have mismatched lengths"
     )
 
-    let collectionRef = getAccount(account).getCapability(/public/MomentCollection)
+    let collectionRef = getAccount(account).getCapability(/public/FormulaOneMomentCollection)
                 .borrow<&{FormulaOne.MomentCollectionPublic}>()
                 ?? panic("Could not get public moment collection reference")
 

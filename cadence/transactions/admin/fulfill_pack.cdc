@@ -18,7 +18,7 @@ transaction(recipientAddr: Address, momentIDs: [UInt64]) {
         let recipient = getAccount(recipientAddr)
 
         // borrow a reference to the recipient's moment collection
-        let receiverRef = recipient.getCapability(/public/MomentCollection)
+        let receiverRef = recipient.getCapability(/public/FormulaOneMomentCollection)
             .borrow<&{FormulaOne.MomentCollectionPublic}>()
             ?? panic("Could not borrow reference to receiver's collection")
 
@@ -30,7 +30,7 @@ transaction(recipientAddr: Address, momentIDs: [UInt64]) {
             receiverRef.batchDeposit(tokens: <-collection.batchWithdraw(ids: momentIDs))
         } else {
 
-            let collection = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)! 
+            let collection = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)! 
 
             // Deposit the pack of moments to the recipient's collection
             receiverRef.batchDeposit(tokens: <-collection.batchWithdraw(ids: momentIDs))

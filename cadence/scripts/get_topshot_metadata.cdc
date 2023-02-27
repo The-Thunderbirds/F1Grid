@@ -5,7 +5,7 @@ import MetadataViews from 0xf8d6e0586b0a20c7
 pub fun main(address: Address, id: UInt64): FormulaOne.FormulaOneMomentMetadataView {
     let account = getAccount(address)
 
-    let collectionRef = account.getCapability(/public/MomentCollection)
+    let collectionRef = account.getCapability(/public/FormulaOneMomentCollection)
                             .borrow<&{FormulaOne.MomentCollectionPublic}>()!
 
     let nft = collectionRef.borrowMoment(id: id)!

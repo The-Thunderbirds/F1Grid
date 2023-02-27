@@ -33,7 +33,7 @@ transaction(setID: UInt32, playID: UInt32, quantity: UInt64, recipientAddr: Addr
         let recipient = getAccount(recipientAddr)
 
         // get the Collection reference for the receiver
-        let receiverRef = recipient.getCapability(/public/MomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
+        let receiverRef = recipient.getCapability(/public/FormulaOneMomentCollection).borrow<&{FormulaOne.MomentCollectionPublic}>()
             ?? panic("Cannot borrow a reference to the recipient's collection")
 
         // deposit the NFT in the receivers collection

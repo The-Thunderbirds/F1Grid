@@ -17,7 +17,7 @@ import FormulaOne from 0xf8d6e0586b0a20c7
 pub fun main(account: Address, momentID: UInt64, fieldToSearch: String): String {
 
     // borrow a public reference to the owner's moment collection 
-    let collectionRef = getAccount(account).getCapability(/public/MomentCollection)
+    let collectionRef = getAccount(account).getCapability(/public/FormulaOneMomentCollection)
         .borrow<&{FormulaOne.MomentCollectionPublic}>()
         ?? panic("Could not get public moment collection reference")
 

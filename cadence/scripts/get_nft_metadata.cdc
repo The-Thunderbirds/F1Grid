@@ -59,7 +59,7 @@ pub struct NFT {
 pub fun main(address: Address, id: UInt64): NFT {
     let account = getAccount(address)
 
-    let collectionRef = account.getCapability(/public/MomentCollection)
+    let collectionRef = account.getCapability(/public/FormulaOneMomentCollection)
                             .borrow<&{FormulaOne.MomentCollectionPublic}>()!
 
     let nft = collectionRef.borrowMoment(id: id)!

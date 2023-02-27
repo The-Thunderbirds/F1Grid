@@ -1,4 +1,4 @@
-import FungibleToken from 0xf8d6e0586b0a20c7
+import FungibleToken from 0xee82856bf20e2aa6
 import FormulaOneMarket from 0xf8d6e0586b0a20c7
 import FormulaOne from 0xf8d6e0586b0a20c7
 
@@ -40,7 +40,7 @@ transaction(tokenReceiverPath: PublicPath, beneficiaryAccount: Address, cutPerce
         }
         
         // borrow a reference to the seller's moment collection
-        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)
+        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the sale

@@ -808,8 +808,8 @@ pub contract FormulaOne: NonFungibleToken {
                     return MetadataViews.ExternalURL(self.getMomentURL())
                 case Type<MetadataViews.NFTCollectionData>():
                     return MetadataViews.NFTCollectionData(
-                        storagePath: /storage/MomentCollection,
-                        publicPath: /public/MomentCollection,
+                        storagePath: /storage/FormulaOneMomentCollection,
+                        publicPath: /public/FormulaOneMomentCollection,
                         providerPath: /private/MomentCollection,
                         publicCollection: Type<&FormulaOne.Collection{FormulaOne.MomentCollectionPublic}>(),
                         publicLinkedType: Type<&FormulaOne.Collection{FormulaOne.MomentCollectionPublic,NonFungibleToken.Receiver,NonFungibleToken.CollectionPublic,MetadataViews.ResolverCollection}>(),
@@ -1193,10 +1193,6 @@ pub contract FormulaOne: NonFungibleToken {
         //
         // returns: @NonFungibleToken.NFT the token that was withdrawn
         pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
-
-            // Borrow nft and check if locked
-            let nft = self.borrowNFT(id: withdrawID)
-
             // Remove the nft from the Collection
             let token <- self.ownedNFTs.remove(key: withdrawID) 
                 ?? panic("Cannot withdraw: Moment does not exist in the collection")
@@ -1710,10 +1706,10 @@ pub contract FormulaOne: NonFungibleToken {
         self.totalSupply = 0
 
         // Put a new Collection in storage
-        self.account.save<@Collection>(<- create Collection(), to: /storage/MomentCollection)
+        self.account.save<@Collection>(<- create Collection(), to: /storage/FormulaOneMomentCollection)
 
         // Create a public capability for the Collection
-        self.account.link<&{MomentCollectionPublic}>(/public/MomentCollection, target: /storage/MomentCollection)
+        self.account.link<&{MomentCollectionPublic}>(/public/FormulaOneMomentCollection, target: /storage/FormulaOneMomentCollection)
 
         // Put the Minter in storage
         self.account.save<@Admin>(<- create Admin(), to: /storage/FormulaOneAdmin)

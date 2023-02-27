@@ -3,6 +3,8 @@
 		"FormulaOne": "./cadence/contracts/FormulaOne.cdc",
 		"FormulaOneAdmin": "./cadence/contracts/FormulaOneAdmin.cdc",
 		"FormulaOneMarket": "./cadence/contracts/FormulaOneMarket.cdc",
+		"FormulaOnePacks": "./cadence/contracts/FormulaOnePacks.cdc",
+		"FormulaOneMarketplaceUsers": "./cadence/contracts/FormulaOneMarketplaceUsers.cdc",
 		"FungibleToken": {
 			"source": "./cadence/contracts/utility/FungibleToken.cdc",
 			"aliases": {
@@ -77,14 +79,17 @@
 				"FormulaOneAdmin",
 				"FormulaOneMarket",
 				"PRNG",
-				"RandomTraitNFT"
+				"FormulaOnePacks",
+				"FormulaOneMarketplaceUsers"
 			]
 		},
 		"testnet": {
 			"lilico-account": [
 				"FormulaOne",
 				"FormulaOneAdmin",
-				"FormulaOneMarket"
+				"FormulaOneMarket",
+				"FormulaOnePacks",
+				"FormulaOneMarketplaceUsers"
 			]
 		}
 	}

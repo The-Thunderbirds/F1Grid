@@ -13,7 +13,7 @@ import FormulaOneLocking from 0xFormulaOneLOCKINGADDRESS
 
 pub fun main(account: Address, id: UInt64): UFix64 {
 
-    let collectionRef = getAccount(account).getCapability(/public/MomentCollection)
+    let collectionRef = getAccount(account).getCapability(/public/FormulaOneMomentCollection)
         .borrow<&{FormulaOne.MomentCollectionPublic}>()
         ?? panic("Could not get public moment collection reference")
 

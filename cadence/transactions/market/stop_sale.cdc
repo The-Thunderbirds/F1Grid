@@ -17,7 +17,7 @@ transaction(tokenID: UInt64) {
     prepare(acct: AuthAccount) {
 
         // Borrow a reference to the NFT collection in the signers account
-        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)
+        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)
             ?? panic("Could not borrow from MomentCollection in storage")
 
         // borrow a reference to the owner's sale collection

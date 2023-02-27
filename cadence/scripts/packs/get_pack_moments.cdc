@@ -1,4 +1,4 @@
-import FormulaOne from 0xf8d6e0586b0a20c7
+import FormulaOnePacks from 0xf8d6e0586b0a20c7
 
 // This script returns the moments remaining in the pack
 // in the FormulaOne smart contract
@@ -10,9 +10,9 @@ import FormulaOne from 0xf8d6e0586b0a20c7
 // Returns: String
 // Value of specified metadata field associated with specified playID
 
-pub fun main(packID: UInt32): [UInt32] {
+pub fun main(packID: UInt64): [UInt64] {
 
-    let moments = FormulaOne.getPackMoments(packID: packID) ?? panic("Pack doesn't exist")
+    let moments = FormulaOnePacks.getPackMoments(packID: packID) ?? panic("Pack doesn't exist")
 
     return moments
 }
