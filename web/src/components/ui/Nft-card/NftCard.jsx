@@ -13,7 +13,8 @@ const NftCard = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="single__nft__card"               onClick={() => {
+    <div className="single__nft__card"               
+      onClick={() => {
       router.push({
         pathname: '/token/[tokenId]',
         query: { tokenId: id },

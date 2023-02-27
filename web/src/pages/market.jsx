@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
-import NftCard from "../components/ui/Nft-card/NftCard";
+import SaleNFTCard from "../components/ui/Nft-card/SaleNFTCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col, Spinner } from "reactstrap";
 
-import { getSaleItemsByAddr } from "@/fcl/scripts";
+import { getAllSaleItems } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 
@@ -18,7 +18,7 @@ const Market = () => {
   const [allSaleItems, setAllSaleItems] = useState([]);
 
   useEffect(() => {
-      getSaleItemsByAddr(AdminAccountAddress).then((res) => {
+    getAllSaleItems(AdminAccountAddress).then((res) => {
         setAllSaleItems(() => res);
       })
   }, [])
@@ -116,11 +116,11 @@ const Market = () => {
 
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <NftCard item={{ ...NFT__DATA[0], 
+                <SaleNFTCard item={{ ...NFT__DATA[0], 
                   id: item.id,  
                   title: item.name, 
                   desc: item.description, 
-                  creator: "F1 Grid",
+                  creator: item.address,
                   currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
                   // nopurchase={true} 

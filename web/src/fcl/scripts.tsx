@@ -2,6 +2,7 @@ import * as fcl from "@onflow/fcl"
 import * as types from "@onflow/types";
 
 import { accountIsSetup } from "@/cadence/scripts/user/account_is_setup";
+import { getAllUsers } from "@/cadence/scripts/user/get_all_user_addr";
 import { getNextSetID } from "@/cadence/scripts/admin/set/get_nextSetID";
 import { getSetData } from "@/cadence/scripts/admin/set/get_set_data";
 import { getNextPlayID } from "@/cadence/scripts/admin/plays/get_nextPlayID";
@@ -28,6 +29,19 @@ export const flow_balance = async (addr="0x4e616c1e361b69d2") => {
         console.log(error);
     }
 }
+
+// GET ALL USERS
+export const getAllUsersAddr = async () => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getAllUsers}`
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 // IS ACCOUNT SETUP
 export const isAccountSetup = async (addr) => {
@@ -168,6 +182,29 @@ export const getAllCollections = async (addr) => {
 }
 
 
+// GET SALE ITEM DETAILS BY MOMENT ID
+export const getSaleItemByAddrID = async (addr, id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getSaleMomentIdMetadata}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(id, types.UInt64),
+            ],    
+        })
+
+        const price = await getSalePriceById(addr, id);
+        result["price"] = price
+        result["id"] = id
+        result["address"] = addr
+
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 // GET SALE ITEMS BY ADDRESS
 export const getSaleItemsByAddr = async (addr) => {
     try {        
@@ -178,28 +215,13 @@ export const getSaleItemsByAddr = async (addr) => {
             ],    
         })
 
-        console.log(momentIds);
-
         const len = momentIds.length;
         const momentMetadataList = []
 
         for(let i = 0; i < len; i++) {
-            const result = await fcl.query({
-                cadence: `${getSaleMomentIdMetadata}`,
-                args: (arg, t) => [
-                    arg(addr, types.Address),
-                    arg(momentIds[i], types.UInt64),
-                ],    
-            })
-
-            const price = await getSalePriceById(addr, momentIds[i]);
-            result["price"] = price
-            result["id"] = momentIds[i]
-
+            const result = await getSaleItemByAddrID(addr, momentIds[i])
             momentMetadataList.push(result);
         }
-
-        console.log(momentMetadataList)
 
         return momentMetadataList;
     } catch (error) {
@@ -207,6 +229,38 @@ export const getSaleItemsByAddr = async (addr) => {
     }
 }
 
+
+// GET ALL SALE ITEMS 
+export const getAllSaleItems = async () => {
+    try {        
+        const users = await getAllUsersAddr()
+        const momentMetadataList = []
+
+        let usrLen = users.length
+        for(let user = 0; user < usrLen; user++) {
+            const addr = users[user]
+
+            const momentIds = await fcl.query({
+                cadence: `${getSaleMomentIds}`,
+                args: (arg, t) => [
+                    arg(addr, types.Address),
+                ],    
+            })
+    
+            const len = momentIds.length;
+
+            for(let i = 0; i < len; i++) {
+                const result = await getSaleItemByAddrID(addr, momentIds[i])
+                result["address"] = addr
+                momentMetadataList.push(result);
+            }
+        }
+
+        return momentMetadataList;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 // GET SALE PRICE OF A MOMENT
@@ -219,7 +273,6 @@ export const getSalePriceById = async (sellerAddress="0x4e616c1e361b69d2", momen
                 arg(momentID, types.UInt64)
             ],
         })
-        console.log(`Sale price is : ${result}`);
         return result;
     } catch (error) {
         console.log(error);
