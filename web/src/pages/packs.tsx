@@ -10,10 +10,12 @@ import { mintMoment, _startSale } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
+import { useRouter } from "next/router";
 
 const Mint = () => {
 
   const flowUser = useFlowUser()
+  const router = useRouter();
 
   const [selectSetId, setSelectSetId] = useState("1");
   const [selectPlayId, setSelectPlayId] = useState("1");
@@ -86,6 +88,13 @@ const Mint = () => {
 
       <section>
         <Container>
+        <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={() => {router.push("/create-pack")}}
+            style={{ marginLeft: "47%" }}
+          >
+            Create Pack
+          </button>
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
             <h4 className={styles.label} >Your Packs</h4>
             {allCollections && allCollections.map((item, index) => (

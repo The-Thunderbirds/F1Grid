@@ -128,8 +128,9 @@ const Mint = () => {
                   className="bid__btn d-flex align-items-center gap-1"
                   onClick={() => {setPacks([...packs, item.id])}}
                   style={{ marginLeft: "35%", marginTop: "5px" }}
+                  disabled= {packs.includes(item.id)}
                 >
-                  Add to Packs Pool
+                 {!packs.includes(item.id) ? <span>Add to Packs Pool</span> : <span>Added</span>}
                 </button>
 
           {modal && (

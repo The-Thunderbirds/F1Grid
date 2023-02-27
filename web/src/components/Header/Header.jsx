@@ -21,12 +21,12 @@ const NAV__LINKS = [
     url: "/market",
   },
   {
-    display: "Packs",
+    display: "My Packs",
     url: "/packs"
   },
   {
-    display: "Collection",
-    url: "/collection"
+    display: "Sale Collection",
+    url: "/sale-collection"
   }
 
 ];

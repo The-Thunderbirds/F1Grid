@@ -85,13 +85,7 @@ const Mint = () => {
 
       <section>
         <Container>
-        <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={() => {router.push("/create-pack")}}
-            style={{ marginLeft: "47%" }}
-          >
-            Create Pack
-          </button>
+
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
             <h4 className={styles.label} >List of Your Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
