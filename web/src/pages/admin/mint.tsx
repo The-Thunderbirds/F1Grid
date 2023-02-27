@@ -4,7 +4,7 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Spinner } from "rea
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
-import NftCard from "@/components/ui/Nft-card/NftCard";
+import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
 
 import { mintMoment, _startSale } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
@@ -144,14 +144,14 @@ const Mint = () => {
             <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                <NftCard item={{
-                  ...NFT__DATA[0],
-                  id: item.id,
-                  title: item.name,
-                  desc: item.description,
+                <NFTDisplayCard item={{ ...NFT__DATA[0], 
+                  id: item.id,  
+                  title: item.name, 
+                  desc: item.description, 
                   creator: flowUser?.addr,
                   currentBid: 0,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 }
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  sno: item.sno
                 }}
                   nopurchase={true}
                 />

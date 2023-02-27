@@ -122,7 +122,9 @@ const Market = () => {
                   desc: item.description, 
                   creator: item.address,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  sno: item.sno
+                }} 
                   // nopurchase={true} 
                 />
               </Col>

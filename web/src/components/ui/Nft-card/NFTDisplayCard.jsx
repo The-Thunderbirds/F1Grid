@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 const NFTDisplayCard = (props) => {
   const router = useRouter();
 
-  const { title, id, currentBid, creatorImg, imgUrl, creator, personal } = props.item;
+  const { title, id, currentBid, creatorImg, imgUrl, creator, sno } = props.item;
 
   return (
     <div className="single__nft__card"
@@ -32,7 +32,7 @@ const NFTDisplayCard = (props) => {
         <h5 className="nft__title"
 
         >
-          {title}
+          {title} #{sno}
         </h5>
 
         <div className="creator__info-wrapper d-flex gap-3">
