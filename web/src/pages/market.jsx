@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import NFTDisplayCard from "../components/ui/Nft-card/NFTDisplayCard";
+import PackDisplayCard from "../components/ui/Nft-card/PackDisplayCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col, Spinner } from "reactstrap";
 
-import { getAllSaleItems } from "@/fcl/scripts";
+import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 
@@ -18,30 +19,26 @@ const Market = () => {
   const [allSaleItems, setAllSaleItems] = useState([]);
 
   useEffect(() => {
-    getAllSaleItems(AdminAccountAddress).then((res) => {
-        setAllSaleItems(() => res);
-      })
+    getAllSaleItems().then((res) => {
+      console.log(res)
+      setAllSaleItems(() => res);
+    })
+  }, [])
+
+  const [allPackItems, setAllPackItems] = useState([]);
+
+  useEffect(() => {
+    getAllPackIDs().then((res) => {
+      console.log(res)
+      setAllPackItems(() => res);
+    })
   }, [])
 
   const [loading, setLoading] = useState(false);
 
-  const handlePurchase = async (momentId, price) => {
-    setLoading(true)
-    const result = await _purchaseMoment(AdminAccountAddress, momentId, price)
-    if (result) {
-      alert("Sale Collection created successfully")
-      setLoading(false)
-      window.location.reload();
-    }
-    else {
-      alert("Something went wrong")
-      setLoading(false)
-    }
-  }
+  const handleCategory = () => { };
 
-  const handleCategory = () => {};
-
-  const handleItems = () => {};
+  const handleItems = () => { };
 
   // ====== SORTING DATA BY HIGH, MID, LOW RATE =========
   const handleSort = (e) => {
@@ -76,10 +73,10 @@ const Market = () => {
 
       <section>
         <Container>
-        <h2 style={{textAlign:"center"}}>
-                Marketplace
+          <h2 style={{ textAlign: "center" }}>
+            Marketplace
           </h2>
-          <Row style={{justifyContent:"space-around"}}>
+          <Row style={{ justifyContent: "space-around" }}>
             <Col lg="12" className="mb-5">
               <div className="market__product__filter d-flex align-items-center justify-content-between">
                 <div className="filter__left d-flex align-items-center gap-5">
@@ -116,19 +113,37 @@ const Market = () => {
 
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <NFTDisplayCard item={{ ...NFT__DATA[0], 
-                  id: item.id,  
-                  title: item.name, 
-                  desc: item.description, 
+                <NFTDisplayCard item={{
+                  ...NFT__DATA[0],
+                  id: item.id,
+                  title: item.name,
+                  desc: item.description,
                   creator: item.address,
                   currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
                   sno: item.sno
-                }} 
-                  // nopurchase={true} 
+                }}
+                // nopurchase={true} 
                 />
               </Col>
             ))}
+
+            <h1>Packs</h1>
+            {allPackItems?.map((item) => (
+              <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
+                <PackDisplayCard item={{
+                  ...NFT__DATA[0],
+                  id: item.packID,
+                  title: item.packID,
+                  creator: AdminAccountAddress,
+                  currentBid: item.price,
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                }}
+                // nopurchase={true} 
+                />
+              </Col>
+            ))}
+
           </Row>
         </Container>
       </section>

@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as types from "@onflow/types";
 
+
 import { accountIsSetup } from "@/cadence/scripts/user/account_is_setup";
 import { getAllUsers } from "@/cadence/scripts/user/get_all_user_addr";
 import { getNextSetID } from "@/cadence/scripts/admin/set/get_nextSetID";
@@ -12,11 +13,20 @@ import { getMomentMetadata } from "@/cadence/scripts/admin/moments/get_metadata"
 import { getMomentSerialNum } from "@/cadence/scripts/admin/moments/get_moment_serialNum";
 import { getMomentSetID } from "@/cadence/scripts/admin/moments/get_moment_setID";
 import { getFlowBalance } from "@/cadence/scripts/user/get_flow_balance";
+
+/**** MARKET ****/
 import { getSalePrice } from "@/cadence/scripts/market/get_sale_price";
 import { getSaleMomentIds } from "@/cadence/scripts/market/get_sale_moment_ids";
 import { getSaleMomentSetID } from "@/cadence/scripts/market/get_sale_moment_set_id";
 import { getSaleMomentSNo } from "@/cadence/scripts/market/get_sale_moment_serialNum";
 import { getSaleMomentIdMetadata } from "@/cadence/scripts/market/get_sale_moment_id_metadata";
+
+/**** PACKS ****/
+import { getAllPacks } from "@/cadence/scripts/packs/get_all_packs";
+import { getPackPrice } from "@/cadence/scripts/packs/get_pack_price";
+import { getPackProofs } from "@/cadence/scripts/packs/get_pack_proofs";
+
+import { AdminAccountAddress } from "@/constants";
 
 // Flow Balance
 export const flow_balance = async (addr="0x4e616c1e361b69d2") => {
@@ -345,6 +355,59 @@ export const getSalePriceById = async (sellerAddress="0x4e616c1e361b69d2", momen
             args: (arg, t) => [
                 arg(sellerAddress, types.Address),
                 arg(momentID, types.UInt64)
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET ALL PACKS
+export const getAllPackIDs = async () => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getAllPacks}`
+        })
+        const len = result.length
+        for(var i = 0; i < len; i++) {
+            const obj = result[i]
+            const packID = obj["packID"]
+            const price = await getPackPriceById(AdminAccountAddress, packID)
+            obj["price"] = price
+        }
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET SALE PRICE OF A PACK
+export const getPackPriceById = async (sellerAddress, packID) => {
+    try {
+        console.log(packID)
+        const result = await fcl.query({
+            cadence: `${getPackPrice}`,
+            args: (arg, t) => [
+                arg(sellerAddress, types.Address),
+                arg(packID, types.UInt64)
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// GET PACK PROOFS OF ADDR
+export const getPackProofsByAddr = async (addr) => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getPackProofs}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
             ],
         })
         return result;

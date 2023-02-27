@@ -62,10 +62,12 @@ pub contract FormulaOnePacks {
         pub var totalMoments: UInt64
         // Number of Moments sold
         pub var soldComplete: Bool
+        // Pack Owner
+        pub let owner: Address
 
         pub let seedBlock: UInt64
 
-        init(moments: [UInt64], momentsPerPack: UInt64) {
+        init(moments: [UInt64], momentsPerPack: UInt64, owner: Address) {
             self.packID = FormulaOnePacks.nextPackID
             self.moments = moments
             self.totalMoments = UInt64(moments.length)
@@ -73,6 +75,7 @@ pub contract FormulaOnePacks {
             self.seedBlock = getCurrentBlock().height + 1
             self.momentsSold = 0
             self.soldComplete = false
+            self.owner = owner
         }
 
         pub fun removeMoment(idx: UInt64) {
@@ -165,10 +168,10 @@ pub contract FormulaOnePacks {
             self.prices = {}
         }
 
-        pub fun createPack(tokens: @FormulaOne.Collection, momentsPerPack: UInt64, price: UFix64): UInt64 {
+        pub fun createPack(tokens: @FormulaOne.Collection, momentsPerPack: UInt64, price: UFix64, owner: Address): UInt64 {
             let keys = tokens.getIDs()
 
-            let newPack = Pack(moments: keys, momentsPerPack: momentsPerPack)
+            let newPack = Pack(moments: keys, momentsPerPack: momentsPerPack, owner: owner)
             let packID = newPack.packID
             FormulaOnePacks.nextPackID = FormulaOnePacks.nextPackID + 1
 

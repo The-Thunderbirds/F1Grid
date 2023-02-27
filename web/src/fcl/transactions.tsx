@@ -16,6 +16,12 @@ import { startSale } from "@/cadence/transactions/market/start_sale"
 import { purchaseMoment } from "@/cadence/transactions/market/purchase_moment"
 import { setupFlowTokenAccount } from "@/cadence/transactions/market/setup_flow_account"
 
+/**** PACKS ****/
+import { createPack } from "@/cadence/transactions/packs/create_pack"
+import { purchasePack } from "@/cadence/transactions/packs/purchase_pack"
+import { packUnveil } from "@/cadence/transactions/packs/pack_unveil"
+import { giftPack } from "@/cadence/transactions/packs/gift_pack"
+
 
 // CREATE COLLECTION
 export const _setupAccount = async () => {
@@ -208,6 +214,55 @@ export const _purchaseMoment = async (sellerAddress=AdminAccountAddress, tokenID
     }
 }
  
+
+// CREATE PACK
+export const _createPack = async (momentIDs, momentsPerPack, price=10.0) => {
+  try {
+      console.log(momentIDs, momentsPerPack, price)
+      const transactionId = await fcl.mutate({
+        cadence: `${createPack}`,
+        args: (arg, t) => [
+          arg(momentIDs, types.Array(types.UInt64)),
+          arg(momentsPerPack, types.UInt64),
+          arg(price.toFixed(2), types.UFix64)
+        ], 
+      })
+      console.log("Pack created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
+
+// PURCHASE PACK
+export const _purchasePack = async (sellerAddress, packID, purchaseAmount) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${purchasePack}`,
+        args: (arg, t) => [
+          arg(sellerAddress, types.Address),
+          arg(packID, types.UInt64),
+          arg(parseFloat(purchaseAmount).toFixed(2), types.UFix64),
+        ], 
+      })
+      console.log("Purchase transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+      // alert("Purchase transaction has been created successfully!")
+    } catch (error) {
+      console.log(error);
+      return false
+      // alert("Error creating purchase transaction, please check the console for error details!")
+    }
+}
+
 
 
 // SETUP FLOW ACCOUNT --- IGNORE

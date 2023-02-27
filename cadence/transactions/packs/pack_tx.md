@@ -4,7 +4,7 @@ flow transactions send ./cadence/transactions/packs/create_pack_collection.cdc
 
 ## Creat new Pack
 
-flow transactions send ./cadence/transactions/packs/create_pack.cdc "[1, 2]" 1 10.0
+flow transactions send ./cadence/transactions/packs/create_pack.cdc "[1, 2]" 1 10.0 0xf8d6e0586b0a20c7
 
 ## Purchase Moment
 

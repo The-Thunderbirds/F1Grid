@@ -1,3 +1,10 @@
+import { FormulaOne, FormulaOnePacks } from "src/constants";
+
+export const createPack = 
+`
+import FormulaOne from ${FormulaOne}
+import FormulaOnePacks from ${FormulaOnePacks}
+
 import FormulaOne from 0xf8d6e0586b0a20c7
 import FormulaOnePacks from 0xf8d6e0586b0a20c7
 
@@ -42,3 +49,4 @@ transaction(momentIDs: [UInt64], momentsPerPack: UInt64, price: UFix64, owner: A
         // }
     }
 }
+`
