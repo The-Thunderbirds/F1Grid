@@ -25,7 +25,7 @@ transaction(sellerAddress: Address, tokenID: UInt64, purchaseAmount: UFix64) {
     prepare(acct: AuthAccount) {
 
         // borrow a reference to the signer's collection
-        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/MomentCollection)
+        self.collectionRef = acct.borrow<&FormulaOne.Collection>(from: /storage/FormulaOneMomentCollection)
             ?? panic("Could not borrow reference to the Moment Collection")
 
         // borrow a reference to the signer's fungible token Vault
