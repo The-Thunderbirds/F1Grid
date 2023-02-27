@@ -197,6 +197,7 @@ const PersonalNFTDetails = () => {
                         <Col lg="6" md="6" sm="6">
                             <div className="single__nft__content">
                                 <h2>{singleNft.name} #{singleNft.sno}</h2>
+                                <h4>{singleNft.set?.name} (Set {singleNft.set?.setID}, Series {singleNft.set?.series})</h4>
 
                                 <div className=" d-flex align-items-center justify-content-between mt-4 mb-4">
                                     <div className=" d-flex align-items-center gap-4 single__nft-seen">

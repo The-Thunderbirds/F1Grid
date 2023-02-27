@@ -813,6 +813,11 @@ footer {
   color: #dc3545;
 }
 
+.single__nft__content h4 {
+  color: #808080;
+  font-size: 1.3rem;
+}
+
 @media only screen and (max-width: 992px) {
   .single__nft__content h2 {
     font-size: 1.3rem;
