@@ -47,7 +47,6 @@ const Collection = () => {
   }
   return (
     <>
-    {console.log(allCollections)}
       <CommonSection title="Mint Moment" />
 
       <section className="p-3">
@@ -103,7 +102,7 @@ const Collection = () => {
                                 />
                               </div>
                             </form>
-                            
+
                             <button
                               className="bid__btn w-100 mt-3"
                               onClick={() => { handleAddToSale(item.id, salePrice) }}

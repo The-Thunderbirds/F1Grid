@@ -9,6 +9,8 @@ import { getNextPlayID } from "@/cadence/scripts/admin/plays/get_nextPlayID";
 import { getPlayMetadata } from "@/cadence/scripts/admin/plays/get_play_metadata";
 import { getCollectionIDs } from "@/cadence/scripts/admin/moments/get_collection_ids";
 import { getMomentMetadata } from "@/cadence/scripts/admin/moments/get_metadata";
+import { getMomentSerialNum } from "@/cadence/scripts/admin/moments/get_moment_serialNum";
+import { getMomentSetID } from "@/cadence/scripts/admin/moments/get_moment_setID";
 import { getFlowBalance } from "@/cadence/scripts/user/get_flow_balance";
 import { getSalePrice } from "@/cadence/scripts/market/get_sale_price";
 import { getSaleMomentIds } from "@/cadence/scripts/market/get_sale_moment_ids";
@@ -58,6 +60,22 @@ export const isAccountSetup = async (addr) => {
     }
 }
 
+export const getSetDataByID = async (id) => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getSetData}`,
+            args: (arg, t) => [
+                arg(id, types.UInt32),
+            ],    
+        })
+        return result
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
 // GET ALL SETS
 export const getAllSets = async () => {
     try {        
@@ -68,12 +86,7 @@ export const getAllSets = async () => {
         const setDataList = []
 
         for(let i = 1; i < num; i++) {
-            const result = await fcl.query({
-                cadence: `${getSetData}`,
-                args: (arg, t) => [
-                    arg(i, types.UInt32),
-                ],    
-            })
+            const result = await getSetDataByID(i)
 
             const playLen = result.plays.length;
 
@@ -155,6 +168,64 @@ export const getAllCollectionIDs = async (addr) => {
     }
 }
 
+// GET MOMENT SET ID BY ID AND ADDRESS
+export const getMomentSetIDByAddrID = async (addr, id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getMomentSetID}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(id, types.UInt64),
+            ],    
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET MOMENT SERIAL NUM BY ID AND ADDRESS
+export const getMomentSNumByAddrID = async (addr, id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getMomentSerialNum}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(id, types.UInt64),
+            ],    
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// GET MOMENT METADATA BY ID AND ADDRESS
+export const getMomentByAddrID = async (addr, id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getMomentMetadata}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(id, types.UInt64),
+            ],    
+        })
+        const sno = await getMomentSNumByAddrID(addr, id)
+        result["sno"] = sno
+
+        const setid = await getMomentSetIDByAddrID(addr, id)
+        const set = await getSetDataByID(setid)
+        result["set"] = set
+
+        result["id"] = id
+        console.log(result)
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 // GET ALL COLLECTIONS
 export const getAllCollections = async (addr) => {
@@ -164,14 +235,7 @@ export const getAllCollections = async (addr) => {
         const momentMetadataList = []
 
         for(let i = 0; i < len; i++) {
-            const result = await fcl.query({
-                cadence: `${getMomentMetadata}`,
-                args: (arg, t) => [
-                    arg(addr, types.Address),
-                    arg(moments[i], types.UInt64),
-                ],    
-            })
-            result["id"] = moments[i]
+            const result = await getMomentByAddrID(addr, moments[i])
             momentMetadataList.push(result);
         }
 
