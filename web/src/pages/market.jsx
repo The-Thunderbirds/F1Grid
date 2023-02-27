@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
-import SaleNFTCard from "../components/ui/Nft-card/SaleNFTCard";
+import NFTDisplayCard from "../components/ui/Nft-card/NFTDisplayCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
@@ -116,7 +116,7 @@ const Market = () => {
 
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <SaleNFTCard item={{ ...NFT__DATA[0], 
+                <NFTDisplayCard item={{ ...NFT__DATA[0], 
                   id: item.id,  
                   title: item.name, 
                   desc: item.description, 

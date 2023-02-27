@@ -3,18 +3,26 @@ import Link from "next/link";
 import Image from "next/image"
 import { useRouter } from 'next/router'
 
-const SaleNFTCard = (props) => {
+const NFTDisplayCard = (props) => {
   const router = useRouter();
 
-  const { title, id, currentBid, creatorImg, imgUrl, creator } = props.item;
+  const { title, id, currentBid, creatorImg, imgUrl, creator, personal } = props.item;
 
   return (
     <div className="single__nft__card"
       onClick={() => {
-        router.push({
-          pathname: '/token/[tokenId]/address/[address]',
-          query: { tokenId: id, address: creator },
-        })
+        if (currentBid === 0) {
+          router.push({
+            pathname: '/token/[tokenId]/address/[address]/personal',
+            query: { tokenId: id, address: creator },
+          })
+        }
+        else {
+          router.push({
+            pathname: '/token/[tokenId]/address/[address]',
+            query: { tokenId: id, address: creator },
+          })
+        }
       }}>
       <div className="nft__img">
         <Image src={imgUrl} alt="" className="w-100" />
@@ -71,4 +79,4 @@ const SaleNFTCard = (props) => {
   );
 };
 
-export default SaleNFTCard;
+export default NFTDisplayCard;

@@ -7,13 +7,14 @@ import Link from "next/link";
 import Image from "next/image"
 import { useRouter } from 'next/router'
 import ReactStars from 'react-stars'
-import { getSaleItemByAddrID } from "@/fcl/scripts";
+import { getMomentByAddrID } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
-import { AdminAccountAddress } from "@/constants"
 import styles from "@/styles/Token.module.css"
 
+import { _startSale } from "@/fcl/transactions";
 
-const NftDetails = () => {
+
+const PersonalNFTDetails = () => {
     const router = useRouter();
 
     const { tokenId, address } = router.query;
@@ -22,12 +23,13 @@ const NftDetails = () => {
     const [rating, setRating] = useState(3.5);
 
     useEffect(() => {
-        getSaleItemByAddrID(address, tokenId).then((res) => {
+        getMomentByAddrID(address, tokenId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
         })
     }, [])
 
     const [loading, setLoading] = useState(false);
+    const [salePrice, setSalePrice] = useState(10)
 
     const traits = {
         Season: 2022,
@@ -97,16 +99,16 @@ const NftDetails = () => {
             }
         ]
 
-    const handlePurchase = async (momentId, price) => {
+    const handleAddToSale = async () => {
         setLoading(true)
-        const result = await _purchaseMoment(AdminAccountAddress, momentId, price)
+        const result = await _startSale(parseInt(singleNft.id), salePrice)
         if (result) {
-            alert("Sale Collection created successfully")
+            alert("Moment Added to Marketplace successfully")
             setLoading(false)
             router.push({
-                pathname: '/collection',
+                pathname: '/market'
             })
-        }
+        }   
         else {
             alert("Something went wrong")
             setLoading(false)
@@ -194,7 +196,7 @@ const NftDetails = () => {
 
                         <Col lg="6" md="6" sm="6">
                             <div className="single__nft__content">
-                                <h2>{singleNft.name}</h2>
+                                <h2>{singleNft.name} #{singleNft.sno}</h2>
 
                                 <div className=" d-flex align-items-center justify-content-between mt-4 mb-4">
                                     <div className=" d-flex align-items-center gap-4 single__nft-seen">
@@ -228,15 +230,24 @@ const NftDetails = () => {
                                     </div>
 
                                     <div className="creator__detail">
-                                        <p>Seller </p>
+                                        <p>Owner (You) </p>
                                         <h6>{address}</h6>
                                     </div>
                                 </div>
 
                                 <p className="my-4">Description: {singleNft.description}</p>
-                                <p className="my-4">Price: {Math.round(singleNft.price * 10) / 10} FLOW</p>
-                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.id, singleNft.price)}>
-                                    {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
+                                <form>
+                                    <div className="form__input">
+                                        <label htmlFor="">Price</label>
+                                        <input type="number" placeholder="Enter price"
+                                            value={salePrice}
+                                            onChange={(e) => setSalePrice(parseInt(e.target.value))}
+                                        />
+                                    </div>
+                                </form>
+
+                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={handleAddToSale}>
+                                    {!loading && <span><i className="ri-shopping-bag-line" /> Add to Sale </span>}
                                     <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
                                 </button>
 
@@ -259,4 +270,4 @@ const NftDetails = () => {
     );
 };
 
-export default NftDetails;
+export default PersonalNFTDetails;

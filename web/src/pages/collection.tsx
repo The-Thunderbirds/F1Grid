@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, FormGroup, Label, Input, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import { NFT__DATA } from "@/assets/data/data.js";
-import NftCard from "@/components/ui/Nft-card/NftCard";
+import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
 
 import { _startSale } from "@/fcl/transactions";
 import { getAllCollections } from "@/fcl/scripts";
@@ -58,7 +58,7 @@ const Collection = () => {
             </h2>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                <NftCard item={{ ...NFT__DATA[0], 
+                <NFTDisplayCard item={{ ...NFT__DATA[0], 
                   id: item.id,  
                   title: item.name, 
                   desc: item.description, 
