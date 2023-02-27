@@ -161,9 +161,7 @@ footer {
   color: #ffffff;
   font-size: 1rem;
   border: 1px solid red;
-  padding: 7px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 10px 25px;
   border-radius: 10px;
 }
 .nav__item a:hover {

@@ -74,6 +74,20 @@ const Header = () => {
     signIn();
   };
 
+  const handleGetStarted = async () => {
+    setLoading(true)
+    const result = await _setupAccount();
+    if (result) {
+      alert("Your account setup is successful")
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+    }
+  }
+
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
@@ -189,8 +203,9 @@ const Header = () => {
             {/* Each users needs to create Collection to keep NFTs */}
             {
               flowUser?.addr && !hasSetupAccount &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={_setupAccount} style={{ color: "white" }}>
-                Get Started
+              <button className="btn d-flex gap-2 align-items-center" onClick={handleGetStarted} style={{ color: "white" }}>
+                {!loading && <span> Get Started </span>}
+                <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
               </button>
             }
             {
