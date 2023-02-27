@@ -19,7 +19,8 @@ const Mint = () => {
   const [selectPlayId, setSelectPlayId] = useState("1");
 
   const [allSets, setAllSets] = useState([]);
-
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
   useEffect(() => {
     getAllSets().then((res) => {
       setAllSets(() => res);
@@ -60,7 +61,7 @@ const Mint = () => {
 
     }
   }
-
+  const [salePrice, setSalePrice] = useState(10)
   const [addSaleloading, setAddSaleloading] = useState(false);
 
   const handleAddToSale = async (momentId, price) => {
@@ -146,12 +147,54 @@ const Mint = () => {
                 <NftCard item={{ ...NFT__DATA[0], title: item.name, desc: item.description, imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} nopurchase={true} />
                 <button
                   className="bid__btn d-flex align-items-center gap-1"
-                  onClick={() => {handleAddToSale(item.id, 10)}}
+                  onClick={toggleModal}
                   style={{ marginLeft: "40%", marginTop: "5px" }}
                 >
-                  {!addSaleloading && <span> Add to Sale </span>}
-                  <Spinner color="primary" style={{ display: addSaleloading  ? "block" : "none" }} />                                    
+                  Add to Sale
                 </button>
+
+          {modal && (
+            <div className="modal__wrapper">
+              <div
+                className="single__modal"
+                style={{
+                  width: "400px",
+                  height: "250px",
+                  borderRadius: "15px",
+                }}
+              >
+
+                <span className="close__modal">
+                  <i className="ri-close-line" onClick={() => setModal(false)}></i>
+                </span>
+                <Row className="mb-5">
+                  <Col>
+                    <div className="create__item">
+                      <form>
+                        <div className="form__input">
+                          <label htmlFor="">Price</label>
+                          <input type="number" placeholder="Enter set name"
+                            value={salePrice}
+                            onChange={(e) => setSalePrice(parseInt(e.target.value))}
+                          />
+                        </div>
+                      </form>
+                      <button
+                      className="bid__btn w-100 mt-3"
+                      onClick={() => {handleAddToSale(item.id, salePrice)}}
+                      style={{textAlign:"center"}}
+                    >
+                    {!addSaleloading && <span> Add to Sale </span>}
+                    <Spinner color="primary" style={{ display: addSaleloading  ? "block" : "none", marginLeft:"45%" }} />
+                    </button>
+
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          )}
+
               </Col>
             ))}
           </Row>

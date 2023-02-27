@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Container, Spinner } from "reactstrap";
+import { Container, Spinner, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Link from "next/link";
 
 import { useAuthContext } from "../../hooks/useAuthContext"
@@ -12,6 +12,7 @@ import { createCollection, _createSaleCollection, _startSale, _purchaseMoment } 
 import { isAccountSetup } from "src/fcl/scripts";
 import f1logo from "@/assets/images/F1.svg";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const NAV__LINKS = [
 
@@ -19,43 +20,36 @@ const NAV__LINKS = [
     display: "Market",
     url: "/market",
   },
-  // {
-  //   display: "Create",
-  //   url: "/create",
-  // },
-  // {
-  //   display: "Contact",
-  //   url: "/contact",
-  // },
-  // {
-  //   display: "Series",
-  //   url: "/admin/series",
-  // },
+
+];
+
+const ADMIN__LINKS = [
   {
-    display: "Set",
-    url: "/admin/set",
-  },
-  {
-    display: "Play",
+    display: "Create Play",
     url: "/admin/play",
   },
   {
-    display: "Mint",
+    display: "Create Set",
+    url: "/admin/set",
+  },
+  {
+    display: "Mint Moment",
     url: "/admin/mint",
   }
-];
-
+]
 const Header = () => {
-
+  const router = useRouter();
   const flowUser = useFlowUser()
   const { session, signIn, isLoading } = useAuthContext()
 
   const [hasCollection, setHasCollection] = useState(false);
+  const [hasSaleCollection, setHasSaleCollection] = useState(false);
 
   useEffect(() => {
     if (flowUser?.addr) {
       isAccountSetup(flowUser?.addr).then((res) => {
         setHasCollection(res);
+        setHasSaleCollection(res);
       })
     }
   }, [flowUser]);
@@ -77,6 +71,7 @@ const Header = () => {
     const result = await _createSaleCollection()
     if (result) {
       alert("Sale Collection created successfully")
+      setHasSaleCollection(true)
       setLoading(false)
       window.location.reload();
     }
@@ -123,9 +118,9 @@ const Header = () => {
           </div>
 
           <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
-            <ul className="nav__list">
+            <ul className="nav__list" >
               {NAV__LINKS.map((item, index) => (
-                <li className="nav__item" key={index}>
+                <li className="nav__item" key={index} style={{marginTop:"5px"}}>
                   <Link
                     href={item.url}
                     className=""
@@ -134,7 +129,29 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+              <li className="nav__item" key={5}>
+              <UncontrolledDropdown>
+          <DropdownToggle caret style={{background:"none", color:"white", border:"1px solid red", borderRadius:"10px"}} className="dropdown__toggle">
+            Admin
+          </DropdownToggle>
+      <DropdownMenu className="dropdown-menu">
+        
+                        {ADMIN__LINKS.map((item, index) => (
+                            <DropdownItem
+                              className="dropdown-item"
+                              onClick={() => {
+                                router.push(item.url);
+                              }}
+                            >
+                              {item.display}
+                            </DropdownItem>
+                        ))}
+      </DropdownMenu>
+    </UncontrolledDropdown>
+              </li>
             </ul>
+                              
+           
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
@@ -175,7 +192,7 @@ const Header = () => {
             }
             {/* Create Sale collection to sell Moments in Marketplace from User Moments */}
             {
-              flowUser?.addr && hasCollection &&
+              flowUser?.addr && hasCollection && !hasSaleCollection &&
               <button className="btn d-flex gap-2 align-items-center" onClick={handleSaleCollectionCreation} style={{ color: "white" }}>                
                 {!loading && <span> Create Sale Collection </span>}
                  <Spinner color="primary" style={{ display: loading ? "block" : "none"}} />

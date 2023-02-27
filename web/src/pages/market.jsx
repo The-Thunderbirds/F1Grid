@@ -117,20 +117,13 @@ const Market = () => {
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
                 <NftCard item={{ ...NFT__DATA[0], 
-                  // id: item.id, 
+                  id: item.id, 
                   title: item.name, 
                   desc: item.description, 
                   currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
-                  nopurchase={true} 
+                  // nopurchase={true} 
                 />
-                <button className="btn d-flex gap-2 align-items-center"  style={{ color: "white" }} 
-                onClick={() => handlePurchase(item.id, item.price)}
-                >
-                  {!loading && <span> Purchase </span>}
-                  <Spinner color="primary" style={{ display: loading ? "block" : "none"}} />
-                </button>
-
                 {/* <NftCard item={item} /> */}
               </Col>
             ))}
