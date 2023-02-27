@@ -1,14 +1,13 @@
-import { NonFungibleToken, FormulaOne, MetadataViews } from "src/constants";
+import { NonFungibleToken, FormulaOne, MetadataViews, FormulaOneMarket, FormulaOnePacks, FormulaOneMarketPlaceUsers } from "src/constants";
 
 export const setupAccount =
 `
 import NonFungibleToken from ${NonFungibleToken}
 import FormulaOne from ${FormulaOne}
 import MetadataViews from ${MetadataViews}
-
-// This transaction sets up an account to use Formula One
-// by storing an empty moment collection and creating
-// a public capability for it
+import FormulaOneMarket from ${FormulaOneMarket}
+import FormulaOnePacks from ${FormulaOnePacks}
+import FormulaOneMarketPlaceUsers from ${FormulaOneMarketPlaceUsers}
 
 transaction {
 
@@ -26,6 +25,48 @@ transaction {
             // create a public capability for the collection
             acct.link<&{NonFungibleToken.CollectionPublic, FormulaOne.MomentCollectionPublic, MetadataViews.ResolverCollection}>(/public/FormulaOneMomentCollection, target: /storage/FormulaOneMomentCollection)
         }
+
+
+        // Creating Sale Collection
+        if acct.borrow<&FormulaOneMarket.SaleCollection>(from: /storage/FormulaOneSaleCollection) == nil {
+
+            let ownerCapability = acct.getCapability(/public/flowTokenReceiver)
+
+            let beneficiaryCapability = acct.getCapability(/public/flowTokenReceiver)
+
+            let collection <- FormulaOneMarket.createSaleCollection(ownerCapability: ownerCapability, beneficiaryCapability: beneficiaryCapability, cutPercentage: 0.15)
+            
+            acct.save(<-collection, to: /storage/FormulaOneSaleCollection)
+            
+            acct.link<&FormulaOneMarket.SaleCollection{FormulaOneMarket.SalePublic}>(/public/FormulaOneSaleCollection, target: /storage/FormulaOneSaleCollection)
+        }
+
+        // Creating Packs Collection
+        if acct.borrow<&FormulaOnePacks.PacksCollection>(from: /storage/FormulaOnePacksCollection) == nil {
+
+            let ownerCapability = acct.getCapability(/public/flowTokenReceiver)
+
+            let collection <- FormulaOnePacks.createPacksCollection(ownerCapability: ownerCapability)
+            
+            acct.save(<-collection, to: /storage/FormulaOnePacksCollection)
+            
+            acct.link<&FormulaOnePacks.PacksCollection{FormulaOnePacks.PacksPublic}>(/public/FormulaOnePacksCollection, target: /storage/FormulaOnePacksCollection)
+        }
+
+
+        // Creating Packs Collection
+        if acct.borrow<&FormulaOnePacks.PackProofCollection>(from: /storage/FormulaOneProofPacksCollection) == nil {
+
+            let ownerCapability = acct.getCapability(/public/flowTokenReceiver)
+
+            let packproofcollection <- FormulaOnePacks.createPackProofCollection()
+            
+            acct.save(<-packproofcollection, to: /storage/FormulaOneProofPacksCollection)
+            
+            acct.link<&FormulaOnePacks.PackProofCollection{FormulaOnePacks.PackProofPublic}>(/public/FormulaOneProofPacksCollection, target: /storage/FormulaOneProofPacksCollection)
+        }
+
+        FormulaOneMarketPlaceUsers.addUser(addr: acct.address)
     }
 }
 `

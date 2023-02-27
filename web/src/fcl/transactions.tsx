@@ -18,7 +18,7 @@ import { setupFlowTokenAccount } from "@/cadence/transactions/market/setup_flow_
 
 
 // CREATE COLLECTION
-export const createCollection = async () => {
+export const _setupAccount = async () => {
     try {
         const transactionId = await fcl.mutate({
           cadence: `${setupAccount}`

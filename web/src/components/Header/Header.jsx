@@ -8,7 +8,7 @@ import { Logout } from "../Logout";
 import * as fcl from "@onflow/fcl"
 import { useFlowUser } from "../../hooks/userFlowUser"
 
-import { createCollection, _createSaleCollection, _startSale, _purchaseMoment } from "src/fcl/transactions";
+import { _setupAccount, _startSale, _purchaseMoment } from "src/fcl/transactions";
 import { isAccountSetup } from "src/fcl/scripts";
 import f1logo from "@/assets/images/F1.svg";
 import Image from "next/image";
@@ -48,18 +48,18 @@ const ADMIN__LINKS = [
   }
 ]
 const Header = () => {
+
   const router = useRouter();
   const flowUser = useFlowUser()
-  const { session, signIn, isLoading } = useAuthContext()
+  const { session, signIn } = useAuthContext()
 
-  const [hasCollection, setHasCollection] = useState(false);
-  const [hasSaleCollection, setHasSaleCollection] = useState(false);
+  const [hasSetupAccount, setHasSetupAccount] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (flowUser?.addr) {
       isAccountSetup(flowUser?.addr).then((res) => {
-        setHasCollection(res);
-        setHasSaleCollection(res);
+        setHasSetupAccount(res);
       })
     }
   }, [flowUser]);
@@ -73,24 +73,6 @@ const Header = () => {
     fcl.unauthenticate()
     signIn();
   };
-
-  const [loading, setLoading] = useState(false);
-
-  const handleSaleCollectionCreation = async () => {
-    setLoading(true)
-    const result = await _createSaleCollection()
-    if (result) {
-      alert("Sale Collection created successfully")
-      setHasSaleCollection(true)
-      setLoading(false)
-      window.location.reload();
-    }
-    else {
-      alert("Something went wrong")
-      setLoading(false)
-    }
-  }
-
 
   const headerRef = useRef(null);
 
@@ -129,16 +111,25 @@ const Header = () => {
 
           <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
             <ul className="nav__list" >
-              {NAV__LINKS.map((item, index) => (
-                <li className="nav__item" key={index} style={{ marginTop: "5px" }}>
+              <li className="nav__item" key={1} style={{ marginTop: "5px" }}>
+                <Link
+                  href="/market"
+                  className=""
+                >
+                  Market
+                </Link>
+              </li>
+              {
+                session || flowUser?.addr &&
+                <li className="nav__item" key={2} style={{ marginTop: "5px" }}>
                   <Link
-                    href={item.url}
+                    href="/packs"
                     className=""
                   >
-                    {item.display}
+                    Packs
                   </Link>
                 </li>
-              ))}
+              }
               {flowUser?.addr == AdminAccountAddress ?
                 <li className="nav__item" key={5}>
                   <UncontrolledDropdown>
@@ -169,8 +160,6 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
-            {/* Account address */}
-
             {/* Connect With Dappr wallet directly */}
             {
               !session && !flowUser?.addr &&
@@ -199,26 +188,18 @@ const Header = () => {
             }
             {/* Each users needs to create Collection to keep NFTs */}
             {
-              flowUser?.addr && !hasCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={createCollection} style={{ color: "white" }}>
-                Create Collection
-              </button>
-            }
-            {/* Create Sale collection to sell Moments in Marketplace from User Moments */}
-            {
-              flowUser?.addr && hasCollection && !hasSaleCollection &&
-              <button className="btn d-flex gap-2 align-items-center" onClick={handleSaleCollectionCreation} style={{ color: "white" }}>
-                {!loading && <span> Create Sale Collection </span>}
-                <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
+              flowUser?.addr && !hasSetupAccount &&
+              <button className="btn d-flex gap-2 align-items-center" onClick={_setupAccount} style={{ color: "white" }}>
+                Get Started
               </button>
             }
             {
-              flowUser?.addr &&
+              flowUser?.addr && hasSetupAccount &&
               <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }} onClick={() => { router.push("/collection") }}>
                 <span>
                   <i className="ri-wallet-fill"></i>
                 </span>
-                {flowUser?.addr}
+                {flowUser?.addr.substring(0, 8)}...
               </button>
             }
             {/* Logout either if Signed In by Google or Niftory */}
