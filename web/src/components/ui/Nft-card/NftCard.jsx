@@ -37,27 +37,32 @@ const NftCard = (props) => {
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
-              <h6>Created By</h6>
+              <h6>Current Owner</h6>
               <p>{creator}</p>
             </div>
 
             <div>
               <h6>Price</h6>
-              <p>{parseFloat(currentBid).toFixed(2)} FLOW</p>
+              {
+                currentBid != 0 ?
+                <p>{parseFloat(currentBid).toFixed(2)} FLOW</p> 
+                :
+                <p>Not for Sale</p>
+              }
             </div>
           </div>
         </div>
 
-{!props.nopurchase && (
+        {!props.nopurchase && (
         <div className=" mt-3 d-flex align-items-center justify-content-between">
           <button
             className="bid__btn d-flex align-items-center gap-1"
-            onClick={() => setShowModal(true)}
+            // onClick={() => setShowModal(true)}
           >
             <i className="ri-shopping-bag-line"></i> Purchase
           </button>
 
-          {showModal && <Modal setShowModal={setShowModal} />}
+          {/* {showModal && <Modal setShowModal={setShowModal} />} */}
 
           <span className="history__link">
             <Link href="#">View History</Link>

@@ -47,6 +47,7 @@ const Collection = () => {
   }
   return (
     <>
+    {console.log(allCollections)}
       <CommonSection title="Mint Moment" />
 
       <section className="p-3">
@@ -58,7 +59,15 @@ const Collection = () => {
             </h2>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                <NftCard item={{ ...NFT__DATA[0], title: item.name, desc: item.description, imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} nopurchase={true} />
+                <NftCard item={{ ...NFT__DATA[0], 
+                  id: item.id,  
+                  title: item.name, 
+                  desc: item.description, 
+                  creator: flowUser?.addr,
+                  currentBid: 0,
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 } }} 
+                  nopurchase={true} 
+                />
 
                 <button
                   className="bid__btn d-flex align-items-center gap-1"
@@ -94,6 +103,7 @@ const Collection = () => {
                                 />
                               </div>
                             </form>
+                            
                             <button
                               className="bid__btn w-100 mt-3"
                               onClick={() => { handleAddToSale(item.id, salePrice) }}
@@ -102,7 +112,6 @@ const Collection = () => {
                               {!addSaleloading && <span> Add to Sale </span>}
                               <Spinner color="primary" style={{ display: addSaleloading ? "block" : "none", marginLeft: "45%" }} />
                             </button>
-
                           </div>
                         </Col>
                       </Row>
