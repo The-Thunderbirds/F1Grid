@@ -7,13 +7,12 @@ import PackDisplayCard from "../components/ui/Nft-card/PackDisplayCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
-import { Container, Row, Col, Spinner } from "reactstrap";
-import {Grid} from "react-loader-spinner"
-
+import { Container, Row, Col } from "reactstrap";
 
 import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
+import PageLoader from "@/components/ui/PageLoader";
 
 const Market = () => {
 
@@ -78,24 +77,7 @@ const Market = () => {
 
   if(pageLoading) {
     return (
-      <>
-        <CommonSection title={"MarketPlace"} />
-        <section>
-          <Container>
-            {/* Replace this if needed */}
-            <Grid
-  height="80"
-  width="80"
-  color="#cb2d3e"
-  ariaLabel="grid-loading"
-  radius="12.5"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
-/>  
-          </Container>
-        </section>
-      </>
+      <PageLoader/>
     )
   }
 

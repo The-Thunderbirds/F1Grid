@@ -1022,3 +1022,10 @@ footer {
   .nav__item .button{
     line-height: 1px !important;
   }
+
+
+.center__loader{
+  display: flex;
+  justify-content:center;
+  margin:0 auto;
+}
