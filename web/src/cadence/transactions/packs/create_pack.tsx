@@ -5,9 +5,6 @@ export const createPack =
 import FormulaOne from ${FormulaOne}
 import FormulaOnePacks from ${FormulaOnePacks}
 
-import FormulaOne from 0xf8d6e0586b0a20c7
-import FormulaOnePacks from 0xf8d6e0586b0a20c7
-
 // This transaction is for a user to put a new pack up for sale
 // They must have FormulaOne Collection and a FormulaOnePacks Collection
 // stored in their account

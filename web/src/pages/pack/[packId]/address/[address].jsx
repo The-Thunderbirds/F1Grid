@@ -19,7 +19,7 @@ const PackDetails = () => {
   const [rating, setRating] = useState(3.5);
 
   useEffect(() => {
-    getAllPackIDs(AdminAccountAddress).then((res) => {
+    getAllPackIDs().then((res) => {
       const temp = res.find((item) => item.packID == packId)
       setSingleNft({ ...NFT__DATA[0], ...temp });
       console.log(temp)
@@ -28,9 +28,9 @@ const PackDetails = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const handlePurchase = async (packID, price) => {
+  const handlePurchase = async (seller, packID, price) => {
     setLoading(true)
-    const result = await _purchasePack(AdminAccountAddress, packID, price)
+    const result = await _purchasePack(seller, packID, price)
     if (result) {
       alert("Pack purchased successfully")
       setLoading(false)
@@ -100,7 +100,7 @@ const PackDetails = () => {
 
                 <p className="my-4">Description: Specially Curated Moments Pack for F1 racing lovers</p>
                 <p className="my-4">Price: {Math.round(singleNft.price * 10) / 10} FLOW</p>
-                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.packID, singleNft.price)}>
+                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.owner, singleNft.packID, singleNft.price)}>
                   {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
                   <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
                 </button>

@@ -216,15 +216,16 @@ export const _purchaseMoment = async (sellerAddress=AdminAccountAddress, tokenID
  
 
 // CREATE PACK
-export const _createPack = async (momentIDs, momentsPerPack, price=10.0) => {
+export const _createPack = async (momentIDs, momentsPerPack, price=10.0, owner) => {
   try {
-      console.log(momentIDs, momentsPerPack, price)
+      console.log(momentIDs, momentsPerPack, price, owner)
       const transactionId = await fcl.mutate({
         cadence: `${createPack}`,
         args: (arg, t) => [
           arg(momentIDs, types.Array(types.UInt64)),
           arg(momentsPerPack, types.UInt64),
-          arg(price.toFixed(2), types.UFix64)
+          arg(price.toFixed(2), types.UFix64),
+          arg(owner, types.Address),
         ], 
       })
       console.log("Pack created now with transaction ID", transactionId);

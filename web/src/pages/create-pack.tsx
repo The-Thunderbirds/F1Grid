@@ -38,7 +38,7 @@ const CreatePack = () => {
     }
 
     setLoading(true)
-    const result = await _createPack(packs, numPacks, salePrice)
+    const result = await _createPack(packs, numPacks, salePrice, flowUser.addr)
     if (result) {
       alert("Moment Added to Marketplace successfully")
       setLoading(false)

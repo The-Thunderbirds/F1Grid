@@ -27,6 +27,7 @@ const Mint = () => {
     if (flowUser?.addr) {
       getPackProofsByAddr(flowUser.addr).then((res) => {
         setAllPackProofs(() => res);
+        console.log(res)
       })
     }
   }, [flowUser])
@@ -34,11 +35,14 @@ const Mint = () => {
   const [createdPacks, setAllCreatedPack] = useState([]);
 
   useEffect(() => {
-    getAllPackIDs().then((res) => {
-      const temp = res.find((item) => item?.owner == flowUser?.addr)
-      console.log(res)
-      setAllCreatedPack(() => res);
-    })
+    if (flowUser?.addr) {
+      getAllPackIDs().then((res) => {
+
+        const temp = res.filter((item) => item.owner === flowUser?.addr)
+        console.log(temp)
+        setAllCreatedPack(() => temp);
+      })
+    }
   }, [flowUser])
 
   const [loading, setLoading] = useState(false);
@@ -73,7 +77,7 @@ const Mint = () => {
                   currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
                 }}
-                nopurchase={true} 
+                  nopurchase={true}
                 />
                 <div className="d-flex mt-2" style={{ justifyContent: "space-evenly" }}>
                   <button
@@ -139,7 +143,7 @@ const Mint = () => {
                   currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
                 }}
-                nopurchase={true} 
+                  nopurchase={true}
                 />
                 <div className="d-flex mt-2" style={{ justifyContent: "space-evenly" }}>
                   <button

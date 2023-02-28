@@ -24,7 +24,10 @@ import { getSaleMomentIdMetadata } from "@/cadence/scripts/market/get_sale_momen
 /**** PACKS ****/
 import { getAllPacks } from "@/cadence/scripts/packs/get_all_packs";
 import { getPackPrice } from "@/cadence/scripts/packs/get_pack_price";
+import { getPackByID } from "@/cadence/scripts/packs/get_pack_by_id";
+import { getPackMoments } from "@/cadence/scripts/packs/get_pack_moments";
 import { getPackProofs } from "@/cadence/scripts/packs/get_pack_proofs";
+import { getPackIDbyPackProof } from "@/cadence/scripts/packs/get_pack_proofs_packId";
 
 import { AdminAccountAddress } from "@/constants";
 
@@ -408,6 +411,33 @@ export const getPackProofsByAddr = async (addr) => {
             cadence: `${getPackProofs}`,
             args: (arg, t) => [
                 arg(addr, types.Address),
+            ],
+        })
+
+        const packs = []
+        for(let i = 0; i < result.length; i++) {
+            console.log(result[i])
+            const packID = result[i];
+            const pack = await getPackById(packID);
+            const price = await getPackPriceById(pack.owner, packID);
+            pack["price"] = price
+            packs.push(pack)
+        }
+        console.log(packs)
+        return packs;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET PACK BY ID
+export const getPackById = async (id) => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getPackByID}`,
+            args: (arg, t) => [
+                arg(id, types.UInt64),
             ],
         })
         return result;

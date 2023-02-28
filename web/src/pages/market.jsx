@@ -130,7 +130,8 @@ const Market = () => {
 
             <h1>Packs</h1>
             {allPackItems?.map((item) => (
-              <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
+                !item.soldComplete &&
+                <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
                 <PackDisplayCard item={{
                   ...NFT__DATA[0],
                   id: item.packID,

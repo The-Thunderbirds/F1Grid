@@ -1,4 +1,8 @@
-import FormulaOnePacks from 0xf8d6e0586b0a20c7
+import { FormulaOnePacks } from "src/constants";
+
+export const getPackMoments = 
+`
+import FormulaOnePacks from ${FormulaOnePacks}
 
 // This script returns the moments remaining in the pack
 // in the FormulaOne smart contract
@@ -16,3 +20,4 @@ pub fun main(packID: UInt64): [UInt64] {
 
     return moments
 }
+`
