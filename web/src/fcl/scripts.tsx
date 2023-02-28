@@ -373,11 +373,12 @@ export const getAllPackIDs = async () => {
         const result = await fcl.query({
             cadence: `${getAllPacks}`
         })
+
         const len = result.length
         for(var i = 0; i < len; i++) {
             const obj = result[i]
-            const packID = obj["packID"]
-            const price = await getPackPriceById(AdminAccountAddress, packID)
+            const packID = obj["packID"]            
+            const price = await getPackPriceById(obj.owner, packID)
             obj["price"] = price
         }
         return result;
