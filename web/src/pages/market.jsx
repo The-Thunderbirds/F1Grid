@@ -25,7 +25,6 @@ const Market = () => {
   useEffect(() => {
     setPageLoading(true)
     getAllSaleItems().then((res) => {
-      console.log(res)
       setAllSaleItems(() => res);
       setPageLoading(false)
     })
@@ -36,13 +35,10 @@ const Market = () => {
   useEffect(() => {
     setPageLoading(true)
     getAllPackIDs().then((res) => {
-      console.log(res)
       setAllPackItems(() => res);
       setPageLoading(false)
     })
   }, [])
-
-  const [loading, setLoading] = useState(false);
 
   const handleCategory = () => { };
 
@@ -84,7 +80,6 @@ const Market = () => {
   return (
     <>
       <CommonSection title={"MarketPlace"} />
-
 
       <section>
         <Container>
