@@ -53,6 +53,7 @@ pub contract FormulaOneMarketPlaceUsers {
             metadata: metadata
         )
         self.membershipDrop[drop.id] = drop
+        self.membershipWaitlist[drop.id] = []
     }
 
     pub fun closeMembershipDrop(membershipDropID: UInt64){
@@ -67,11 +68,7 @@ pub contract FormulaOneMarketPlaceUsers {
         pre {
             self.membershipDrop[membershipDropID] != nil: "No drop with the mentioned id"
         }
-        if(self.membershipWaitlist[membershipDropID] == nil){
-            self.membershipWaitlist[membershipDropID] = [address]
-        } else {
-            self.membershipWaitlist[membershipDropID]?.append(address)
-        }
+        self.membershipWaitlist[membershipDropID]?.append(address)
     }
 
     pub fun getDrops(): {UInt64: FormulaOneMarketPlaceUsers.Drop} {
@@ -100,3 +97,4 @@ pub contract FormulaOneMarketPlaceUsers {
         return self.nextDropID
     }
 }
+ 
