@@ -30,7 +30,6 @@ const Mint = () => {
     setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
-      console.log(res)
       setPageLoading(false)
     })
   }, [])
