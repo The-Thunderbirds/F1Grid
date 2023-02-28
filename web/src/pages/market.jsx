@@ -14,23 +14,30 @@ import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 
 const Market = () => {
+
+  const [pageLoading, setPageLoading] = useState(false)
+
   const [data, setData] = useState(NFT__DATA);
 
   const [allSaleItems, setAllSaleItems] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllSaleItems().then((res) => {
       console.log(res)
       setAllSaleItems(() => res);
+      setPageLoading(false)
     })
   }, [])
 
   const [allPackItems, setAllPackItems] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPackIDs().then((res) => {
       console.log(res)
       setAllPackItems(() => res);
+      setPageLoading(false)
     })
   }, [])
 
@@ -67,9 +74,29 @@ const Market = () => {
     }
   };
 
+  if(pageLoading) {
+    return (
+      <>
+        <CommonSection title={"MarketPlace"} />
+        <section>
+          <Container>
+            {/* Replace this if needed */}
+            <Spinner color="danger" type="grow"
+              style={{
+                height: '5rem',
+                width: '5rem'
+              }}
+            />
+          </Container>
+        </section>
+      </>
+    )
+  }
+
   return (
     <>
       <CommonSection title={"MarketPlace"} />
+
 
       <section>
         <Container>
