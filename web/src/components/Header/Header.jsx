@@ -29,6 +29,10 @@ const NAV__LINKS = [
     display: "My Packs",
     url: "/packs"
   },
+  {
+    display: "Compare",
+    url: "/compare"
+  },
   // {
   //   display: "Sale Collection",
   //   url: "/sale-collection"
@@ -172,6 +176,7 @@ const Header = () => {
                 >
                   Market
                 </Link>
+
               </li>
               {
                 session || flowUser?.addr &&
@@ -214,6 +219,15 @@ const Header = () => {
           </div>
 
           <div className="nav__right d-flex align-items-center gap-5 ">
+            {
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}
+              onClick={() => {
+                router.push("/compare")
+              }}
+            >
+              Compare
+            </button>
+            }
             {/* Connect With Dappr wallet directly */}
             {
               !session && !flowUser?.addr &&
@@ -250,10 +264,9 @@ const Header = () => {
             }
             {
               flowUser?.addr &&
-              <p>
-                {flowNSAddr} | {flowNSName}
-              </p>
+                console.log({flowNSAddr}, {flowNSName})
             }
+            
             {
               flowUser?.addr && hasSetupAccount &&
               <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}

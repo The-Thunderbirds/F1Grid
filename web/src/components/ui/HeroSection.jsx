@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Link from "next/link";
-import Image from "next/image";
 import ReactPlayer from "react-player";
-import heroImg from "../../assets/images/hero.jpg";
-
 const HeroSection = () => {
 
   // Fixes hydration error caused by React Player
@@ -42,9 +39,9 @@ const HeroSection = () => {
             <div className="hero__img">
               {hasWindow &&
               <ReactPlayer
-                url="https://streamable.com/xjpc9x"
+                url="/F1.mp4"
                 loop={true}
-                muted={true}
+                muted={false}
                 playing={true}
                 style={{
                   borderRadius: '12px',

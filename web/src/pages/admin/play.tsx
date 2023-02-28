@@ -9,7 +9,7 @@ import PlayCard from "@/components/ui/Nft-card/PlayCard";
 import img from "@/assets/images/cars/ferrari.png";
 import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
-
+import Image from "next/image";
 import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
@@ -152,7 +152,11 @@ const Play = () => {
                 <Row>
                   <Col lg="6" md="4" sm="6">
                     <h5 className="mb-4 text-light">Preview Item</h5>
-                    <NftCard item={preview} nopurchase={true} />
+                    <div className="single__nft__card">
+                    <div className="nft__img">
+                      <Image src={preview.imgUrl} alt=""  width={450} />
+                    </div>
+                  </div>
                     <button
                       className="bid__btn w-50 mt-3"
                       onClick={handleSubmit}
