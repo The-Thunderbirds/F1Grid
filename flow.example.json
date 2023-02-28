@@ -46,6 +46,7 @@
 				"testnet": "2bf5575475144be3"
 			}
 		},
+		"PuddleV1": "./cadence/contracts/puddle/PuddleV1.cdc",
 		"RandomTraitNFT": "./cadence/contracts/RandomTraitNFT.cdc"
 	},
 	"networks": {
@@ -80,7 +81,8 @@
 				"FormulaOneMarket",
 				"PRNG",
 				"FormulaOnePacks",
-				"FormulaOneMarketplaceUsers"
+				"FormulaOneMarketplaceUsers",
+				"PuddleV1"
 			]
 		},
 		"testnet": {
@@ -89,7 +91,8 @@
 				"FormulaOneAdmin",
 				"FormulaOneMarket",
 				"FormulaOnePacks",
-				"FormulaOneMarketplaceUsers"
+				"FormulaOneMarketplaceUsers",
+				"PuddleV1"
 			]
 		}
 	}
