@@ -52,7 +52,7 @@ const PlayDetails = () => {
                     <Row>
                         <Col lg="6" md="6" sm="6">
                             <Image
-                                src={{ src: singleNft.thumbnail, width: 500, height: 150 }}
+                                src={{ src: singleNft.thumbnail, width: 432, height: 128 }}
                                 alt=""
                                 className="single__nft-img"
                             />

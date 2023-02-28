@@ -121,7 +121,7 @@ const Mint = () => {
                     <h5 className="mb-4 text-light">Preview Item</h5>
                     <div className="single__nft__card">
                     <div className="nft__img">
-                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:500, height:150}} alt=""  width={450} />
+                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:432, height: 128}} alt=""  width={450} />
                     </div>  
                   </div>
                     <button
@@ -204,7 +204,7 @@ const Mint = () => {
                   desc: item.description, 
                   creator: flowUser?.addr,
                   currentBid: 0,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
                   sno: item.sno
                 }}
                   nopurchase={true}

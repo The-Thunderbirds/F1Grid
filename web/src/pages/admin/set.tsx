@@ -237,8 +237,8 @@ const Set = () => {
                             src: !play.thumbnail
                               ? NFT__DATA[0].imgUrl.src
                               : play.thumbnail,
-                            width: 500,
-                            height: 150,
+                            width: 432,
+                            height: 128,
                           },
                           minted: item.numberMintedPerPlay[item.plays[playIdx]]
                         }}

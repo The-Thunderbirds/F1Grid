@@ -271,7 +271,6 @@ footer {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: inset 1px 3px 16px 0px #cb2d3e;
-  width: 500px !important;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -279,7 +278,6 @@ footer {
 
 .nft__img img {
   border-radius: 10px;
-  width: 432px !important;
 }
 
 .nft__img {

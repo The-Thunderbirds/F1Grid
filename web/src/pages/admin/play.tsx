@@ -57,7 +57,7 @@ const Play = () => {
     const file = e.target.files[0];
     const newItem = {
       ...item,
-      imgUrl: { src: URL.createObjectURL(file), width: 500, height: 150 },
+      imgUrl: { src: URL.createObjectURL(file), width: 432, height: 128 },
     };
     setPreview(newItem);
 
@@ -294,8 +294,8 @@ const Play = () => {
                       desc: item.description,
                       imgUrl: {
                         src: !item.thumbnail ? img.src : item.thumbnail,
-                        width: 500,
-                        height: 150,
+                        width: 432,
+                        height: 128,
                       },
                     }}
                     nopurchase={true}

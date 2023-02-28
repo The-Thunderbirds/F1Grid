@@ -113,7 +113,7 @@ const Mint = () => {
                   title: item.packID,
                   creator: item.owner,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 400 },
                 }}
                   nopurchase={true}
                 />
@@ -138,7 +138,7 @@ const Mint = () => {
                   title: item.packID,
                   creator: flowUser?.addr,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 400 },
                 }}
                   nopurchase={true}
                 />

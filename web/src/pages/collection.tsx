@@ -74,7 +74,7 @@ const Collection = () => {
                   desc: item.description, 
                   creator: flowUser?.addr,
                   currentBid: 0,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
                   sno: item.sno
                 }}
                   nopurchase={true}

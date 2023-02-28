@@ -17,7 +17,7 @@ const PackDisplayCard = (props) => {
         })
       }}>
       <div className="nft__img">
-        <Image src={imgUrl} alt="" className="w-100" />
+        <Image src={imgUrl} alt="" style={{width:"400px", height:"400px"}}/>
       </div>
 
       <div className="nft__content">
