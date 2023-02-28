@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Form, FormGroup, Label, Input, Spinner } from "reactstrap";
+import { Container, Row, Col, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
-import NftCard from "@/components/ui/Nft-card/NftCard";
 import PackDisplayCard from "@/components/ui/Nft-card/PackDisplayCard";
 
-import { _startSale } from "@/fcl/transactions";
+import { openPack, _giftPack } from "@/fcl/transactions";
 import { getAllPackIDs, getPackProofsByAddr } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
@@ -48,10 +47,38 @@ const Mint = () => {
   const [loading, setLoading] = useState(false);
 
   const [giftAddress, setGiftAddress] = useState("")
-  const [addSaleloading, setAddSaleloading] = useState(false);
+  const [giftLoading, setGiftLoading] = useState(false);
 
-  const handleOpenPack = () => { alert("TEMPORARY: Pack has been opened, and moments are now in your collection") }
-  const handleGiftPack = () => { }
+  const handleOpenPack = async (seller, packId) => { 
+    setLoading(true)
+    const result = await openPack(seller, packId);
+    if (result) {
+      alert("Pack opened successfully")
+      setLoading(false)
+      router.push({
+        "pathname": "/collection"
+      })
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+    }
+  }
+
+  const handleGiftPack = async (packId, addr) => { 
+    setGiftLoading(true)
+    const result = await _giftPack(packId, addr);
+    if (result) {
+      alert("Gift sent successfully")
+      setGiftLoading(false)
+      window.location.reload()
+    }
+    else {
+      alert("Something went wrong")
+      setGiftLoading(false)
+    }
+    
+  }
   return (
     <>
       <CommonSection title="Mint Moment" />
@@ -82,9 +109,10 @@ const Mint = () => {
                 <div className="d-flex mt-2" style={{ justifyContent: "space-evenly" }}>
                   <button
                     className="bid__btn d-flex align-items-center gap-1"
-                    onClick={handleOpenPack}
+                    onClick={() => {handleOpenPack(item.owner, item.packID)}}
                   >
-                    Open Pack
+                    {!loading && <span> Open Pack </span>}
+                    <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />                    
                   </button>
                 </div>
                 {modal && (
@@ -118,8 +146,8 @@ const Mint = () => {
                               onClick={() => { handleGiftPack() }}
                               style={{ textAlign: "center" }}
                             >
-                              {!addSaleloading && <span> Gift Pack </span>}
-                              <Spinner color="primary" style={{ display: addSaleloading ? "block" : "none", marginLeft: "45%" }} />
+                              {!giftLoading && <span> Gift Pack </span>}
+                              <Spinner color="primary" style={{ display: giftLoading ? "block" : "none", marginLeft: "45%" }} />
                             </button>
 
                           </div>
@@ -132,7 +160,7 @@ const Mint = () => {
               </Col>
             ))}
 
-            <h4 className={styles.label} >Your Created Packs</h4>
+            <h4 className={styles.label} >Your Created Packs</h4>            
             {createdPacks?.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <PackDisplayCard item={{
@@ -181,11 +209,11 @@ const Mint = () => {
                             </form>
                             <button
                               className="bid__btn w-100 mt-3"
-                              onClick={() => { handleGiftPack() }}
+                              onClick={() => { handleGiftPack(item.packID, giftAddress) }}
                               style={{ textAlign: "center" }}
                             >
-                              {!addSaleloading && <span> Gift Pack </span>}
-                              <Spinner color="primary" style={{ display: addSaleloading ? "block" : "none", marginLeft: "45%" }} />
+                              {!giftLoading && <span> Gift Pack </span>}
+                              <Spinner color="primary" style={{ display: giftLoading ? "block" : "none", marginLeft: "45%" }} />
                             </button>
 
                           </div>

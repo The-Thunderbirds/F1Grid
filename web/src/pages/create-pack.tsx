@@ -36,7 +36,6 @@ const CreatePack = () => {
       alert("Please select Moments from your collection to add in packs")
       return
     }
-
     setLoading(true)
     const result = await _createPack(packs, numPacks, salePrice, flowUser.addr)
     if (result) {
@@ -64,7 +63,7 @@ const CreatePack = () => {
               <Form >
                 <FormGroup>
                   <Label for="exampleSelect" style={{ color: "white" }}>
-                    Enter Number of Packs
+                    Enter Number of Moments Per Pack
                   </Label>
                   <Input
                     id="exampleSelect"
@@ -77,7 +76,7 @@ const CreatePack = () => {
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect" style={{ color: "white" }}>
-                    Enter Price for single Pack (in FLOW)
+                    Enter Price Per Pack (in FLOW)
                   </Label>
                   <Input
                     id="exampleSelect"
