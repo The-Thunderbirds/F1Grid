@@ -25,6 +25,7 @@ const Mint = () => {
   useEffect(() => {
     if (flowUser?.addr) {
       getPackProofsByAddr(flowUser.addr).then((res) => {
+        if(res[0] === undefined) return;
         setAllPackProofs(() => res);
         console.log(res)
       })
