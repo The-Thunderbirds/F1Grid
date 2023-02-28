@@ -9,6 +9,7 @@ import ReactStars from 'react-stars'
 import { getPlayMetadataById } from "@/fcl/scripts";
 import styles from "@/styles/Token.module.css"
 import { AdminAccountAddress } from "@/constants";
+import PageLoader from "@/components/ui/PageLoader";
 
 
 const PlayDetails = () => {
@@ -16,16 +17,18 @@ const PlayDetails = () => {
 
     const { playId } = router.query;
 
+    const [pageLoading, setPageLoading] = useState(true)
+
     const [singleNft, setSingleNft] = useState(NFT__DATA[0]);
     const [rating, setRating] = useState(3.5);
 
     useEffect(() => {
+        setPageLoading(true)
         getPlayMetadataById(playId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
+            setPageLoading(false)
         })
     }, [])
-
-    const [loading, setLoading] = useState(false);
 
     const traits = {
         Season: 2022,
@@ -33,6 +36,13 @@ const PlayDetails = () => {
         Team: "Ferrari"
     }
 
+    if(pageLoading) {
+        return (
+          <PageLoader/>
+        )
+    }
+    
+    
     return (
         <>
             <CommonSection title={singleNft.name} />

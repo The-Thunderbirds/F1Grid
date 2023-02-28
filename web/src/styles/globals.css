@@ -759,6 +759,13 @@ footer {
   width: 50%;
 }
 
+.nft__creator__compare {
+  background: #212124;
+  padding: 15px;
+  border-radius: 7px;
+  width: 60%;
+}
+
 .creator__img {
   width: 40px;
   height: 40px;
@@ -1015,3 +1022,10 @@ footer {
   .nav__item .button{
     line-height: 1px !important;
   }
+
+
+.center__loader{
+  display: flex;
+  justify-content:center;
+  margin:0 auto;
+}

@@ -11,6 +11,7 @@ import { getSaleItemByAddrID } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 import styles from "@/styles/Token.module.css"
+import PageLoader from "@/components/ui/PageLoader";
 
 
 const SaleNFTDetails = () => {
@@ -18,12 +19,16 @@ const SaleNFTDetails = () => {
 
     const { tokenId, address } = router.query;
 
+    const [pageLoading, setPageLoading] = useState(true)
+
     const [singleNft, setSingleNft] = useState(NFT__DATA[0]);
     const [rating, setRating] = useState(3.5);
 
     useEffect(() => {
+        setPageLoading(true)
         getSaleItemByAddrID(address, tokenId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
+            setPageLoading(false)
         })
     }, [])
 
@@ -97,11 +102,12 @@ const SaleNFTDetails = () => {
             }
         ]
 
-    const handlePurchase = async (momentId, price) => {
+    const handlePurchase = async (addr, momentId, price) => {
+        console.log(price)
         setLoading(true)
-        const result = await _purchaseMoment(AdminAccountAddress, momentId, price)
+        const result = await _purchaseMoment(addr, momentId, price)
         if (result) {
-            alert("Sale Collection created successfully")
+            alert("Moment purchased successfully")
             setLoading(false)
             router.push({
                 pathname: '/collection',
@@ -113,6 +119,12 @@ const SaleNFTDetails = () => {
         }
     }
 
+    if(pageLoading) {
+        return (
+          <PageLoader/>
+        )
+    }
+        
     return (
         <>
             <CommonSection title={singleNft.name} />
@@ -236,7 +248,7 @@ const SaleNFTDetails = () => {
 
                                 <p className="my-4">Description: {singleNft.description}</p>
                                 <p className="my-4">Price: {Math.round(singleNft.price * 10) / 10} FLOW</p>
-                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.id, singleNft.price)}>
+                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.address, singleNft.id, singleNft.price)}>
                                     {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
                                     <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
                                 </button>

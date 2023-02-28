@@ -7,15 +7,16 @@ import PackDisplayCard from "../components/ui/Nft-card/PackDisplayCard";
 
 import { NFT__DATA } from "../assets/data/data";
 
-import { Container, Row, Col, Spinner } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 
 import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
+import PageLoader from "@/components/ui/PageLoader";
 
 const Market = () => {
 
-  const [pageLoading, setPageLoading] = useState(false)
+  const [pageLoading, setPageLoading] = useState(true)
 
   const [data, setData] = useState(NFT__DATA);
 
@@ -24,7 +25,6 @@ const Market = () => {
   useEffect(() => {
     setPageLoading(true)
     getAllSaleItems().then((res) => {
-      console.log(res)
       setAllSaleItems(() => res);
       setPageLoading(false)
     })
@@ -35,13 +35,10 @@ const Market = () => {
   useEffect(() => {
     setPageLoading(true)
     getAllPackIDs().then((res) => {
-      console.log(res)
       setAllPackItems(() => res);
       setPageLoading(false)
     })
   }, [])
-
-  const [loading, setLoading] = useState(false);
 
   const handleCategory = () => { };
 
@@ -76,27 +73,13 @@ const Market = () => {
 
   if(pageLoading) {
     return (
-      <>
-        <CommonSection title={"MarketPlace"} />
-        <section>
-          <Container>
-            {/* Replace this if needed */}
-            <Spinner color="danger" type="grow"
-              style={{
-                height: '5rem',
-                width: '5rem'
-              }}
-            />
-          </Container>
-        </section>
-      </>
+      <PageLoader/>
     )
   }
 
   return (
     <>
       <CommonSection title={"MarketPlace"} />
-
 
       <section>
         <Container>

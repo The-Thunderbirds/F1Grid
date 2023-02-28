@@ -10,28 +10,40 @@ import { mintMoment, _startSale } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
+import PageLoader from "@/components/ui/PageLoader";
+import Image from "next/image";
 
 const Mint = () => {
 
   const flowUser = useFlowUser()
 
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [selectSetId, setSelectSetId] = useState("1");
   const [selectPlayId, setSelectPlayId] = useState("1");
-
-  const [allSets, setAllSets] = useState([]);
+  
   const [modal, setModal] = useState(false);
+  const [addSaleModal, setAddSaleModal] = useState(false);
+  const toggleSaleModal = () => setAddSaleModal(!addSaleModal);
   const toggleModal = () => setModal(!modal);
+  
+  const [allSets, setAllSets] = useState([]);
+
   useEffect(() => {
+    setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      setPageLoading(false)
     })
   }, [])
 
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
       setAllPlays(() => res);
+      setPageLoading(false)
     })
   }, [])
 
@@ -39,8 +51,10 @@ const Mint = () => {
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getAllCollections(flowUser.addr).then((res) => {
         setAllCollections(() => res);
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -78,13 +92,49 @@ const Mint = () => {
     }
   }
 
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title="Mint Moment" />
 
       <section>
         <Container>
-          <Row className="mb-5">
+        {modal && (
+            <div className="modal__wrapper">
+              <div
+                className="single__modal"
+                style={{ width: "1200px", height: "600px" }}
+              >
+                <span className="close__modal">
+                  <i
+                    className="ri-close-line"
+                    onClick={() => setModal(false)}
+                  ></i>
+                </span>
+        <Row className="mb-5">
+                  <Col lg="6" md="4" sm="6">
+                    <h5 className="mb-4 text-light">Preview Item</h5>
+                    <div className="single__nft__card">
+                    <div className="nft__img">
+                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:500, height:150}} alt=""  width={450} />
+                    </div>  
+                  </div>
+                    <button
+                      className="bid__btn w-50 mt-3"
+                      onClick={handleMint }
+                      style={{ marginLeft: "20%" }}
+                    >
+                      {!loading && <span>
+                       Mint Moment</span>}
+                      <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+                    </button>
+                  </Col>
+
             <Col>
               <Form >
                 <FormGroup>
@@ -101,7 +151,7 @@ const Mint = () => {
                   >
                     {allSets && allSets.map((item, index) => (
                       <option value={index + 1}>
-                        {item.name}
+                        {item.name} (Set {item.setID}, Series {item.series})
                       </option>
                     )
                     )}
@@ -129,19 +179,23 @@ const Mint = () => {
                 </FormGroup>
 
               </Form>
-              <button
-                className="bid__btn w-25 mt-3"
-                onClick={handleMint}
-              >
-                {!loading && <span> Mint Moment </span>}
-                <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft: "42%" }} />
-
-              </button>
 
             </Col>
-          </Row>
+                </Row>
+              </div>
+            </div>
+          )}
+
+          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"10px"}}>
+            <h4 className={styles.label}>List of Remaining Minted Moments</h4>
+            <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+          >
+            Mint Moment
+          </button>
+          </div>
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
-            <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <NFTDisplayCard item={{ ...NFT__DATA[0], 
@@ -157,13 +211,13 @@ const Mint = () => {
                 />
                 <button
                   className="bid__btn d-flex align-items-center gap-1"
-                  onClick={toggleModal}
+                  onClick={toggleSaleModal}
                   style={{ marginLeft: "40%", marginTop: "5px" }}
                 >
                   Add to Sale
                 </button>
 
-                {modal && (
+                {addSaleModal && (
                   <div className="modal__wrapper">
                     <div
                       className="single__modal"
@@ -175,7 +229,7 @@ const Mint = () => {
                     >
 
                       <span className="close__modal">
-                        <i className="ri-close-line" onClick={() => setModal(false)}></i>
+                        <i className="ri-close-line" onClick={() => setAddSaleModal(false)}></i>
                       </span>
                       <Row className="mb-5">
                         <Col>

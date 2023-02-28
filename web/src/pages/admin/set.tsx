@@ -8,8 +8,12 @@ import PlayCard from "@/components/ui/Nft-card/PlayCard";
 
 import { createNewSet, addPlayToSet } from "@/fcl/transactions";
 import { getAllSets, getAllPlays } from "@/fcl/scripts";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Set = () => {
+
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
@@ -26,16 +30,21 @@ const Set = () => {
   const [allSets, setAllSets] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      console.log(res)
+      setPageLoading(false)
     })
   }, [])
 
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
       setAllPlays(() => res);
+      setPageLoading(false)
     })
   }, [])
 
@@ -73,20 +82,18 @@ const Set = () => {
     }
   }
 
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title="Create Set" />
 
       <section>
         <Container>
-
-          <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={toggleModal}
-            style={{ marginLeft: "47%" }}
-          >
-            Create Set
-          </button>
 
           {modal && (
             <div className="modal__wrapper">
@@ -193,7 +200,15 @@ const Set = () => {
 
 
           <Row className="mt-4">
-            <h4 className={styles.label}>List of Created Sets</h4>
+          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"15px"}}>
+            <h4 className={styles.label}>List of Created Plays</h4>
+            <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+          >
+            Create Set
+          </button>
+          </div>
             {allSets && allSets.map((item, index) => (
               <div className={styles.pricingContainer} key={index}>
                 {/* {console.log(item)} */}
@@ -215,7 +230,7 @@ const Set = () => {
                       <PlayCard
                         item={{
                           ...NFT__DATA[0],
-                          id: playIdx + 1, // TODO
+                          id: item.plays[playIdx],
                           title: play.name,
                           desc: play.description,
                           imgUrl: {
@@ -225,6 +240,7 @@ const Set = () => {
                             width: 500,
                             height: 150,
                           },
+                          minted: item.numberMintedPerPlay[item.plays[playIdx]]
                         }}
                         nopurchase={true}
                       />

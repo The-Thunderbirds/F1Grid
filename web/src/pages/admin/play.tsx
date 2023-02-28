@@ -14,8 +14,12 @@ import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
 import { NFT__DATA } from "@/assets/data/data";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Play = () => {
+
+  const [pageLoading, setPageLoading] = useState(true)
+
   let item = {
     id: "01",
     title: "Guard",
@@ -97,9 +101,10 @@ const Play = () => {
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
-      console.log(res);
       setAllPlays(() => res);
+      setPageLoading(false)
     });
   }, []);
 
@@ -124,18 +129,18 @@ const Play = () => {
     }
   };
 
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title="Create Play" />
       <section>
         <Container>
-          <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={toggleModal}
-            style={{ marginLeft: "47%" }}
-          >
-            Create Play
-          </button>
+
 
           {modal && (
             <div className="modal__wrapper">
@@ -217,7 +222,15 @@ const Play = () => {
               </div>
             </div>
           )}
+          <div style={{display:"flex", justifyContent:"space-between"}}>
             <h4 className={styles.label}>List of Created Plays</h4>
+            <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+          >
+            Create Play
+          </button>
+          </div>
           <Row className="mt-4" style={{justifyContent:"space-around"}}>
             {allPlays &&
               allPlays.map((item, index) => (
