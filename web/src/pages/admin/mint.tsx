@@ -30,6 +30,7 @@ const Mint = () => {
     setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      console.log(res)
       setPageLoading(false)
     })
   }, [])
@@ -118,7 +119,7 @@ const Mint = () => {
                   >
                     {allSets && allSets.map((item, index) => (
                       <option value={index + 1}>
-                        {item.name}
+                        {item.name} (Set {item.setID}, Series {item.series})
                       </option>
                     )
                     )}
