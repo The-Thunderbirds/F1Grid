@@ -149,7 +149,7 @@ const Market = () => {
                   title: item.packID,
                   creator: AdminAccountAddress,
                   currentBid: item.price,
-                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2,
+                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
                 }}
                 // nopurchase={true} 
                 />

@@ -277,10 +277,12 @@ footer {
 }
 
 .nft__img img {
+  position: relative !important;
   border-radius: 10px;
 }
 
 .nft__img {
+  position: relative !important;
   margin-bottom: 15px;
 }
 

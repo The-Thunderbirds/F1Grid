@@ -29,7 +29,7 @@ const Play = () => {
     currentBid: 7.89,
   };
 
-  const [preview, setPreview] = useState(item);
+  const [preview, setPreview] = useState(item.imgUrl.src);
 
   const dataURItoBlob = (dataURI) => {
     var byteString = atob(dataURI.split(",")[1]);
@@ -55,11 +55,7 @@ const Play = () => {
 
   const handleFile = (e) => {
     const file = e.target.files[0];
-    const newItem = {
-      ...item,
-      imgUrl: { src: URL.createObjectURL(file), width: 432, height: 128 },
-    };
-    setPreview(newItem);
+    setPreview(URL.createObjectURL(file));
 
     fileToDataUri(file).then((uri: any) => {
       setDataUri(uri);
@@ -79,6 +75,7 @@ const Play = () => {
 
       var storageUrl = metadata.url;
       const ipfslink = await getImageFromTokenId(storageUrl);
+      console.log(ipfslink)
       setLoading(false);
       window.alert("Successfully stored on IPFS");
       // const ipfslink = "https://bafybeif52s3h2prjfd2awb2vjaxdi5kvg2jhh54cq3ihlkivws3h6fdmpe.ipfs.nftstorage.link/blob";
@@ -146,7 +143,7 @@ const Play = () => {
             <div className="modal__wrapper">
               <div
                 className="single__modal"
-                style={{ width: "1200px", height: "600px" }}
+                style={{ width: "1200px", height: "650px" }}
               >
                 <span className="close__modal">
                   <i
@@ -159,7 +156,7 @@ const Play = () => {
                     <h5 className="mb-4 text-light">Preview Item</h5>
                     <div className="single__nft__card">
                       <div className="nft__img">
-                        <Image src={preview.imgUrl} alt="" width={450} />
+                        <Image src={preview} fill alt=""  />
                       </div>
                     </div>
                     <button
@@ -241,7 +238,7 @@ const Play = () => {
                             <input
                               type="date"
                               placeholder="Enter Date"
-                              value={team}
+                              value={date}
                               onChange={(e) => setDate(e.target.value)}
                             />
                           </div>
@@ -286,6 +283,7 @@ const Play = () => {
             {allPlays &&
               allPlays.map((item, index) => (
                 <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
+                  {/* <Image src={item.thumbnail} fill alt="" /> */}
                   <PlayCard
                     item={{
                       ...NFT__DATA[0],

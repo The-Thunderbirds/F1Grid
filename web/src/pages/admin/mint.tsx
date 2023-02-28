@@ -108,7 +108,7 @@ const Mint = () => {
             <div className="modal__wrapper">
               <div
                 className="single__modal"
-                style={{ width: "1200px", height: "600px" }}
+                style={{ width: "1200px", height: "650px" }}
               >
                 <span className="close__modal">
                   <i
