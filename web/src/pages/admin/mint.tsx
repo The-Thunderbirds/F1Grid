@@ -104,13 +104,6 @@ const Mint = () => {
 
       <section>
         <Container>
-        <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={toggleModal}
-            style={{ marginLeft: "47%" }}
-          >
-            Mint Moment
-          </button>
         {modal && (
             <div className="modal__wrapper">
               <div
@@ -194,8 +187,16 @@ const Mint = () => {
             </div>
           )}
 
+          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"10px"}}>
+            <h4 className={styles.label}>List of Remaining Minted Moments</h4>
+            <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+          >
+            Create Play
+          </button>
+          </div>
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
-            <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <NFTDisplayCard item={{ ...NFT__DATA[0], 
