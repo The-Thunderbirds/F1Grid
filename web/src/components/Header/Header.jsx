@@ -68,9 +68,10 @@ const Header = () => {
         setHasSetupAccount(res);
       })
     }
+  }, [flowUser]);
 
+  useEffect(() => {
     getAddrByName("flowns.fn").then((res) => {
-      console.log(res);
       if(res){
         setFlowNSAddr(res.owner); 
       }else{
@@ -101,7 +102,7 @@ const Header = () => {
       console.log(`Is Address Valid : ${res}`);
     })
     
-  }, [flowUser]);
+  }, [])
 
   const handleConnectWallet = async () => {
     fcl.unauthenticate()

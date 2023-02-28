@@ -414,16 +414,30 @@ export const getPackProofsByAddr = async (addr) => {
                 arg(addr, types.Address),
             ],
         })
-
         const packs = []
         for(let i = 0; i < result.length; i++) {
-            console.log(result[i])
-            const packID = result[i];
+            const packProofID = result[i];
+            const packID = await getPackIdByPackProofId(addr, packProofID);
             const pack = await getPackById(packID);
             packs.push(pack)
         }
-        console.log(packs)
         return packs;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// GET PACK ID BY PACK PROOF ID
+export const getPackIdByPackProofId = async (addr, packProofId) => {
+    try {
+        const result = await fcl.query({
+            cadence: `${getPackIDbyPackProof}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(packProofId, types.UInt64),
+            ],
+        })
+        return result;
     } catch (error) {
         console.log(error);
     }
@@ -440,7 +454,7 @@ export const getPackById = async (id) => {
             ],
         })
         const price = await getPackPriceById(result.owner, id);
-        result["price"] = price
+        result["price"] = price        
         return result;
     } catch (error) {
         console.log(error);

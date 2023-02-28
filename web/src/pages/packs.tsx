@@ -25,7 +25,6 @@ const Mint = () => {
   useEffect(() => {
     if (flowUser?.addr) {
       getPackProofsByAddr(flowUser.addr).then((res) => {
-        if(res[0] === undefined) return;
         setAllPackProofs(() => res);
         console.log(res)
       })
@@ -116,48 +115,6 @@ const Mint = () => {
                     <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />                    
                   </button>
                 </div>
-                {modal && (
-                  <div className="modal__wrapper">
-                    <div
-                      className="single__modal"
-                      style={{
-                        width: "400px",
-                        height: "250px",
-                        borderRadius: "15px",
-                      }}
-                    >
-
-                      <span className="close__modal">
-                        <i className="ri-close-line" onClick={() => setModal(false)}></i>
-                      </span>
-                      <Row className="mb-5">
-                        <Col>
-                          <div className="create__item">
-                            <form>
-                              <div className="form__input">
-                                <label htmlFor="">Gifting Address</label>
-                                <input type="text" placeholder="Enter address"
-                                  value={giftAddress}
-                                  onChange={(e) => setGiftAddress(e.target.value)}
-                                />
-                              </div>
-                            </form>
-                            <button
-                              className="bid__btn w-100 mt-3"
-                              onClick={() => { handleGiftPack() }}
-                              style={{ textAlign: "center" }}
-                            >
-                              {!giftLoading && <span> Gift Pack </span>}
-                              <Spinner color="primary" style={{ display: giftLoading ? "block" : "none", marginLeft: "45%" }} />
-                            </button>
-
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </div>
-                )}
-
               </Col>
             ))}
 
