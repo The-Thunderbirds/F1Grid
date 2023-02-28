@@ -25,11 +25,12 @@ import { getSaleMomentIdMetadata } from "@/cadence/scripts/market/get_sale_momen
 import { getAllPacks } from "@/cadence/scripts/packs/get_all_packs";
 import { getPackPrice } from "@/cadence/scripts/packs/get_pack_price";
 import { getPackByID } from "@/cadence/scripts/packs/get_pack_by_id";
-import { getPackMoments } from "@/cadence/scripts/packs/get_pack_moments";
 import { getPackProofs } from "@/cadence/scripts/packs/get_pack_proofs";
+import { getPackMomentIdMetadata } from "@/cadence/scripts/packs/get_pack_moment_id_metadata";
+import { getPackMomentSetID } from "@/cadence/scripts/packs/get_pack_moment_set_id";
+import { getPackMomentSNo } from "@/cadence/scripts/packs/get_pack_moment_serialNum";
 import { getPackIDbyPackProof } from "@/cadence/scripts/packs/get_pack_proofs_packId";
 
-import { AdminAccountAddress } from "@/constants";
 
 // Flow Balance
 export const flow_balance = async (addr="0x4e616c1e361b69d2") => {
@@ -234,7 +235,6 @@ export const getMomentByAddrID = async (addr, id) => {
         result["set"] = set
 
         result["id"] = id
-        console.log(result)
         return result;
     } catch (error) {
         console.log(error);
@@ -420,8 +420,6 @@ export const getPackProofsByAddr = async (addr) => {
             console.log(result[i])
             const packID = result[i];
             const pack = await getPackById(packID);
-            const price = await getPackPriceById(pack.owner, packID);
-            pack["price"] = price
             packs.push(pack)
         }
         console.log(packs)
@@ -441,8 +439,53 @@ export const getPackById = async (id) => {
                 arg(id, types.UInt64),
             ],
         })
+        const price = await getPackPriceById(result.owner, id);
+        result["price"] = price
         return result;
     } catch (error) {
         console.log(error);
     }
 }
+
+
+// GET PACK MOMENT METADATA BY ID AND ADDRESS
+export const getPackMomentByAddrID = async (addr, id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getPackMomentIdMetadata}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+                arg(id, types.UInt64),
+            ],    
+        })
+        const sno = await getMomentSNumByAddrID(addr, id, getPackMomentSNo)
+        result["sno"] = sno
+
+        const setid = await getMomentSetIDByAddrID(addr, id, getPackMomentSetID)
+        const set = await getSetDataByID(setid)
+        result["set"] = set
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+// GET PACK WITH MOMENTS BY ID
+export const getPackWithMomentsById = async (id) => {
+    try {
+        const result = await getPackById(id)
+        let len = result.moments.length;
+        result["momentDetails"] = []
+        for(var i = 0; i < len; i++) {
+            const moment = await getPackMomentByAddrID(result.owner, result.moments[i])
+            console.log(moment)
+            result["momentDetails"].push(moment)
+        }
+        console.log(result);
+
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+} 

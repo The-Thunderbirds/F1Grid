@@ -6,23 +6,24 @@ import { NFT__DATA } from "@/assets/data/data";
 import Image from "next/image"
 import { useRouter } from 'next/router'
 import ReactStars from 'react-stars'
-import { getAllPackIDs } from "@/fcl/scripts";
+import { getPackWithMomentsById } from "@/fcl/scripts";
 import { _purchasePack } from "@/fcl/transactions";
-import { AdminAccountAddress } from "@/constants"
+import { useFlowUser } from "@/hooks/userFlowUser"
+import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
 
 
 const PackDetails = () => {
   const router = useRouter();
+  const flowUser = useFlowUser()
 
   const { packId } = router.query;
   const [singleNft, setSingleNft] = useState(NFT__DATA[0]);
   const [rating, setRating] = useState(3.5);
 
   useEffect(() => {
-    getAllPackIDs().then((res) => {
-      const temp = res.find((item) => item.packID == packId)
-      setSingleNft({ ...NFT__DATA[0], ...temp });
-      console.log(temp)
+    getPackWithMomentsById(packId).then((res) => {
+      console.log(res)
+      setSingleNft({ ...NFT__DATA[0], ...res });
     })
   }, [])
 
@@ -53,7 +54,22 @@ const PackDetails = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
 
-            <h1>DISPLAY ALL POSSIBLE MOMENTS HERE</h1>
+            <h2>Possible Moments from Pack</h2>
+            {singleNft && singleNft.momentDetails?.map((item, index) => (
+                <NFTDisplayCard item={{ ...NFT__DATA[0], 
+                  id: item.id,  
+                  title: item.name, 
+                  desc: item.description, 
+                  creator: flowUser?.addr,
+                  currentBid: 0,
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  sno: item.sno
+                }}
+                  nopurchase={true}
+                />
+            ))
+            }
+
 
             </Col>
 
@@ -99,6 +115,7 @@ const PackDetails = () => {
                 </div>
 
                 <p className="my-4">Description: Specially Curated Moments Pack for F1 racing lovers</p>
+                <p className="my-4">Number of moments: You will get {singleNft.momentsPerPack} moments from this pack pool</p>
                 <p className="my-4">Price: {Math.round(singleNft.price * 10) / 10} FLOW</p>
                 <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.owner, singleNft.packID, singleNft.price)}>
                   {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
