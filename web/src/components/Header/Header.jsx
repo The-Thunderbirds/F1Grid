@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { AdminAccountAddress } from "@/constants"
 
 // Flow NS
-import { getAddrByName, getNameByAddr } from "@/api/flowns";
+import { validName, getAddrByName, validAddr, getNameByAddr } from "@/api/flowns";
 
 const NAV__LINKS = [
 
@@ -92,6 +92,15 @@ const Header = () => {
         setFlowNSName("FLOWNS addr NOT FOUND OR EXPIRED");
       }
     });
+
+    validName("flowns.fn").then((res) => {
+      console.log(`Is Name Valid : ${res}`);
+    })
+
+    validAddr("0x3c09a556ecca42dc").then((res) => {
+      console.log(`Is Address Valid : ${res}`);
+    })
+    
   }, [flowUser]);
 
   const handleConnectWallet = async () => {
