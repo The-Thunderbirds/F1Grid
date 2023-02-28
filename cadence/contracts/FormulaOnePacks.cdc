@@ -36,9 +36,6 @@ pub contract FormulaOnePacks {
     // Variable size dictionary of Pack structs
     access(self) var packDatas: {UInt64: Pack}
 
-    // Variable size dictionary of Pack structs
-    access(self) var packProofDatas: @{UInt64: PackProof}
-
     // The ID that is used to create Packs 
     // Every time a Pack is created, packID is assigned 
     // to the new Pack's ID and then is incremented by 1.
@@ -107,6 +104,10 @@ pub contract FormulaOnePacks {
     // Returns: An array of all the packs that have been created
     pub fun getAllPacks(): [FormulaOnePacks.Pack] {
         return FormulaOnePacks.packDatas.values
+    }
+
+    pub fun getPackById(packID: UInt64): FormulaOnePacks.Pack? {
+        return FormulaOnePacks.packDatas[packID]
     }
 
     // PacksPublic 
@@ -385,7 +386,6 @@ pub contract FormulaOnePacks {
         self.packDatas = {}
         self.nextPackID = 1
         self.nextPackProofID = 1
-        self.packProofDatas <- {}
     }
 
 }
