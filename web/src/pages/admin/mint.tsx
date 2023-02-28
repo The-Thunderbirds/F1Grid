@@ -11,6 +11,7 @@ import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
 import PageLoader from "@/components/ui/PageLoader";
+import Image from "next/image";
 
 const Mint = () => {
 
@@ -22,6 +23,8 @@ const Mint = () => {
   const [selectPlayId, setSelectPlayId] = useState("1");
   
   const [modal, setModal] = useState(false);
+  const [addSaleModal, setAddSaleModal] = useState(false);
+  const toggleSaleModal = () => setAddSaleModal(!addSaleModal);
   const toggleModal = () => setModal(!modal);
   
   const [allSets, setAllSets] = useState([]);
@@ -101,7 +104,45 @@ const Mint = () => {
 
       <section>
         <Container>
-          <Row className="mb-5">
+        <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+            style={{ marginLeft: "47%" }}
+          >
+            Mint Moment
+          </button>
+        {modal && (
+            <div className="modal__wrapper">
+              <div
+                className="single__modal"
+                style={{ width: "1200px", height: "600px" }}
+              >
+                <span className="close__modal">
+                  <i
+                    className="ri-close-line"
+                    onClick={() => setModal(false)}
+                  ></i>
+                </span>
+        <Row className="mb-5">
+                  <Col lg="6" md="4" sm="6">
+                    <h5 className="mb-4 text-light">Preview Item</h5>
+                    <div className="single__nft__card">
+                    <div className="nft__img">
+                      {console.log(allPlays, selectPlayId)}
+                      <Image src={{src:allPlays[selectPlayId].thumbnail, width:500, height:150}} alt=""  width={450} />
+                    </div>  
+                  </div>
+                    <button
+                      className="bid__btn w-50 mt-3"
+                      onClick={handleMint }
+                      style={{ marginLeft: "20%" }}
+                    >
+                      {!loading && <span>
+                       Mint Moment</span>}
+                      <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft:"42%" }} />
+                    </button>
+                  </Col>
+
             <Col>
               <Form >
                 <FormGroup>
@@ -146,17 +187,13 @@ const Mint = () => {
                 </FormGroup>
 
               </Form>
-              <button
-                className="bid__btn w-25 mt-3"
-                onClick={handleMint}
-              >
-                {!loading && <span> Mint Moment </span>}
-                <Spinner color="primary" style={{ display: loading ? "block" : "none", marginLeft: "42%" }} />
-
-              </button>
 
             </Col>
-          </Row>
+                </Row>
+              </div>
+            </div>
+          )}
+
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
             <h4 className={styles.label} >List of Remaining Minted Moments</h4>
             {allCollections && allCollections.map((item, index) => (
@@ -174,13 +211,13 @@ const Mint = () => {
                 />
                 <button
                   className="bid__btn d-flex align-items-center gap-1"
-                  onClick={toggleModal}
+                  onClick={toggleSaleModal}
                   style={{ marginLeft: "40%", marginTop: "5px" }}
                 >
                   Add to Sale
                 </button>
 
-                {modal && (
+                {addSaleModal && (
                   <div className="modal__wrapper">
                     <div
                       className="single__modal"
@@ -192,7 +229,7 @@ const Mint = () => {
                     >
 
                       <span className="close__modal">
-                        <i className="ri-close-line" onClick={() => setModal(false)}></i>
+                        <i className="ri-close-line" onClick={() => setAddSaleModal(false)}></i>
                       </span>
                       <Row className="mb-5">
                         <Col>

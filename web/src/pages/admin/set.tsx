@@ -94,14 +94,6 @@ const Set = () => {
       <section>
         <Container>
 
-          <button
-            className="bid__btn d-flex align-items-center gap-1"
-            onClick={toggleModal}
-            style={{ marginLeft: "47%" }}
-          >
-            Create Set
-          </button>
-
           {modal && (
             <div className="modal__wrapper">
 
@@ -207,7 +199,15 @@ const Set = () => {
 
 
           <Row className="mt-4">
-            <h4 className={styles.label}>List of Created Sets</h4>
+          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"15px"}}>
+            <h4 className={styles.label}>List of Created Plays</h4>
+            <button
+            className="bid__btn d-flex align-items-center gap-1"
+            onClick={toggleModal}
+          >
+            Create Set
+          </button>
+          </div>
             {allSets && allSets.map((item, index) => (
               <div className={styles.pricingContainer} key={index}>
                 {/* {console.log(item)} */}
