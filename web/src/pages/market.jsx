@@ -8,6 +8,8 @@ import PackDisplayCard from "../components/ui/Nft-card/PackDisplayCard";
 import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col, Spinner } from "reactstrap";
+import {Grid} from "react-loader-spinner"
+
 
 import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
@@ -81,12 +83,16 @@ const Market = () => {
         <section>
           <Container>
             {/* Replace this if needed */}
-            <Spinner color="danger" type="grow"
-              style={{
-                height: '5rem',
-                width: '5rem'
-              }}
-            />
+            <Grid
+  height="80"
+  width="80"
+  color="#cb2d3e"
+  ariaLabel="grid-loading"
+  radius="12.5"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={true}
+/>  
           </Container>
         </section>
       </>
