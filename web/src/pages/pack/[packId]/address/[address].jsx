@@ -10,6 +10,7 @@ import { getPackWithMomentsById } from "@/fcl/scripts";
 import { _purchasePack } from "@/fcl/transactions";
 import { useFlowUser } from "@/hooks/userFlowUser"
 import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
+import PageLoader from "@/components/ui/PageLoader";
 
 
 const PackDetails = () => {
@@ -17,13 +18,17 @@ const PackDetails = () => {
   const flowUser = useFlowUser()
 
   const { packId } = router.query;
+
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [singleNft, setSingleNft] = useState(NFT__DATA[0]);
   const [rating, setRating] = useState(3.5);
 
   useEffect(() => {
+    setPageLoading(true)
     getPackWithMomentsById(packId).then((res) => {
-      console.log(res)
       setSingleNft({ ...NFT__DATA[0], ...res });
+      setPageLoading(false)
     })
   }, [])
 
@@ -43,6 +48,12 @@ const PackDetails = () => {
       alert("Something went wrong")
       setLoading(false)
     }
+  }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
   }
 
   return (

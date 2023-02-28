@@ -8,19 +8,29 @@ import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 
 import ComparatorNFTDetails from "@/components/ui/ComparatorNFTDetails"
+import PageLoader from "@/components/ui/PageLoader";
 
-const NftDetails = () => {
+const MomentComparator = () => {
 
+  const [pageLoading, setPageLoading] = useState(true)
 
   const [saleItems, setSaleItems] = useState([]);
   useEffect(() => {
+    setPageLoading(true)
     getSaleItemsByAddr(AdminAccountAddress).then((res) => {
         setSaleItems(res);
-    })
+        setPageLoading(false)
+      })
   }, [])
 
   const [NFTs, setNFTs] = useState([false,false]);
-  
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title={NFTs[0].name} />
@@ -94,4 +104,4 @@ const NftDetails = () => {
   );
 };
 
-export default NftDetails;
+export default MomentComparator;

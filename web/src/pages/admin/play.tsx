@@ -14,8 +14,12 @@ import { createNewPlay } from "@/fcl/transactions";
 import { getAllPlays } from "@/fcl/scripts";
 import { getImageFromTokenId } from "@/utility";
 import { NFT__DATA } from "@/assets/data/data";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Play = () => {
+
+  const [pageLoading, setPageLoading] = useState(true)
+
   let item = {
     id: "01",
     title: "Guard",
@@ -97,9 +101,10 @@ const Play = () => {
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
-      console.log(res);
       setAllPlays(() => res);
+      setPageLoading(false)
     });
   }, []);
 
@@ -123,6 +128,12 @@ const Play = () => {
       window.alert("an error has occured, try again!");
     }
   };
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
 
   return (
     <>

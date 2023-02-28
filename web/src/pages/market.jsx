@@ -16,7 +16,7 @@ import PageLoader from "@/components/ui/PageLoader";
 
 const Market = () => {
 
-  const [pageLoading, setPageLoading] = useState(false)
+  const [pageLoading, setPageLoading] = useState(true)
 
   const [data, setData] = useState(NFT__DATA);
 

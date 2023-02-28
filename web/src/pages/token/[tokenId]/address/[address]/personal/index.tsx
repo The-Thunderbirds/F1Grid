@@ -12,6 +12,7 @@ import { _purchaseMoment } from "@/fcl/transactions";
 import styles from "@/styles/Token.module.css"
 
 import { _startSale } from "@/fcl/transactions";
+import PageLoader from "@/components/ui/PageLoader";
 
 
 const PersonalNFTDetails = () => {
@@ -19,12 +20,16 @@ const PersonalNFTDetails = () => {
 
     const { tokenId, address } = router.query;
 
+    const [pageLoading, setPageLoading] = useState(true)
+
     const [singleNft, setSingleNft] = useState(NFT__DATA[0]);
     const [rating, setRating] = useState(3.5);
 
     useEffect(() => {
+        setPageLoading(true)
         getMomentByAddrID(address, tokenId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
+            setPageLoading(false)
         })
     }, [])
 
@@ -115,6 +120,12 @@ const PersonalNFTDetails = () => {
         }
     }
 
+    if(pageLoading) {
+        return (
+          <PageLoader/>
+        )
+    }
+        
     return (
         <>
             <CommonSection title={singleNft.name} />

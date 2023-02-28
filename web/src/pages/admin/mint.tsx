@@ -10,28 +10,37 @@ import { mintMoment, _startSale } from "@/fcl/transactions";
 import { getAllSets, getAllPlays, getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
+import PageLoader from "@/components/ui/PageLoader";
 
 const Mint = () => {
 
   const flowUser = useFlowUser()
 
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [selectSetId, setSelectSetId] = useState("1");
   const [selectPlayId, setSelectPlayId] = useState("1");
-
-  const [allSets, setAllSets] = useState([]);
+  
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
+  
+  const [allSets, setAllSets] = useState([]);
+
   useEffect(() => {
+    setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      setPageLoading(false)
     })
   }, [])
 
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
       setAllPlays(() => res);
+      setPageLoading(false)
     })
   }, [])
 
@@ -39,8 +48,10 @@ const Mint = () => {
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getAllCollections(flowUser.addr).then((res) => {
         setAllCollections(() => res);
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -76,6 +87,12 @@ const Mint = () => {
       alert("Something went wrong")
       setAddSaleloading(false)
     }
+  }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
   }
 
   return (

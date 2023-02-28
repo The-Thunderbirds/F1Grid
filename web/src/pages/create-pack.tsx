@@ -11,11 +11,13 @@ import { getAllCollections } from "@/fcl/scripts";
 import { useFlowUser } from "@/hooks/userFlowUser"
 import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
 import { useRouter } from "next/router";
+import PageLoader from "@/components/ui/PageLoader";
 
 const CreatePack = () => {
   const router = useRouter();
-
   const flowUser = useFlowUser()
+
+  const [pageLoading, setPageLoading] = useState(true)
 
   const [allCollections, setAllCollections] = useState([]);
   const [packs, setPacks] = useState([]);
@@ -25,8 +27,10 @@ const CreatePack = () => {
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getAllCollections(flowUser.addr).then((res) => {
         setAllCollections(() => res);
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -49,6 +53,12 @@ const CreatePack = () => {
       alert("Something went wrong")
       setLoading(false)
     }
+  }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
   }
 
   return (

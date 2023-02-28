@@ -8,8 +8,12 @@ import PlayCard from "@/components/ui/Nft-card/PlayCard";
 
 import { createNewSet, addPlayToSet } from "@/fcl/transactions";
 import { getAllSets, getAllPlays } from "@/fcl/scripts";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Set = () => {
+
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
@@ -26,16 +30,20 @@ const Set = () => {
   const [allSets, setAllSets] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      setPageLoading(false)
     })
   }, [])
 
   const [allPlays, setAllPlays] = useState([]);
 
   useEffect(() => {
+    setPageLoading(true)
     getAllPlays().then((res) => {
       setAllPlays(() => res);
+      setPageLoading(false)
     })
   }, [])
 
@@ -71,6 +79,12 @@ const Set = () => {
       alert("Something went wrong")
       setLoading(false)
     }
+  }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
   }
 
   return (

@@ -9,12 +9,13 @@ import { _startSale } from "@/fcl/transactions";
 import { getAllCollections } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
-import { useRouter } from "next/router";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Collection = () => {
 
   const flowUser = useFlowUser()
-  const router = useRouter();
+
+  const [pageLoading, setPageLoading] = useState(true)
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -23,8 +24,10 @@ const Collection = () => {
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getAllCollections(flowUser.addr).then((res) => {
         setAllCollections(() => res);
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -45,6 +48,13 @@ const Collection = () => {
       setAddSaleloading(false)
     }
   }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title="Mint Moment" />

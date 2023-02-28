@@ -11,6 +11,7 @@ import { getAllPackIDs, getPackProofsByAddr } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
 import { useRouter } from "next/router";
+import PageLoader from "@/components/ui/PageLoader";
 
 const Mint = () => {
 
@@ -20,13 +21,16 @@ const Mint = () => {
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
 
+  const [pageLoading, setPageLoading] = useState(true)
+
   const [allPackProofs, setAllPackProofs] = useState([]);
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getPackProofsByAddr(flowUser.addr).then((res) => {
         setAllPackProofs(() => res);
-        console.log(res)
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -35,11 +39,11 @@ const Mint = () => {
 
   useEffect(() => {
     if (flowUser?.addr) {
+      setPageLoading(true)
       getAllPackIDs().then((res) => {
-
         const temp = res.filter((item) => item.owner === flowUser?.addr)
-        console.log(temp)
         setAllCreatedPack(() => temp);
+        setPageLoading(false)
       })
     }
   }, [flowUser])
@@ -79,6 +83,13 @@ const Mint = () => {
     }
     
   }
+
+  if(pageLoading) {
+    return (
+      <PageLoader/>
+    )
+  }
+
   return (
     <>
       <CommonSection title="Mint Moment" />
