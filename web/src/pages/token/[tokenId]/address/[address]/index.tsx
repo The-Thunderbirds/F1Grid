@@ -97,11 +97,12 @@ const SaleNFTDetails = () => {
             }
         ]
 
-    const handlePurchase = async (momentId, price) => {
+    const handlePurchase = async (addr, momentId, price) => {
+        console.log(price)
         setLoading(true)
-        const result = await _purchaseMoment(AdminAccountAddress, momentId, price)
+        const result = await _purchaseMoment(addr, momentId, price)
         if (result) {
-            alert("Sale Collection created successfully")
+            alert("Moment purchased successfully")
             setLoading(false)
             router.push({
                 pathname: '/collection',
@@ -236,7 +237,7 @@ const SaleNFTDetails = () => {
 
                                 <p className="my-4">Description: {singleNft.description}</p>
                                 <p className="my-4">Price: {Math.round(singleNft.price * 10) / 10} FLOW</p>
-                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.id, singleNft.price)}>
+                                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(singleNft.address, singleNft.id, singleNft.price)}>
                                     {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
                                     <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
                                 </button>
