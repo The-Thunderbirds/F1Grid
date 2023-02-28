@@ -16,6 +16,9 @@ import { useRouter } from "next/router";
 
 import { AdminAccountAddress } from "@/constants"
 
+// Flow NS
+import { getAddrByName, getNameByAddr } from "@/api/flowns";
+
 const NAV__LINKS = [
 
   {
@@ -56,12 +59,39 @@ const Header = () => {
   const [hasSetupAccount, setHasSetupAccount] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [flowNSAddr, setFlowNSAddr] = useState(null);
+  const [flowNSName, setFlowNSName] = useState(null);
+
   useEffect(() => {
     if (flowUser?.addr) {
       isAccountSetup(flowUser?.addr).then((res) => {
         setHasSetupAccount(res);
       })
     }
+
+    getAddrByName("flowns.fn").then((res) => {
+      console.log(res);
+      if(res){
+        setFlowNSAddr(res.owner); 
+      }else{
+        setFlowNSAddr("FLOWNS name NOT FOUND OR EXPIRED");
+      }
+    });
+
+    getNameByAddr("0x3c09a556ecca42dc").then((res) => {
+      console.log(res);
+      if(res){
+        let name = res[0].name;
+        for(let rec in res){
+          if(rec.isDefault){
+            name = rec.name;
+          }
+        } 
+        setFlowNSName(name);
+      }else{
+        setFlowNSName("FLOWNS addr NOT FOUND OR EXPIRED");
+      }
+    });
   }, [flowUser]);
 
   const handleConnectWallet = async () => {
@@ -207,6 +237,12 @@ const Header = () => {
                 {!loading && <span> Get Started </span>}
                 <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
               </button>
+            }
+            {
+              flowUser?.addr && 
+              <p>
+              {flowNSAddr} | {flowNSName}
+              </p>
             }
             {
               flowUser?.addr && hasSetupAccount &&

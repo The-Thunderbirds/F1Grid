@@ -27,13 +27,13 @@
     "nft.storage": "^7.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-player": "^2.10.0",
+    "react-stars": "^2.2.5",
     "reactstrap": "^9.0.1",
     "remixicon": "^2.5.0",
     "swr": "^2.0.3",
     "typescript": "4.9.5",
     "url-join": "^5.0.0",
-    "urql": "^3.0.3",
-    "react-player": "^2.10.0",
-    "react-stars": "^2.2.5"
+    "urql": "^3.0.3"
   }
 }
