@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col, Form, FormGroup, Label, Input, Spinner } from "reactstrap";
+import { Container, Row, Col, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
-import NftCard from "@/components/ui/Nft-card/NftCard";
 import PackDisplayCard from "@/components/ui/Nft-card/PackDisplayCard";
 
-import { _startSale } from "@/fcl/transactions";
+import { openPack } from "@/fcl/transactions";
 import { getAllPackIDs, getPackProofsByAddr } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
@@ -50,7 +49,22 @@ const Mint = () => {
   const [giftAddress, setGiftAddress] = useState("")
   const [addSaleloading, setAddSaleloading] = useState(false);
 
-  const handleOpenPack = () => { alert("TEMPORARY: Pack has been opened, and moments are now in your collection") }
+  const handleOpenPack = async (seller, packId) => { 
+    setLoading(true)
+    const result = await openPack(seller, packId);
+    if (result) {
+      alert("Pack opened successfully")
+      setLoading(false)
+      router.push({
+        "pathname": "/collection"
+      })
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+    }
+  }
+
   const handleGiftPack = () => { }
   return (
     <>
@@ -82,9 +96,10 @@ const Mint = () => {
                 <div className="d-flex mt-2" style={{ justifyContent: "space-evenly" }}>
                   <button
                     className="bid__btn d-flex align-items-center gap-1"
-                    onClick={handleOpenPack}
+                    onClick={() => {handleOpenPack(item.owner, item.packID)}}
                   >
-                    Open Pack
+                    {!loading && <span> Open Pack </span>}
+                    <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />                    
                   </button>
                 </div>
                 {modal && (

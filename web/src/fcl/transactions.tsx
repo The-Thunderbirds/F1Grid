@@ -265,6 +265,27 @@ export const _purchasePack = async (sellerAddress, packID, purchaseAmount) => {
 }
 
 
+// PURCHASE PACK
+export const openPack = async (sellerAddress, packID) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${packUnveil}`,
+        args: (arg, t) => [
+          arg(sellerAddress, types.Address),
+          arg(packID, types.UInt64),
+        ], 
+      })
+      console.log("Purchase transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
 
 // SETUP FLOW ACCOUNT --- IGNORE
 export const createVault = async () => {
