@@ -6,7 +6,7 @@ import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
 import PackDisplayCard from "@/components/ui/Nft-card/PackDisplayCard";
 
-import { openPack } from "@/fcl/transactions";
+import { openPack, _giftPack } from "@/fcl/transactions";
 import { getAllPackIDs, getPackProofsByAddr } from "@/fcl/scripts";
 
 import { useFlowUser } from "@/hooks/userFlowUser"
@@ -47,7 +47,7 @@ const Mint = () => {
   const [loading, setLoading] = useState(false);
 
   const [giftAddress, setGiftAddress] = useState("")
-  const [addSaleloading, setAddSaleloading] = useState(false);
+  const [giftLoading, setGiftLoading] = useState(false);
 
   const handleOpenPack = async (seller, packId) => { 
     setLoading(true)
@@ -65,7 +65,20 @@ const Mint = () => {
     }
   }
 
-  const handleGiftPack = () => { }
+  const handleGiftPack = async (packId, addr) => { 
+    setGiftLoading(true)
+    const result = await _giftPack(packId, addr);
+    if (result) {
+      alert("Gift sent successfully")
+      setGiftLoading(false)
+      window.location.reload()
+    }
+    else {
+      alert("Something went wrong")
+      setGiftLoading(false)
+    }
+    
+  }
   return (
     <>
       <CommonSection title="Mint Moment" />
@@ -133,8 +146,8 @@ const Mint = () => {
                               onClick={() => { handleGiftPack() }}
                               style={{ textAlign: "center" }}
                             >
-                              {!addSaleloading && <span> Gift Pack </span>}
-                              <Spinner color="primary" style={{ display: addSaleloading ? "block" : "none", marginLeft: "45%" }} />
+                              {!giftLoading && <span> Gift Pack </span>}
+                              <Spinner color="primary" style={{ display: giftLoading ? "block" : "none", marginLeft: "45%" }} />
                             </button>
 
                           </div>
@@ -147,7 +160,7 @@ const Mint = () => {
               </Col>
             ))}
 
-            <h4 className={styles.label} >Your Created Packs</h4>
+            <h4 className={styles.label} >Your Created Packs</h4>            
             {createdPacks?.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <PackDisplayCard item={{
@@ -196,11 +209,11 @@ const Mint = () => {
                             </form>
                             <button
                               className="bid__btn w-100 mt-3"
-                              onClick={() => { handleGiftPack() }}
+                              onClick={() => { handleGiftPack(item.packID, giftAddress) }}
                               style={{ textAlign: "center" }}
                             >
-                              {!addSaleloading && <span> Gift Pack </span>}
-                              <Spinner color="primary" style={{ display: addSaleloading ? "block" : "none", marginLeft: "45%" }} />
+                              {!giftLoading && <span> Gift Pack </span>}
+                              <Spinner color="primary" style={{ display: giftLoading ? "block" : "none", marginLeft: "45%" }} />
                             </button>
 
                           </div>

@@ -265,7 +265,7 @@ export const _purchasePack = async (sellerAddress, packID, purchaseAmount) => {
 }
 
 
-// PURCHASE PACK
+// OPEN PACK
 export const openPack = async (sellerAddress, packID) => {
   try {
       const transactionId = await fcl.mutate({
@@ -275,7 +275,29 @@ export const openPack = async (sellerAddress, packID) => {
           arg(packID, types.UInt64),
         ], 
       })
-      console.log("Purchase transaction created now with transaction ID", transactionId);
+      console.log("Open pack transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
+
+// GIFT PACK
+export const _giftPack = async (packID, addr) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${giftPack}`,
+        args: (arg, t) => [
+          arg(packID, types.UInt64),
+          arg(addr, types.Address),
+        ], 
+      })
+      console.log("Gift Pack transaction created now with transaction ID", transactionId);
       const transaction = await fcl.tx(transactionId).onceSealed();
       console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
       console.log(transaction);
