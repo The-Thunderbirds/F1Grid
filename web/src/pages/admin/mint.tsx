@@ -192,7 +192,7 @@ const Mint = () => {
             className="bid__btn d-flex align-items-center gap-1"
             onClick={toggleModal}
           >
-            Create Play
+            Mint Moment
           </button>
           </div>
           <Row className="mt-4" style={{ justifyContent: "space-between" }}>
