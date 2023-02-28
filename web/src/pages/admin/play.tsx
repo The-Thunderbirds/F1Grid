@@ -241,7 +241,7 @@ const Play = () => {
                             <input
                               type="date"
                               placeholder="Enter Date"
-                              value={team}
+                              value={date}
                               onChange={(e) => setDate(e.target.value)}
                             />
                           </div>
