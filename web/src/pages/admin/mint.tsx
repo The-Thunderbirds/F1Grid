@@ -187,7 +187,7 @@ const Mint = () => {
           )}
 
           <div style={{display:"flex", justifyContent:"space-between", marginBottom:"10px"}}>
-            <h4 className={styles.label}>List of Remaining Minted Moments</h4>
+            <h4 className={styles.label}>List of Minted Moments</h4>
             <button
             className="bid__btn d-flex align-items-center gap-1"
             onClick={toggleModal}
@@ -195,7 +195,7 @@ const Mint = () => {
             Mint Moment
           </button>
           </div>
-          <Row className="mt-4" style={{ justifyContent: "space-between" }}>
+          <Row className="mt-4" style={{ justifyContent: "space-around" }}>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <NFTDisplayCard item={{ ...NFT__DATA[0], 

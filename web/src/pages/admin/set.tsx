@@ -199,9 +199,8 @@ const Set = () => {
           )}
 
 
-          <Row className="mt-4">
           <div style={{display:"flex", justifyContent:"space-between", marginBottom:"15px"}}>
-            <h4 className={styles.label}>List of Created Plays</h4>
+            <h4 className={styles.label}>List of Created Sets</h4>
             <button
             className="bid__btn d-flex align-items-center gap-1"
             onClick={toggleModal}
@@ -209,10 +208,9 @@ const Set = () => {
             Create Set
           </button>
           </div>
+          <Row className="mt-4">
             {allSets && allSets.map((item, index) => (
               <div className={styles.pricingContainer} key={index}>
-                {/* {console.log(item)} */}
-                {/* Pricing information */}
                 <div className={styles.pricingInfo} style={{ display: "flex" }}>
                   <div className={styles.pricingValue}>
                     {item.name} (Set {item.setID}, Series {item.series})

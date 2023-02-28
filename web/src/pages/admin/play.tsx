@@ -273,7 +273,7 @@ const Play = () => {
               </div>
             </div>
           )}
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"10px"}}>
             <h4 className={styles.label}>List of Created Plays</h4>
             <button
               className="bid__btn d-flex align-items-center gap-1"
