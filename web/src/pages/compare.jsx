@@ -12,6 +12,8 @@ import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 import styles from "@/styles/Token.module.css"
 
+import ComparatorNFTDetails from "@/components/ui/ComparatorNFTDetails"
+
 const NftDetails = () => {
 
 
@@ -116,7 +118,7 @@ const NftDetails = () => {
 
       <section>
         <Container>
-            <h2 style={{textAlign:"center", marginBottom:"15px"}}>Compare Sale Items</h2>
+            <h2 style={{textAlign:"center", marginBottom:"15px"}}>Compare Sale Moments</h2>
           <Row style={{justifyContent:"space-between"}} >
           
             <Col lg="5" md="6" sm="6" >
@@ -143,141 +145,9 @@ const NftDetails = () => {
                   </Input>
                 </FormGroup>
             </Form>
-            {NFTs[0] && (
-                <>
-              <Image
-                src={{ src: NFTs[0].thumbnail, width: 500, height: 150 }}
-                alt=""
-                className="single__nft-img mt-4"
-              />
-
-              <h3 className={styles.descriptionTitle}>Traits</h3>
-
-              <div className={styles.traitsContainer}>
-                {Object.entries(traits || {}).map(
-                  ([key, value]) => (
-                    <div className={styles.traitContainer} key={key}>
-                      <p className={styles.traitName}>{key}</p>
-                      <p className={styles.traitValue}>
-                        {value?.toString() || ""}
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
-
-
-
-              <div className="single__nft__content mt-4">
-                <h2>{NFTs[0].name}</h2>
-
-                <div className=" d-flex align-items-center justify-content-between mt-4 mb-4">
-                  <div className=" d-flex align-items-center gap-4 single__nft-seen">
-                    <span>
-                      <i className="ri-eye-line"></i> 234
-                    </span>
-                    <span>
-                      <i className="ri-heart-line"></i> 123
-                    </span>
-                    <ReactStars
-                      count={5}
-                      value={3.5}
-                      edit={false}
-                      size={24}
-                      color2={'#ffd700'} />
-                  </div>
-
-                  <div className=" d-flex align-items-center gap-2 single__nft-more">
-                    <span>
-                      <i className="ri-send-plane-line"></i>
-                    </span>
-                    <span>
-                      <i className="ri-more-2-line"></i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="nft__creator d-flex gap-3 align-items-center">
-                  <div className="creator__img">
-                    <Image src={NFTs[0].creatorImg} alt="" width="40" />
-                  </div>
-
-                  <div className="creator__detail">
-                    <p>Created By</p>
-                    <h6>{NFTs[0].creator}</h6>
-                  </div>
-                </div>
-
-                <p className="my-4">Description: {NFTs[0].description}</p>
-                <p className="my-4">Price: {Math.round(NFTs[0].price * 10) / 10}</p>
-                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(NFTs[0].id, NFTs[0].price)}>
-                  {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
-                  <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
-                </button>
-
-              </div>
-              
-              <h3 className={styles.descriptionTitle}>History</h3>
-              <div className={styles.traitsContainer}>
-                {transferEvents?.map((event, index) => (
-                  <div
-                    key={event.transaction.transactionHash}
-                    className={styles.eventsContainer}
-                  >
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>Event</p>
-                      <p className={styles.traitValue}>
-                        {
-                          // if last event in array, then it's a mint
-                          index === transferEvents.length - 1
-                            ? "Mint"
-                            : "Transfer"
-                        }
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>From</p>
-                      <p className={styles.traitValue}>
-                        {event.data.from?.slice(0, 4)}...
-                        {event.data.from?.slice(-2)}
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>To</p>
-                      <p className={styles.traitValue}>
-                        {event.data.to?.slice(0, 4)}...
-                        {event.data.to?.slice(-2)}
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <Link
-                        className={styles.txHashArrow}
-                        href={`https://mumbai.polygonscan.com/tx/${event.transaction.transactionHash}`}
-                        target="_blank"
-                      >
-                        ↗
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="d-flex mt-3 " style={{ width: "50%", justifyContent: "space-between" }}>
-                <p className="mt-2">Your Rating:</p>
-                <ReactStars
-                  count={5}
-                  value={rating}
-                  onChange={(val) => { setRating(val) }}
-                  size={24}
-                  color2={'#ffd700'} />
-              </div>
-              </>
+            {NFTs[0] && (              
+              <ComparatorNFTDetails tokenId={NFTs[0].id} address={NFTs[0].address}/>
             )}
-            {!NFTs[0] && ( <h4 className="d-flex justify-content-center align-items-center" style={{color:"white"}}>
-                Select an item to view
-                </h4>)}
             </Col>
             <Col lg="5  " md="6" sm="6">
             <Form >
@@ -304,136 +174,7 @@ const NftDetails = () => {
                 </FormGroup>
             </Form>
             {NFTs[1] && (
-                <>
-              <Image
-                src={{ src: NFTs[1].thumbnail, width: 500, height: 150 }}
-                alt=""
-                className="single__nft-img mt-4"
-              />
-
-              <h3 className={styles.descriptionTitle}>Traits</h3>
-
-              <div className={styles.traitsContainer}>
-                {Object.entries(traits || {}).map(
-                  ([key, value]) => (
-                    <div className={styles.traitContainer} key={key}>
-                      <p className={styles.traitName}>{key}</p>
-                      <p className={styles.traitValue}>
-                        {value?.toString() || ""}
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
-
-              
-              <div className="single__nft__content mt-4">
-                <h2>{NFTs[1].name}</h2>
-
-                <div className=" d-flex align-items-center justify-content-between mt-4 mb-4">
-                  <div className=" d-flex align-items-center gap-4 single__nft-seen">
-                    <span>
-                      <i className="ri-eye-line"></i> 234
-                    </span>
-                    <span>
-                      <i className="ri-heart-line"></i> 123
-                    </span>
-                    <ReactStars
-                      count={5}
-                      value={3.5}
-                      edit={false}
-                      size={24}
-                      color2={'#ffd700'} />
-                  </div>
-
-                  <div className=" d-flex align-items-center gap-2 single__nft-more">
-                    <span>
-                      <i className="ri-send-plane-line"></i>
-                    </span>
-                    <span>
-                      <i className="ri-more-2-line"></i>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="nft__creator d-flex gap-3 align-items-center">
-                  <div className="creator__img">
-                    <Image src={NFTs[1].creatorImg} alt="" width="40" />
-                  </div>
-
-                  <div className="creator__detail">
-                    <p>Created By</p>
-                    <h6>{NFTs[1].creator}</h6>
-                  </div>
-                </div>
-
-                <p className="my-4">Description: {NFTs[1].description}</p>
-                <p className="my-4">Price: {Math.round(NFTs[1].price * 10) / 10}</p>
-                <button className="singleNft-btn d-flex align-items-center gap-2 w-100" onClick={() => handlePurchase(NFTs[1].id, NFTs[1].price)}>
-                  {!loading && <span><i className="ri-shopping-bag-line" />Purchase  </span>}
-                  <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />
-                </button>
-
-              </div>
-              <h3 className={styles.descriptionTitle}>History</h3>
-
-              <div className={styles.traitsContainer}>
-                {transferEvents?.map((event, index) => (
-                  <div
-                    key={event.transaction.transactionHash}
-                    className={styles.eventsContainer}
-                  >
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>Event</p>
-                      <p className={styles.traitValue}>
-                        {
-                          // if last event in array, then it's a mint
-                          index === transferEvents.length - 1
-                            ? "Mint"
-                            : "Transfer"
-                        }
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>From</p>
-                      <p className={styles.traitValue}>
-                        {event.data.from?.slice(0, 4)}...
-                        {event.data.from?.slice(-2)}
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <p className={styles.traitName}>To</p>
-                      <p className={styles.traitValue}>
-                        {event.data.to?.slice(0, 4)}...
-                        {event.data.to?.slice(-2)}
-                      </p>
-                    </div>
-
-                    <div className={styles.eventContainer}>
-                      <Link
-                        className={styles.txHashArrow}
-                        href={`https://mumbai.polygonscan.com/tx/${event.transaction.transactionHash}`}
-                        target="_blank"
-                      >
-                        ↗
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="d-flex mt-3 " style={{ width: "50%", justifyContent: "space-between" }}>
-                <p className="mt-2">Your Rating:</p>
-                <ReactStars
-                  count={5}
-                  value={rating}
-                  onChange={(val) => { setRating(val) }}
-                  size={24}
-                  color2={'#ffd700'} />
-              </div>
-
-              </>
+              <ComparatorNFTDetails tokenId={NFTs[1].id} address={NFTs[1].address}/>
             )}
             </Col>
           </Row>
