@@ -72,24 +72,24 @@ const Header = () => {
 
   useEffect(() => {
     getAddrByName("flowns.fn").then((res) => {
-      if(res){
-        setFlowNSAddr(res.owner); 
-      }else{
+      if (res) {
+        setFlowNSAddr(res.owner);
+      } else {
         setFlowNSAddr("FLOWNS name NOT FOUND OR EXPIRED");
       }
     });
 
     getNameByAddr("0x3c09a556ecca42dc").then((res) => {
       console.log(res);
-      if(res){
+      if (res) {
         let name = res[0].name;
-        for(let rec in res){
-          if(rec.isDefault){
+        for (let rec in res) {
+          if (rec.isDefault) {
             name = rec.name;
           }
-        } 
+        }
         setFlowNSName(name);
-      }else{
+      } else {
         setFlowNSName("FLOWNS addr NOT FOUND OR EXPIRED");
       }
     });
@@ -101,7 +101,7 @@ const Header = () => {
     validAddr("0x3c09a556ecca42dc").then((res) => {
       console.log(`Is Address Valid : ${res}`);
     })
-    
+
   }, [])
 
   const handleConnectWallet = async () => {
@@ -249,14 +249,19 @@ const Header = () => {
               </button>
             }
             {
-              flowUser?.addr && 
+              flowUser?.addr &&
               <p>
-              {flowNSAddr} | {flowNSName}
+                {flowNSAddr} | {flowNSName}
               </p>
             }
             {
               flowUser?.addr && hasSetupAccount &&
-              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }} onClick={() => { router.push("/collection") }}>
+              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}
+                onClick={() => {
+                  router.push("/collection")
+                  navigator.clipboard.writeText(flowUser?.addr)
+                }}
+              >
                 <span>
                   <i className="ri-wallet-fill"></i>
                 </span>
