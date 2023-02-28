@@ -26,15 +26,26 @@ const PlayDetails = () => {
         setPageLoading(true)
         getPlayMetadataById(playId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
+            console.log(res)
+            setTraits({
+                Driver: res.driver,
+                Team: res.team,
+                Track: res.track,
+                Date: res.date        
+            }
+            )
             setPageLoading(false)
         })
     }, [])
 
-    const traits = {
-        Season: 2022,
+    const traits_ex = {
         Driver: "Charles Leclerc",
-        Team: "Ferrari"
+        Team: "Ferrari",
+        Track: "Ferrari",
+        Date: "23/12/2022"
     }
+
+    const [traits, setTraits] = useState(traits_ex)
 
     if(pageLoading) {
         return (
@@ -45,6 +56,7 @@ const PlayDetails = () => {
     
     return (
         <>
+            {console.log(traits)}
             <CommonSection title={singleNft.name} />
 
             <section>
@@ -52,7 +64,7 @@ const PlayDetails = () => {
                     <Row>
                         <Col lg="6" md="6" sm="6">
                             <Image
-                                src={{ src: singleNft.thumbnail, width: 500, height: 150 }}
+                                src={{ src: singleNft.thumbnail, width: 432, height: 128 }}
                                 alt=""
                                 className="single__nft-img"
                             />

@@ -13,7 +13,8 @@ import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 import PageLoader from "@/components/ui/PageLoader";
-
+import packImg from "../assets/images/multipack_4_2.png"
+import packImg2 from "../assets/images/value_pack_front_1_.png"
 const Market = () => {
 
   const [pageLoading, setPageLoading] = useState(true)
@@ -130,7 +131,7 @@ const Market = () => {
                   desc: item.description,
                   creator: item.address,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
                   sno: item.sno
                 }}
                 // nopurchase={true} 
@@ -148,7 +149,7 @@ const Market = () => {
                   title: item.packID,
                   creator: AdminAccountAddress,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
                 }}
                 // nopurchase={true} 
                 />

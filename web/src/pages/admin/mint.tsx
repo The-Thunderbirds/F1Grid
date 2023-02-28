@@ -108,7 +108,7 @@ const Mint = () => {
             <div className="modal__wrapper">
               <div
                 className="single__modal"
-                style={{ width: "1200px", height: "600px" }}
+                style={{ width: "1200px", height: "650px" }}
               >
                 <span className="close__modal">
                   <i
@@ -121,7 +121,7 @@ const Mint = () => {
                     <h5 className="mb-4 text-light">Preview Item</h5>
                     <div className="single__nft__card">
                     <div className="nft__img">
-                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:500, height:150}} alt=""  width={450} />
+                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:432, height: 128}} alt=""  width={450} />
                     </div>  
                   </div>
                     <button
@@ -187,7 +187,7 @@ const Mint = () => {
           )}
 
           <div style={{display:"flex", justifyContent:"space-between", marginBottom:"10px"}}>
-            <h4 className={styles.label}>List of Remaining Minted Moments</h4>
+            <h4 className={styles.label}>List of Minted Moments</h4>
             <button
             className="bid__btn d-flex align-items-center gap-1"
             onClick={toggleModal}
@@ -195,7 +195,7 @@ const Mint = () => {
             Mint Moment
           </button>
           </div>
-          <Row className="mt-4" style={{ justifyContent: "space-between" }}>
+          <Row className="mt-4" style={{ justifyContent: "space-around" }}>
             {allCollections && allCollections.map((item, index) => (
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <NFTDisplayCard item={{ ...NFT__DATA[0], 
@@ -204,7 +204,7 @@ const Mint = () => {
                   desc: item.description, 
                   creator: flowUser?.addr,
                   currentBid: 0,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
                   sno: item.sno
                 }}
                   nopurchase={true}

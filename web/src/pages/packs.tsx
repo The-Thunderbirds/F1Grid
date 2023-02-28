@@ -12,7 +12,8 @@ import { getAllPackIDs, getPackProofsByAddr } from "@/fcl/scripts";
 import { useFlowUser } from "@/hooks/userFlowUser"
 import { useRouter } from "next/router";
 import PageLoader from "@/components/ui/PageLoader";
-
+import packImg from "../assets/images/multipack_4_2.png"
+import packImg2 from "../assets/images/value_pack_front_1_.png"
 const Mint = () => {
 
   const flowUser = useFlowUser()
@@ -113,7 +114,7 @@ const Mint = () => {
                   title: item.packID,
                   creator: item.owner,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
                 }}
                   nopurchase={true}
                 />
@@ -138,7 +139,7 @@ const Mint = () => {
                   title: item.packID,
                   creator: flowUser?.addr,
                   currentBid: item.price,
-                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 500, height: 150 },
+                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
                 }}
                   nopurchase={true}
                 />

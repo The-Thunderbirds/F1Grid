@@ -113,7 +113,7 @@ const ComparatorNFTDetails = ({ tokenId, address }) => {
     return (
         <>
             <Image
-                src={{ src: singleNft.thumbnail, width: 500, height: 150 }}
+                src={{ src: singleNft.thumbnail, width: 432, height: 128 }}
                 alt=""
                 className="single__nft-img mt-4"
             />
@@ -222,7 +222,7 @@ const ComparatorNFTDetails = ({ tokenId, address }) => {
                         <div className={styles.eventContainer}>
                             <Link
                                 className={styles.txHashArrow}
-                                href={`https://mumbai.polygonscan.com/tx/${event.transaction.transactionHash}`}
+                                href={`https://testnet.flowscan.org/`}
                                 target="_blank"
                             >
                                 ↗
