@@ -159,7 +159,7 @@ const Mint = () => {
                   >
                     {allSets && allSets.map((item, index) => (
                       <option value={index + 1}>
-                        {item.name}
+                        {item.name} (Set {item.setID}, Series {item.series})
                       </option>
                     )
                     )}

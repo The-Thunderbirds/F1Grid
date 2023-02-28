@@ -57,7 +57,7 @@ const MomentComparator = () => {
                   <option value="">Select Moment</option>
                     {saleItems && saleItems.map((item, index) => (
                       <option value={item.id}>
-                        {item.name}
+                        {item.name} #{item.sno}
                       </option>
                     )
                     )}
@@ -85,7 +85,7 @@ const MomentComparator = () => {
                   <option value="">Select Moment</option>
                     {saleItems && saleItems.map((item, index) => (
                       <option value={item.id}>
-                        {item.name}
+                        {item.name} #{item.sno}
                       </option>
                     )
                     )}

@@ -7,7 +7,7 @@ import { AdminAccountAddress } from "@/constants";
 const PlayCard = (props) => {
   const router = useRouter();
 
-  const { title, id, currentBid, creatorImg, imgUrl, creator } = props.item;
+  const { title, id, currentBid, creatorImg, imgUrl, creator, minted } = props.item;
 
   return (
     <div className="single__nft__card"
@@ -39,6 +39,12 @@ const PlayCard = (props) => {
               <p>{AdminAccountAddress}</p>
             </div>
 
+            {minted && 
+            <div>
+              <h6>Total Mints: </h6>
+              <p style={{textAlign:"center"}}>{minted}</p>
+            </div>
+            }
           </div>
         </div>
 

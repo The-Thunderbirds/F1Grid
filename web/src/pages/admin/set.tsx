@@ -33,6 +33,7 @@ const Set = () => {
     setPageLoading(true)
     getAllSets().then((res) => {
       setAllSets(() => res);
+      console.log(res)
       setPageLoading(false)
     })
   }, [])
@@ -229,7 +230,7 @@ const Set = () => {
                       <PlayCard
                         item={{
                           ...NFT__DATA[0],
-                          id: playIdx + 1, // TODO
+                          id: item.plays[playIdx],
                           title: play.name,
                           desc: play.description,
                           imgUrl: {
@@ -239,6 +240,7 @@ const Set = () => {
                             width: 500,
                             height: 150,
                           },
+                          minted: item.numberMintedPerPlay[item.plays[playIdx]]
                         }}
                         nopurchase={true}
                       />
