@@ -222,7 +222,7 @@ const ComparatorNFTDetails = ({ tokenId, address }) => {
                         <div className={styles.eventContainer}>
                             <Link
                                 className={styles.txHashArrow}
-                                href={`https://mumbai.polygonscan.com/tx/${event.transaction.transactionHash}`}
+                                href={`https://testnet.flowscan.org/`}
                                 target="_blank"
                             >
                                 ↗
