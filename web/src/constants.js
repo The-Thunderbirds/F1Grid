@@ -9,4 +9,5 @@ export const FormulaOneMarket = process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ADDRESS
 export const FormulaOnePacks = process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ADDRESS
 export const FormulaOneMarketPlaceUsers = process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ADDRESS
 export const FormulaOneAdmin = process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ADDRESS
+export const PuddleV1 = process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ADDRESS
 export const FLOWNS_URL_ENDPOINT = "https://testnet.flowns.org/api/data"

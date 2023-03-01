@@ -1,8 +1,12 @@
-import FormulaOneMarketPlaceUsers from 0xf8d6e0586b0a20c7
-import PuddleV1 from 0xf8d6e0586b0a20c7
-import MetadataViews from 0xf8d6e0586b0a20c7
-import NonFungibleToken from 0xf8d6e0586b0a20c7
-import FungibleToken from 0xee82856bf20e2aa6
+import { NonFungibleToken, FormulaOne, MetadataViews, FormulaOneMarket, FormulaOnePacks, FormulaOneMarketPlaceUsers, PuddleV1, FungibleToken } from "src/constants";
+
+export const stopDrop =
+`
+import FormulaOneMarketPlaceUsers from ${FormulaOneMarketPlaceUsers}
+import PuddleV1 from ${PuddleV1}
+import MetadataViews from ${MetadataViews}
+import NonFungibleToken from ${NonFungibleToken}
+import FungibleToken from ${FungibleToken}
 
 transaction(membershipDropID: UInt64) {
 
@@ -34,3 +38,4 @@ transaction(membershipDropID: UInt64) {
     }
 }
  
+`

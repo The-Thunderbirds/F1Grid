@@ -27,6 +27,6 @@ transaction(recipientAddress: Address, momentIDs: [UInt64]) {
             ?? panic("Could not borrow a reference to the recipients moment receiver")
 
         // deposit the NFT in the receivers collection
-        receiverRef.batchDeposit(token: <-self.transferTokens)
+        receiverRef.batchDeposit(tokens: <-self.transferTokens)
     }
 }
