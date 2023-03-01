@@ -4,8 +4,9 @@ import Image from "next/image"
 import { useRouter } from 'next/router'
 import img from "../../../assets/images/gold.png"
 import { useFlowUser } from "@/hooks/userFlowUser"
-import { _addUserToWaitlist } from "@/fcl/transactions"
+import { _addUserToWaitlist, _stopDrop } from "@/fcl/transactions"
 import { Spinner } from "reactstrap";
+import { AdminAccountAddress } from "@/constants";
 
 const CloseMembershipNftCard = (props) => {
   const router = useRouter();
@@ -18,24 +19,23 @@ const CloseMembershipNftCard = (props) => {
 
   const handleCloseMembership = async () => {
     setLoading(true)
-    // TODO : Close membership @DIVYAM
-    // const result = await _addUserToWaitlist(id, flowUser?.addr) 
-    // if (result) {
-    //   alert("You have joined waitlist successfully")
-    //   setLoading(false)
-    //   window.location.reload();
-    // }
-    // else {
-    //   alert("Something went wrong")
-    //   setLoading(false)
+    const result = await _stopDrop(id) 
+    if (result) {
+      alert("Closed membership successfully")
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
 
-    // }
+    }
   }
 
   return (
     <div className="single__nft__card"               >
       <div className="nft__img">
-        <Image src={img} alt=""  className="w-100" />
+        <Image src={img} fill alt=""  className="w-100" />
       </div>
 
       <div className="nft__content">
@@ -52,8 +52,8 @@ const CloseMembershipNftCard = (props) => {
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
-              <h6>Current Owner</h6>
-              <p>{creator}</p>
+              <h6>Creator</h6>
+              <p>{AdminAccountAddress}</p>
             </div>
 
           </div>
