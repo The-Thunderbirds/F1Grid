@@ -11,7 +11,8 @@ import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
 import Image from "next/image";
 import { createNewPlay } from "@/fcl/transactions";
-import { getAllPlays } from "@/fcl/scripts";
+import { getAllPlays, _getDrops } from "@/fcl/scripts";
+import { _startDrop } from "@/fcl/transactions";
 import { getImageFromTokenId } from "@/utility";
 import { NFT__DATA } from "@/assets/data/data";
 import PageLoader from "@/components/ui/PageLoader";
@@ -95,7 +96,18 @@ const Membership = () => {
   const [track, setTrack] = useState("");
   const [date, setDate] = useState("");
   const [limit, setLimit] = useState(0);
-  const [tier, setTier] = useState(0);
+  const [tier, setTier] = useState("");
+
+  const [allDrops, setAllDrops] = useState([]);
+
+  useEffect(() => {
+    setPageLoading(true);
+    _getDrops().then((res) => {
+      setAllDrops(() => res);
+      console.log(res)
+      setPageLoading(false);
+    });
+  }, []);
 
   const [allPlays, setAllPlays] = useState([]);
 
@@ -114,12 +126,9 @@ const Membership = () => {
       { key: "name", value: name },
       { key: "description", value: desc },
       { key: "thumbnail", value: ipfs },
-      { key: "date", value: date },
-      { key: "limit", value: limit},
-      { key: "tier", value: tier},
     ];
     setLoading(true);
-    const res = await createNewPlay(metadata);
+    const res = await _startDrop(tier, Date.parse(date), limit, metadata);
     setLoading(false);
     if (res) {
       window.alert("Successfully created");
@@ -201,12 +210,12 @@ const Membership = () => {
                         
 
                   <div className="form__input all__category__filter" style={{border:"1px solid rgba(221, 221, 221, 0.171)", borderRadius:"8px", fontSize:"0.8rem", }}>
-                    <select onChange={(e) => setTier(parseInt(e.target.value))}>
+                    <select onChange={(e) => setTier(e.target.value)}>
                       <option value={0}>Select Tier</option>
-                      <option value={1}>Diamond</option>
-                      <option value={2}>Gold</option>
-                      <option value={3}>Silver</option>
-                      <option value={4}>Bronze</option>
+                      <option value={"Diamond"}>Diamond</option>
+                      <option value={"Gold"}>Gold</option>
+                      <option value={"Silver"}>Silver</option>
+                      <option value={"Bronze"}>Bronze</option>
                     </select>
                   </div>
 

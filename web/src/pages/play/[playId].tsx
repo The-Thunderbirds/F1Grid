@@ -26,12 +26,10 @@ const PlayDetails = () => {
         setPageLoading(true)
         getPlayMetadataById(playId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
-            console.log(res)
             setTraits({
                 Driver: res.driver,
                 Team: res.team,
-                Track: res.track,
-                Date: res.date        
+                Track: res.track
             }
             )
             setPageLoading(false)
@@ -41,8 +39,7 @@ const PlayDetails = () => {
     const traits_ex = {
         Driver: "Charles Leclerc",
         Team: "Ferrari",
-        Track: "Ferrari",
-        Date: "23/12/2022"
+        Track: "Ferrari"
     }
 
     const [traits, setTraits] = useState(traits_ex)

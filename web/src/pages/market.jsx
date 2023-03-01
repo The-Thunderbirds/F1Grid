@@ -153,7 +153,7 @@ const Market = () => {
               </Col>
             ))}
 
-            <h1>Packs</h1>
+            <h2>Packs</h2>
             {allPackItems?.map((item) => (
                 !item.soldComplete &&
                 <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
