@@ -294,7 +294,7 @@ const Membership = () => {
                   <CloseMembershipNftCard
                     item={{
                       ...NFT__DATA[0],
-                      id: index + 1,
+                      id: item.id,
                       title: item.name,
                       desc: item.description,
                       creator: item.address,
@@ -304,7 +304,7 @@ const Membership = () => {
                         height: 128,
                       },
                     }}
-                    nopurchase={true}
+                    nopurchase={!item.isActive}
                   />
                 </Col>
               ))}
