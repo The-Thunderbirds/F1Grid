@@ -31,6 +31,14 @@ import { getPackMomentSetID } from "@/cadence/scripts/packs/get_pack_moment_set_
 import { getPackMomentSNo } from "@/cadence/scripts/packs/get_pack_moment_serialNum";
 import { getPackIDbyPackProof } from "@/cadence/scripts/packs/get_pack_proofs_packId";
 
+/**** PUDDLE ****/
+import { getPuddleCollection } from "@/cadence/scripts/puddle/get_collection";
+import { getDropWaitlist } from "@/cadence/scripts/puddle/get_drop_waitlist";
+import { getDropWaitlists } from "@/cadence/scripts/puddle/get_drop_waitlists";
+import { getDrop } from "@/cadence/scripts/puddle/get_drop";
+import { getDrops } from "@/cadence/scripts/puddle/get_drops";
+import { getTotalDrops } from "@/cadence/scripts/puddle/get_total_drops";
+import { hasPuddleCollection } from "@/cadence/scripts/puddle/has_collection";
 
 // Flow Balance
 export const flow_balance = async (addr="0x4e616c1e361b69d2") => {
@@ -503,3 +511,92 @@ export const getPackWithMomentsById = async (id) => {
         console.log(error);
     }
 } 
+
+export const _getPuddleCollection = async (addr) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getPuddleCollection}`,
+            args: (arg, t) => [
+                arg(addr, types.Address),
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _getDropWaitlist = async (id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getDropWaitlist}`,
+            args: (arg, t) => [
+                arg(id, types.UInt64),
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _getDropWaitlists = async () => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getDropWaitlists}`
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _getDrop = async (id) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getDrop}`,
+            args: (arg, t) => [
+                arg(id, types.UInt64),
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _getDrops = async () => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getDrops}`
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _getTotalDrops = async () => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${getTotalDrops}`
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const _hasPuddleCollection = async (address) => {
+    try {        
+        const result = await fcl.query({
+            cadence: `${hasPuddleCollection}`,
+            args: (arg, t) => [
+                arg(address, types.Address),
+            ],
+        })
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+}

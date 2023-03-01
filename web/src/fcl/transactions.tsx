@@ -22,6 +22,11 @@ import { purchasePack } from "@/cadence/transactions/packs/purchase_pack"
 import { packUnveil } from "@/cadence/transactions/packs/pack_unveil"
 import { giftPack } from "@/cadence/transactions/packs/gift_pack"
 
+/**** PUDDLE ****/
+import { createPuddleCollection } from "@/cadence/transactions/puddle/create_collection"
+import { startDrop } from "@/cadence/transactions/puddle/start_drop"
+import { stopDrop } from "@/cadence/transactions/puddle/stop_drop"
+import { addUserToWaitlist } from "@/cadence/transactions/puddle/add_user_to_waitlist"
 
 // CREATE COLLECTION
 export const _setupAccount = async () => {
@@ -325,3 +330,81 @@ export const createVault = async () => {
       alert("Error creating collection, please check the console for error details!")
     }
 }
+
+export const _cratePuddleCollection = async () => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${createPuddleCollection}`
+      })
+      console.log("Create Puddle Collection transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
+export const _startDrop = async (tier, deltaDeadline, membersLimit, metadata) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${startDrop}`,
+        args: (arg, t) => [
+          arg(tier, types.String),
+          arg(deltaDeadline, types.UInt64),
+          arg(membersLimit, types.UInt64),
+          arg(metadata, types.Dictionary),
+        ], 
+      })
+      console.log("Start Drop transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
+export const _stopDrop = async (membershipDropID) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${stopDrop}`,
+        args: (arg, t) => [
+          arg(membershipDropID, types.UInt64),
+        ], 
+      })
+      console.log("Stop Drop transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
+export const _addUserToWaitlist = async (membershipDropID, address) => {
+  try {
+      const transactionId = await fcl.mutate({
+        cadence: `${addUserToWaitlist}`,
+        args: (arg, t) => [
+          arg(membershipDropID, types.UInt64),
+          arg(address, types.Address),
+        ], 
+      })
+      console.log("Add user to waitlist transaction created now with transaction ID", transactionId);
+      const transaction = await fcl.tx(transactionId).onceSealed();
+      console.log("Testnet explorer link: ", `https://testnet.flowscan.org/transaction/${transactionId}`);
+      console.log(transaction);
+      return transaction;
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+}
+
