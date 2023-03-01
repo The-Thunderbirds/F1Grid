@@ -220,6 +220,7 @@ const Mint = () => {
                 )}
             <h4 className={styles.label} >Your Created Packs</h4>            
             {createdPacks?.map((item, index) => (
+              !item.soldComplete &&
               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                 <PackDisplayCard item={{
                   ...NFT__DATA[0],
