@@ -7,7 +7,7 @@ import { useFlowUser } from "@/hooks/userFlowUser"
 import { _addUserToWaitlist } from "@/fcl/transactions"
 import { Spinner } from "reactstrap";
 
-const MembershipNftCard = (props) => {
+const CloseMembershipNftCard = (props) => {
   const router = useRouter();
 
   const flowUser = useFlowUser()
@@ -16,19 +16,20 @@ const MembershipNftCard = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const handleJoinWaitList = async () => {
+  const handleCloseMembership = async () => {
     setLoading(true)
-    const result = await _addUserToWaitlist(id, flowUser?.addr)
-    if (result) {
-      alert("You have joined waitlist successfully")
-      setLoading(false)
-      window.location.reload();
-    }
-    else {
-      alert("Something went wrong")
-      setLoading(false)
+    // TODO : Close membership @DIVYAM
+    // const result = await _addUserToWaitlist(id, flowUser?.addr) 
+    // if (result) {
+    //   alert("You have joined waitlist successfully")
+    //   setLoading(false)
+    //   window.location.reload();
+    // }
+    // else {
+    //   alert("Something went wrong")
+    //   setLoading(false)
 
-    }
+    // }
   }
 
   return (
@@ -62,18 +63,18 @@ const MembershipNftCard = (props) => {
         <div className=" mt-3 d-flex align-items-center justify-content-between">
           <button
             className="bid__btn d-flex align-items-center gap-1"
-            onClick={handleJoinWaitList}
+            onClick={handleCloseMembership}
           >
-            {!loading && <span> <i className="ri-shopping-bag-line"></i> Join Waitlist </span>}
+            {!loading && <span> <i className="ri-shopping-bag-line"></i> Close Membership </span>}
             <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />            
           </button>
 
           {/* {showModal && <Modal setShowModal={setShowModal} />} */}
           <span className="history__link">
-            <Link href="#">20 Days Left</Link>
+            <Link href="#">1 Days Left</Link>
           </span>
           <span className="history__link">
-            <Link href="#">In Stock: 10 </Link>
+            <Link href="#">In Stock: 5 </Link>
           </span>
         </div>
 )}
@@ -82,4 +83,4 @@ const MembershipNftCard = (props) => {
   );
 };
 
-export default MembershipNftCard;
+export default CloseMembershipNftCard;

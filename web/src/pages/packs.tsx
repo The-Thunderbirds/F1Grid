@@ -5,6 +5,7 @@ import CommonSection from "@/components/ui/Common-section/CommonSection";
 import styles from "@/styles/Series.module.css";
 import { NFT__DATA } from "@/assets/data/data.js";
 import PackDisplayCard from "@/components/ui/Nft-card/PackDisplayCard";
+import NFTDisplayCard from "@/components/ui/Nft-card/NFTDisplayCard";
 import { Grid } from "react-loader-spinner"
 
 import { openPack, _giftPack } from "@/fcl/transactions";
@@ -16,6 +17,7 @@ import PageLoader from "@/components/ui/PageLoader";
 import packImg from "../assets/images/multipack_4_2.png"
 import packImg2 from "../assets/images/value_pack_front_1_.png"
 import { getAddrByName } from "@/api/flowns";
+import { getAllCollections } from "@/fcl/scripts";
 const Mint = () => {
 
   const flowUser = useFlowUser()
@@ -30,7 +32,17 @@ const Mint = () => {
   const [pageLoading, setPageLoading] = useState(true)
 
   const [allPackProofs, setAllPackProofs] = useState([]);
+  const [allCollections, setAllCollections] = useState([]);
 
+  useEffect(() => {
+    if (flowUser?.addr) {
+      setPageLoading(true)
+      getAllCollections(flowUser.addr).then((res) => {
+        setAllCollections(() => res);
+        setPageLoading(false)
+      })
+    }
+  }, [flowUser])
   useEffect(() => {
     if (flowUser?.addr) {
       setPageLoading(true)
@@ -67,9 +79,13 @@ const Mint = () => {
     setLoading(true)
     const result = await openPack(seller, packId);
     if (result) {
+      console.log("OPEN PACK RESULT", result)
       alert("Pack opened successfully")      
-      setLoading(false)
-      setReceievedMoments(result)
+      setLoading(false) 
+      // setReceievedMoments(result)
+      getAllCollections(flowUser.addr).then((res) => {
+        setAllCollections(() => res);
+      })
       // router.push({
       //   "pathname": "/collection"
       // })
@@ -83,7 +99,7 @@ const Mint = () => {
   const handleFnsChange = async (e) => {
     setFns(e.target.value);
     const res = await getAddrByName(e.target.value);
-    setGiftAddress(res);
+    setGiftAddress(res.owner);
   }
   const handleGiftPack = async (packId, addr) => { 
     setGiftLoading(true)
@@ -161,7 +177,7 @@ const Mint = () => {
                       <Row className="mb-5">
                         <Col>
                         <h4 className={styles.label} >Moments You Recieved</h4>
-                        {!recievedMoments && 
+                        {!allCollections && 
                         <div style={{textAlign:"center"}}>
                         <div style={{display:"flex", justifyContent:"center", marginTop:"20%"}}>
                           <Grid
@@ -178,22 +194,25 @@ const Mint = () => {
                       <h4 style={{color:"white", marginTop:"20px"}}> Opening the Pack</h4>                        
                       </div>
                     }
-                    {recievedMoments &&(
-                            allPackProofs?.map((item, index) => (
+                    <Row>
+                    {allCollections &&(
+                            allCollections?.map((item, index) => (
                               <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
-                                <PackDisplayCard item={{
-                                  ...NFT__DATA[0],
-                                  id: item.packID,
-                                  title: item.packID,
-                                  creator: item.owner,
-                                  currentBid: item.price,
-                                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
+                <NFTDisplayCard item={{ ...NFT__DATA[0], 
+                                  id: item.id,  
+                                  title: item.name, 
+                                  desc: item.description, 
+                                  creator: flowUser?.addr,
+                                  currentBid: 0,
+                                  imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
+                                  sno: item.sno
                                 }}
                                   nopurchase={true}
                                 />
                               </Col>
                             ))
                             )}
+                            </Row>
                         </Col>
                       </Row>
                     </div>

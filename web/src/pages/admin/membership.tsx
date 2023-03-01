@@ -6,6 +6,7 @@ import { Container, Row, Col, Spinner } from "reactstrap";
 import CommonSection from "@/components/ui/Common-section/CommonSection";
 import NftCard from "@/components/ui/Nft-card/NftCard";
 import PlayCard from "@/components/ui/Nft-card/PlayCard";
+import CloseMembershipNftCard from "@/components/ui/Nft-card/CloseMembershipNftCard";
 import img from "@/assets/images/cars/ferrari.png";
 import avatar from "@/assets/images/ava-01.png";
 import styles from "@/styles/Series.module.css";
@@ -290,12 +291,13 @@ const Membership = () => {
               allDrops.map((item, index) => (
                 <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                   {/* <Image src={item.thumbnail} fill alt="" /> */}
-                  <PlayCard
+                  <CloseMembershipNftCard
                     item={{
                       ...NFT__DATA[0],
                       id: index + 1,
                       title: item.name,
                       desc: item.description,
+                      creator: item.address,
                       imgUrl: {
                         src: !item.thumbnail ? img.src : item.thumbnail,
                         width: 432,

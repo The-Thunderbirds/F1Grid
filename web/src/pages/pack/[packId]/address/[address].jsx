@@ -67,6 +67,7 @@ const PackDetails = () => {
 
             <h2>Possible Moments from Pack</h2>
             {singleNft && singleNft.momentDetails?.map((item, index) => (
+                <div className="mt-3">
                 <NFTDisplayCard item={{ ...NFT__DATA[0], 
                   id: item.id,  
                   title: item.name, 
@@ -78,6 +79,7 @@ const PackDetails = () => {
                 }}
                   nopurchase={true}
                 />
+                </div>
             ))
             }
 
