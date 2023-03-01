@@ -6,7 +6,7 @@ import img from "../../../assets/images/gold.png"
 import { useFlowUser } from "@/hooks/userFlowUser"
 import { _addUserToWaitlist } from "@/fcl/transactions"
 import { Spinner } from "reactstrap";
-
+import {AdminAccountAddress} from "@/constants"
 const MembershipNftCard = (props) => {
   const router = useRouter();
 
@@ -51,8 +51,8 @@ const MembershipNftCard = (props) => {
 
           <div className="creator__info w-100 d-flex align-items-center justify-content-between">
             <div>
-              <h6>Current Owner</h6>
-              <p>{creator}</p>
+              <h6>Creator</h6>
+              <p>{AdminAccountAddress}</p>
             </div>
 
           </div>

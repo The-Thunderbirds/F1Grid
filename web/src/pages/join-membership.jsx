@@ -9,16 +9,18 @@ import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col } from "reactstrap";
 
-import { getAllSaleItems, getAllPackIDs, _getDrops } from "@/fcl/scripts";
+import { getAllSaleItems, _getDropWaitlist, _getDrops } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 import PageLoader from "@/components/ui/PageLoader";
 import packImg from "../assets/images/multipack_4_2.png"
 import packImg2 from "../assets/images/value_pack_front_1_.png"
 import { useRouter } from "next/router";
+import { useFlowUser } from "@/hooks/userFlowUser"
 
 const Market = () => {
   const router = useRouter();
+  const flowUser = useFlowUser()
   const [pageLoading, setPageLoading] = useState(true)
 
   const [data, setData] = useState(NFT__DATA);
@@ -45,8 +47,22 @@ const Market = () => {
           drops.push( res[key] );
         }
       }
-      console.log(drops)
-      setAllDrops(() => drops);
+
+      const finalDrops = []
+      let len = drops.length
+      for(let i = 0; i < len; i++) {
+        const drop = drops[i]
+        _getDropWaitlist(drop.id).then((res) => {          
+          if(res.includes(flowUser?.addr)) {
+            drop["opted"] = true
+          }
+          finalDrops.push(drop)
+        })
+
+      }
+
+      console.log(finalDrops)
+      setAllDrops(() => finalDrops);
       setPageLoading(false);
     });
   }, []);
@@ -79,7 +95,7 @@ const Market = () => {
                   creator: item.address,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
                 }}
-                // nopurchase={true} 
+                nopurchase={item.opted} 
                 />
               </Col>
             ))}
