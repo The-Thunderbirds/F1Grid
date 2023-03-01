@@ -28,17 +28,24 @@ const SaleNFTDetails = () => {
         setPageLoading(true)
         getSaleItemByAddrID(address, tokenId).then((res) => {
             setSingleNft({ ...NFT__DATA[0], ...res });
+            setTraits({
+                Driver: res.driver,
+                Team: res.team,
+                Track: res.track
+            })
             setPageLoading(false)
         })
     }, [])
 
     const [loading, setLoading] = useState(false);
 
-    const traits = {
-        Season: 2022,
+    const traits_ex = {
         Driver: "Charles Leclerc",
-        Team: "Ferrari"
+        Team: "Ferrari",
+        Track: "Ferrari"
     }
+
+    const [traits, setTraits] = useState(traits_ex)
 
     const transferEvents =
         [
