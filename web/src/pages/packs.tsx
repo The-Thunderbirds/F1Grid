@@ -67,11 +67,12 @@ const Mint = () => {
     setLoading(true)
     const result = await openPack(seller, packId);
     if (result) {
-      alert("Pack opened successfully")
+      alert("Pack opened successfully")      
       setLoading(false)
-      router.push({
-        "pathname": "/collection"
-      })
+      setReceievedMoments(result)
+      // router.push({
+      //   "pathname": "/collection"
+      // })
     }
     else {
       alert("Something went wrong")
