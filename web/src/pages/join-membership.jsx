@@ -9,13 +9,14 @@ import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col } from "reactstrap";
 
-import { getAllSaleItems, getAllPackIDs } from "@/fcl/scripts";
+import { getAllSaleItems, getAllPackIDs, _getDrops } from "@/fcl/scripts";
 import { _purchaseMoment } from "@/fcl/transactions";
 import { AdminAccountAddress } from "@/constants"
 import PageLoader from "@/components/ui/PageLoader";
 import packImg from "../assets/images/multipack_4_2.png"
 import packImg2 from "../assets/images/value_pack_front_1_.png"
 import { useRouter } from "next/router";
+
 const Market = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true)
@@ -32,46 +33,24 @@ const Market = () => {
     })
   }, [])
 
-  const [allPackItems, setAllPackItems] = useState([]);
+  const [allDrops, setAllDrops] = useState([]);
 
   useEffect(() => {
-    setPageLoading(true)
-    getAllPackIDs().then((res) => {
-      setAllPackItems(() => res);
-      setPageLoading(false)
-    })
-  }, [])
+    setPageLoading(true);
+    _getDrops().then((res) => {
+      
+      const drops = []
+      for (var key in res) {
+        if (res.hasOwnProperty(key)) {
+          drops.push( res[key] );
+        }
+      }
+      console.log(drops)
+      setAllDrops(() => drops);
+      setPageLoading(false);
+    });
+  }, []);
 
-  const handleCategory = () => { };
-
-  const handleItems = () => { };
-
-  // ====== SORTING DATA BY HIGH, MID, LOW RATE =========
-  const handleSort = (e) => {
-    const filterValue = e.target.value;
-
-    if (filterValue === "high") {
-      const filterData = NFT__DATA.filter((item) => item.currentBid >= 6);
-
-      setData(filterData);
-    }
-
-    if (filterValue === "mid") {
-      const filterData = NFT__DATA.filter(
-        (item) => item.currentBid >= 5.5 && item.currentBid < 6
-      );
-
-      setData(filterData);
-    }
-
-    if (filterValue === "low") {
-      const filterData = NFT__DATA.filter(
-        (item) => item.currentBid >= 4.89 && item.currentBid < 5.5
-      );
-
-      setData(filterData);
-    }
-  };
 
   if(pageLoading) {
     return (
@@ -90,7 +69,7 @@ const Market = () => {
           </h2>
           <Row style={{ justifyContent: "space-around" }}>
 
-            {allSaleItems?.map((item) => (
+            {allDrops?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
                 <MembershipNftCard item={{
                   ...NFT__DATA[0],

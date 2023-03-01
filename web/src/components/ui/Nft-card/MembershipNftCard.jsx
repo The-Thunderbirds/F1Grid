@@ -3,15 +3,34 @@ import Link from "next/link";
 import Image from "next/image"
 import { useRouter } from 'next/router'
 import img from "../../../assets/images/gold.png"
+import { useFlowUser } from "@/hooks/userFlowUser"
+import { _addUserToWaitlist } from "@/fcl/transactions"
+import { Spinner } from "reactstrap";
+
 const MembershipNftCard = (props) => {
   const router = useRouter();
 
+  const flowUser = useFlowUser()
+
   const { title, id, desc, creatorImg, imgUrl, creator } = props.item;
 
-  // write handlejoinlist
-  const handleJoinWaitList = () => {
-    alert("You have joined waitist");
+  const [loading, setLoading] = useState(false);
+
+  const handleJoinWaitList = async () => {
+    setLoading(true)
+    const result = await _addUserToWaitlist(id, flowUser?.addr)
+    if (result) {
+      alert("You have joined waitlist successfully")
+      setLoading(false)
+      window.location.reload();
+    }
+    else {
+      alert("Something went wrong")
+      setLoading(false)
+
+    }
   }
+
   return (
     <div className="single__nft__card"               >
       <div className="nft__img">
@@ -45,7 +64,8 @@ const MembershipNftCard = (props) => {
             className="bid__btn d-flex align-items-center gap-1"
             onClick={handleJoinWaitList}
           >
-            <i className="ri-shopping-bag-line"></i> Join Waitlist
+            {!loading && <span> <i className="ri-shopping-bag-line"></i> Join Waitlist </span>}
+            <Spinner color="primary" style={{ display: loading ? "block" : "none" }} />            
           </button>
 
           {/* {showModal && <Modal setShowModal={setShowModal} />} */}
