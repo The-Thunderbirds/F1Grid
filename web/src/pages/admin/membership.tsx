@@ -103,8 +103,15 @@ const Membership = () => {
   useEffect(() => {
     setPageLoading(true);
     _getDrops().then((res) => {
-      setAllDrops(() => res);
-      console.log(res)
+      
+      const drops = []
+      for (var key in res) {
+        if (res.hasOwnProperty(key)) {
+          drops.push( res[key] );
+        }
+      }
+      console.log(drops)
+      setAllDrops(() => drops);
       setPageLoading(false);
     });
   }, []);
@@ -279,8 +286,8 @@ const Membership = () => {
             </button>
           </div>
           <Row className="mt-4" style={{ justifyContent: "space-around" }}>
-            {allPlays &&
-              allPlays.map((item, index) => (
+            {allDrops &&
+              allDrops.map((item, index) => (
                 <Col lg="5" md="5" sm="6" className="mb-4" key={index}>
                   {/* <Image src={item.thumbnail} fill alt="" /> */}
                   <PlayCard
