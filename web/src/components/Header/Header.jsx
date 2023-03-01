@@ -52,6 +52,10 @@ const ADMIN__LINKS = [
   {
     display: "Mint Moment",
     url: "/admin/mint",
+  },
+  {
+    display: "Create Membership",
+    url: "/admin/membership",
   }
 ]
 const Header = () => {
@@ -189,13 +193,30 @@ const Header = () => {
                   </Link>
                 </li>
               }
-              {flowUser?.addr == AdminAccountAddress ?
-                <li className="nav__item" key={5}>
+                            {
+                session || flowUser?.addr &&
+                <li className="nav__item" key={2} style={{ marginTop: "5px" }}>
+                  <Link
+                    href="/join-membership"
+                    className=""
+                  >
+                    Membership
+                  </Link>
+                </li>
+              }
+              
+            </ul>
+
+
+          </div>
+
+          <div className="nav__right d-flex align-items-center gap-5 ">
+            {flowUser?.addr == AdminAccountAddress ?
                   <UncontrolledDropdown>
-                    <DropdownToggle caret style={{ background: "none", color: "white", border: "1px solid red", borderRadius: "10px" }} className="dropdown__toggle">
+                    <DropdownToggle caret style={{ background: "none", color: "white", border: "1px solid red", borderRadius: "10px", padding:"9px 21px"}} className="dropdown__toggle">
                       Admin
                     </DropdownToggle>
-                    <DropdownMenu className="dropdown-menu">
+                    <DropdownMenu className="dropdown-menu" >
 
                       {ADMIN__LINKS.map((item, index) => (
                         <DropdownItem
@@ -209,25 +230,9 @@ const Header = () => {
                       ))}
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                </li>
                 :
                 <></>
               }
-            </ul>
-
-
-          </div>
-
-          <div className="nav__right d-flex align-items-center gap-5 ">
-            {
-              <button className="btn d-flex gap-2 align-items-center" style={{ color: "white" }}
-              onClick={() => {
-                router.push("/compare")
-              }}
-            >
-              Compare
-            </button>
-            }
             {/* Connect With Dappr wallet directly */}
             {
               !session && !flowUser?.addr &&

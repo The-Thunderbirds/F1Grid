@@ -4,7 +4,7 @@ import CommonSection from "../components/ui/Common-section/CommonSection";
 
 import NFTDisplayCard from "../components/ui/Nft-card/NFTDisplayCard";
 import PackDisplayCard from "../components/ui/Nft-card/PackDisplayCard";
-
+import MembershipNftCard from "../components/ui/Nft-card/MembershipNftCard";
 import { NFT__DATA } from "../assets/data/data";
 
 import { Container, Row, Col } from "reactstrap";
@@ -85,85 +85,20 @@ const Market = () => {
 
       <section>
         <Container>
-          <div style={{display:"flex", justifyContent:"space-between", marginBottom:"20px"}}>
           <h2 style={{ textAlign: "center" }}>
-            Marketplace
+            Memberships List
           </h2>
-          <button className="bid__btn w-25 mt-3" style={{ color: "white" }}
-              onClick={() => {
-                router.push("/compare")
-              }}
-            >
-              Compare Moments
-            </button>
-          </div>
-
-          {
-
-            }
           <Row style={{ justifyContent: "space-around" }}>
-            <Col lg="12" className="mb-5">
-              <div className="market__product__filter d-flex align-items-center justify-content-between">
-                <div className="filter__left d-flex align-items-center gap-5">
-                  <div className="all__category__filter">
-                    <select onChange={handleCategory}>
-                      <option>All Categories</option>
-                      <option value="art">Art</option>
-                      <option value="music">Music</option>
-                      <option value="domain-name">Domain Name</option>
-                      <option value="virtual-world">Virtual World</option>
-                      <option value="trending-card">Trending Cards</option>
-                    </select>
-                  </div>
-
-                  <div className="all__items__filter">
-                    <select onChange={handleItems}>
-                      <option>All Items</option>
-                      <option value="single-item">Single Item</option>
-                      <option value="bundle">Bundle</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="filter__right">
-                  <select onChange={handleSort}>
-                    <option>Sort By</option>
-                    <option value="high">High Rate</option>
-                    <option value="mid">Mid Rate</option>
-                    <option value="low">Low Rate</option>
-                  </select>
-                </div>
-              </div>
-            </Col>
 
             {allSaleItems?.map((item) => (
               <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <NFTDisplayCard item={{
+                <MembershipNftCard item={{
                   ...NFT__DATA[0],
                   id: item.id,
                   title: item.name,
                   desc: item.description,
                   creator: item.address,
-                  currentBid: item.price,
                   imgUrl: { src: !item.thumbnail ? NFT__DATA[0].imgUrl.src : item.thumbnail, width: 432, height: 128 },
-                  sno: item.sno
-                }}
-                // nopurchase={true} 
-                />
-              </Col>
-            ))}
-
-            <h1>Packs</h1>
-            {allPackItems?.map((item) => (
-                !item.soldComplete &&
-                <Col lg="5" md="4" sm="6" className="mb-4" key={item.id} >
-                <PackDisplayCard item={{
-                  ...NFT__DATA[0],
-                  id: item.packID,
-                  title: item.packID,
-                  creator: AdminAccountAddress,
-                  currentBid: item.price,
-                  imgUrl: Math.floor((Math.random() * 2) + 1) == 1?packImg:packImg2
                 }}
                 // nopurchase={true} 
                 />
