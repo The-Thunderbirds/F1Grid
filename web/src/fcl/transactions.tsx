@@ -355,7 +355,7 @@ export const _startDrop = async (tier, deltaDeadline, membersLimit, metadata) =>
           arg(tier, types.String),
           arg(deltaDeadline, types.UInt64),
           arg(membersLimit, types.UInt64),
-          arg(metadata, types.Dictionary),
+          arg(metadata, types.Dictionary({key: types.String, value: types.String}))
         ], 
       })
       console.log("Start Drop transaction created now with transaction ID", transactionId);
