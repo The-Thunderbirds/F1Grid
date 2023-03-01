@@ -195,7 +195,7 @@ const Header = () => {
               }
                             {
                 session || flowUser?.addr &&
-                <li className="nav__item" key={2} style={{ marginTop: "5px" }}>
+                <li className="nav__item" key={3} style={{ marginTop: "5px" }}>
                   <Link
                     href="/join-membership"
                     className=""
