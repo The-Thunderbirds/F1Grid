@@ -60,12 +60,11 @@ const PlayDetails = () => {
                 <Container>
                     <Row>
                         <Col lg="6" md="6" sm="6">
-                            <Image
-                                src={{ src: singleNft.thumbnail, width: 432, height: 128 }}
-                                alt=""
-                                className="single__nft-img"
-                            />
-
+                        <div className="single__nft__card">
+                      <div className="nft__img">
+                        <Image src={singleNft.thumbnail} fill alt=""  />
+                      </div>
+                    </div>
                             <h3 className={styles.descriptionTitle}>Traits</h3>
 
                             <div className={styles.traitsContainer}>

@@ -18,7 +18,7 @@ const PlayCard = (props) => {
         })
       }}>
       <div className="nft__img">
-        <Image src={imgUrl} alt="" className="w-100" />
+        <Image src={imgUrl} fill alt="" className="w-100" />
       </div>
 
       <div className="nft__content">

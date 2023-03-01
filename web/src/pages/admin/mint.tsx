@@ -121,7 +121,7 @@ const Mint = () => {
                     <h5 className="mb-4 text-light">Preview Item</h5>
                     <div className="single__nft__card">
                     <div className="nft__img">
-                      <Image src={{src:allPlays[parseInt(selectPlayId)-1].thumbnail, width:432, height: 128}} alt=""  width={450} />
+                      <Image src={allPlays[parseInt(selectPlayId)-1].thumbnail} fill alt=""  width={450} />
                     </div>  
                   </div>
                     <button

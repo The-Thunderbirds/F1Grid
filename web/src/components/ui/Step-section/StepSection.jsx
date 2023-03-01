@@ -6,25 +6,25 @@ import Link from "next/link";
 const STEP__DATA = [
   {
     title: "Setup your wallet",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "You can use either niftory for walletless onboaring or use lilico wallet for traditional web3 onbarding enabling a hybrid solution.",
     icon: "ri-wallet-line",
   },
 
   {
     title: "Create your collection",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "Each user creates their own collection which will stor all their owned moments. A sale collection stores a persons on sale items.",
     icon: "ri-layout-masonry-line",
   },
 
   {
     title: "Add your NFTs",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "NFTs can be bought from the marketplace in 2 ways, either directly or via packs where random nfts are added to your colelction",
     icon: "ri-image-line",
   },
 
   {
     title: "List them for sale",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit eligendi, facilis voluptatum fugit illum ",
+    desc: "Upon purchasing any NFT or card pack, they can also be relisted for sale at a different price enabling a reselling marketplace",
     icon: "ri-list-check",
   },
 ];
