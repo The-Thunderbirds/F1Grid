@@ -14,7 +14,7 @@ type AppProps<P = {}> = NextAppProps<P> & {
   Component: ComponentWithAuth
 }
 
-export default function ({ Component, pageProps: { session, auth, ...pageProps } }: AppProps): JSX.Element {
+export default function App({ Component, pageProps: { session, auth, ...pageProps } }: AppProps): JSX.Element {
   return (
   <div>
       <SessionProvider session={session} refetchInterval={60 * 60}>

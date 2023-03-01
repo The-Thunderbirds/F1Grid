@@ -175,7 +175,7 @@ const Set = () => {
                               onChange={(e) => setAddPlayModalPlayId(e.target.value)}
                             >
                               {allPlays.map((item, index) => (
-                                <option value={index + 1}>
+                                <option key={index} value={index + 1}>
                                   {item.name}
                                 </option>
                               )

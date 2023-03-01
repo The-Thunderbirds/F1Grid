@@ -150,7 +150,7 @@ const Mint = () => {
                     onChange={(e) => setSelectSetId(e.target.value)}
                   >
                     {allSets && allSets.map((item, index) => (
-                      <option value={index + 1}>
+                      <option key={index} value={index + 1}>
                         {item.name} (Set {item.setID}, Series {item.series})
                       </option>
                     )
@@ -170,7 +170,7 @@ const Mint = () => {
                     onChange={(e) => setSelectPlayId(e.target.value)}
                   >
                     {allPlays && allPlays.map((item, index) => (
-                      <option value={index + 1}>
+                      <option key={index} value={index + 1}>
                         {item.name}
                       </option>
                     )
